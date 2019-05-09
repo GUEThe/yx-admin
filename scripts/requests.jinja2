@@ -27,7 +27,7 @@ const defaultPageSize=20;
     {% set resp = req.resp %}
     /*
     {% if not resp.isCommon %}
-    export interface {{resp.name}} extends m.CommonResp{
+    export interface {{resp.name}} extends m.RestfulData{
       data?: {{resp.dataType}};
       {% if resp.isArray %}
       total: number;

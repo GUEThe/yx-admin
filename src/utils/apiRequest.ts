@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { Message, MessageBox, Loading } from 'element-ui'
-import { UserModule } from '../store/modules/user'
 import router from '@/router'
+import { UserModule } from '@/store/modules/user'
 
 interface ApiRequestOptions extends AxiosRequestConfig {
   reqName?: string
@@ -23,8 +23,8 @@ const defaultAxiosOptions: AxiosRequestConfig = {
 const apiAxios = axios.create(defaultAxiosOptions)
 apiAxios.interceptors.request.use(
   config => {
-    if (UserModule.getToken) {
-      config.headers.Authorization = 'Bearer ' + UserModule.getToken
+    if (UserModule.token) {
+      config.headers.Authorization = 'Bearer ' + UserModule.token
     }
     config.headers['X-Client'] = 'Web'
     return config
@@ -41,7 +41,6 @@ apiAxios.interceptors.response.use(
     const { data } = response
     const msg = `code=${data.code}, ${data.message}`
     if (data.code === 401) {
-      UserModule.LogOut()
       // alert('请重新登录');
       router.push({ name: 'login' })
     }
@@ -68,7 +67,6 @@ apiAxios.interceptors.response.use(
           })
           break
         case 401:
-          UserModule.LogOut()
           alert('请重新登录')
           router.push({ name: 'login' })
           break

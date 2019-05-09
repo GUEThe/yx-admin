@@ -10,9 +10,9 @@
     >
       <div class="title-container">
         <h3 class="title">
-          {{ $t('login.title') }}
+          迎新系统管理后台
         </h3>
-        <lang-select class="set-language" />
+        <!-- <lang-select class="set-language"/> -->
       </div>
 
       <el-form-item prop="username">
@@ -60,15 +60,13 @@
         {{ $t('login.logIn') }}
       </el-button>
 
-      <div style="position:relative">
+      <!-- <div style="position:relative">
         <div class="tips">
           <span>{{ $t('login.username') }} : admin</span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
         <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
+          <span style="margin-right:18px;">{{ $t('login.username') }} : editor</span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
 
@@ -76,10 +74,8 @@
           class="thirdparty-button"
           type="primary"
           @click="showDialog=true"
-        >
-          {{ $t('login.thirdparty') }}
-        </el-button>
-      </div>
+        >{{ $t('login.thirdparty') }}</el-button>
+      </div>-->
     </el-form>
 
     <el-dialog
@@ -103,6 +99,7 @@ import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect/index.vue'
 import SocialSign from './socialSignin.vue'
+import { SigninForm } from '@/api/models'
 
 const validateUsername = (rule: any, value: string, callback: any) => {
   if (!isValidUsername(value)) {
@@ -122,28 +119,31 @@ const validatePassword = (rule: any, value: string, callback: any) => {
 
 @Component({
   components: {
-    LangSelect, SocialSign
+    LangSelect,
+    SocialSign
   }
 })
 export default class Login extends Vue {
-  private loginForm = {
+  private loginForm: SigninForm = {
     username: 'admin',
-    password: '111111'
-  }
+    password: '123456'
+  };
   private loginRules = {
-    username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+    username: [
+      { required: true, trigger: 'blur', validator: validateUsername }
+    ],
     password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-  }
-  private passwordType = 'password'
-  private loading = false
-  private showDialog = false
-  private redirect?: string = undefined
+  };
+  private passwordType = 'password';
+  private loading = false;
+  private showDialog = false;
+  private redirect?: string = undefined;
 
   @Watch('$route', { immediate: true })
   private OnRouteChange(route: Route) {
     // TODO: remove the "as string" hack after v4 release for vue-router
     // See https://github.com/vuejs/vue-router/pull/2050 for details
-    this.redirect = route.query && route.query.redirect as string
+    this.redirect = route.query && (route.query.redirect as string)
   }
 
   mounted() {
@@ -169,12 +169,14 @@ export default class Login extends Vue {
     (this.$refs.loginForm as ElForm).validate((valid: boolean) => {
       if (valid) {
         this.loading = true
-        UserModule.Login(this.loginForm).then(() => {
-          this.loading = false
-          this.$router.push({ path: this.redirect || '/' })
-        }).catch(() => {
-          this.loading = false
-        })
+        UserModule.Login(this.loginForm)
+          .then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          })
+          .catch(() => {
+            this.loading = false
+          })
       } else {
         return false
       }
@@ -189,8 +191,12 @@ export default class Login extends Vue {
 // References: https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/
 @supports (-webkit-mask: none) and (not (cater-color: $loginCursorColor)) {
   .login-container .el-input {
-    input { color: $loginCursorColor; }
-    input::first-line { color: $lightGray; }
+    input {
+      color: $loginCursorColor;
+    }
+    input::first-line {
+      color: $lightGray;
+    }
   }
 }
 

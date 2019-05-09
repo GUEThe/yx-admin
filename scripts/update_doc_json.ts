@@ -1,13 +1,13 @@
-import https from 'https'
+import http from 'http'
 import fs from 'fs'
 import { API } from './config'
 import { sh } from './helpers'
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 function loadDocJson() {
   return new Promise(function(resolve, reject) {
-    https
+    http
       .get(API.DOC_JSON_URL, function(res: any) {
         const { statusCode } = res
         let error

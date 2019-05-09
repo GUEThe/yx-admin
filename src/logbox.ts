@@ -2,7 +2,7 @@ const enum LogLevel {
   debug = 1,
   info,
   warn,
-  error,
+  error
 }
 
 interface CDVBugly {
@@ -29,12 +29,8 @@ export class Log {
     this.log(LogLevel.error, msg, extras);
   }
 
-  static postException(errorMessage: string, extras: { [key: string]: any }) {
-    console.error(errorMessage, extras);
-  }
-
   private static log(level: LogLevel, msg: string, extras: any[]) {
-    let levelTag = 'info';
+    let levelTag = "info";
     switch (level) {
       case LogLevel.debug:
         console.debug(msg, ...extras);
@@ -44,12 +40,24 @@ export class Log {
         break;
       case LogLevel.warn:
         console.warn(msg, ...extras);
-        levelTag = 'warn';
+        levelTag = "warn";
         break;
       case LogLevel.error:
-        levelTag = 'error';
+        levelTag = "error";
         console.error(msg, ...extras);
         break;
+    }
+
+    if (level != LogLevel.debug && typeof cdvbugly !== "undefined") {
+      cdvbugly.log(levelTag, msg + " extras:" + JSON.stringify(extras));
+    }
+  }
+
+  static postException(errorMessage: string, extras: { [key: string]: any }) {
+    if (typeof cdvbugly !== "undefined") {
+      cdvbugly.postException(errorMessage, extras);
+    } else {
+      console.error(errorMessage, extras);
     }
   }
 }
