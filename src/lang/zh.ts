@@ -61,7 +61,11 @@ export default {
     theme: '换肤',
     clipboard: '粘贴板',
     i18n: '国际化',
-    externalLink: '外链'
+    externalLink: '外链',
+    'studentmanaged': '学生管理',
+    'studentmanaged-major': '专业管理',
+    'studentmanaged-campus': '校区管理',
+    'studentmanaged-college': '学院管理'
   },
   navbar: {
     logOut: '退出登录',
