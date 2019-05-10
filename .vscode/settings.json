@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "prettier.printWidth": 120,
+  "typescript.suggest.autoImports": true,
+
+  "vetur.format.defaultFormatterOptions": {
+    "prettyhtml": {
+      "printWidth": 100,
+      "singleQuote": true
+    },
+    "js-beautify-html": {
+      "wrap_line_length": 120,
+      "wrap_attributes": "auto" //属性强制折行对齐
+    }
+  },
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.js": "vscode-typescript",
+  "vetur.format.defaultFormatter.ts": "vscode-typescript"
+}
