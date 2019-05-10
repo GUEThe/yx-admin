@@ -206,17 +206,17 @@ export interface Fee {
    */
   id: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  studentType: number;
+  studentType: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  name: number;
+  name: string;
   /**
    *  int32
    *
@@ -333,6 +333,35 @@ export interface InfoCategory {
 /*
  * @namespace models
  */
+export interface Major {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  code: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegeCode: string;
+}
+/*
+ * @namespace models
+ */
 export interface Leave {
   /**
    *  int32
@@ -382,35 +411,6 @@ export interface Leave {
    * @serverType integer
    */
   handleTime: number;
-}
-/*
- * @namespace models
- */
-export interface Major {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  code: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  collegeCode: string;
 }
 /*
  * @namespace models
@@ -487,6 +487,30 @@ export interface Payment {
    * @serverType integer
    */
   studentId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  total: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  waiver: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mark: string;
+  /**
+   *
+   *
+   * @serverType boolean
+   */
+  isGreenChannel: boolean;
 }
 /*
  * @namespace models
@@ -547,17 +571,23 @@ export interface Student {
    */
   majorCode: string;
   /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
    *  int32
    *
    * @serverType integer
    */
   year: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  type: number;
+  type: string;
   /**
    *
    *
@@ -642,6 +672,12 @@ export interface Student {
    * @serverType integer
    */
   isCome: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
 }
 /*
  * @namespace models

@@ -68,7 +68,7 @@ export function Logout(): Promise<m.DataResponse<m.RestfulData>> {
 */
 
 /**
- *
+ * 获取用户信息
  */
 export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
   const opts: ApiRequestOptions = {
@@ -92,12 +92,10 @@ export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
  * 获取床位列表
  * @param page number integer
  * @param pageSize number integer
- * @param status number integer
  */
 export function GetBedList(options: {
   page?: number;
   pageSize?: number;
-  status?: number;
 }): Promise<m.PageResponse<m.Bed[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Bed`,
@@ -109,8 +107,7 @@ export function GetBedList(options: {
 
   opts.params = {
     page: options.page,
-    pageSize: options.pageSize,
-    status: options.status
+    pageSize: options.pageSize
   };
 
   return apiSendAsync<m.PageResponse<m.Bed[]>>(opts);
@@ -122,11 +119,39 @@ export function GetBedList(options: {
 */
 
 /**
- * 新增床位
- * @param value string
+ * 修改床位项
+ * @param id number integer
+ * @param model m.Bed
+ */
+export function PutBed(options: {
+  id?: number;
+  model?: m.Bed;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Bed`,
+    method: "put",
+    reqName: "PutBed"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增床位项
+ * @param model m.Bed
  */
 export function PostBed(options: {
-  value?: string;
+  model?: m.Bed;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/Bed`,
@@ -134,32 +159,29 @@ export function PostBed(options: {
     reqName: "PostBed"
   };
 
-  opts.data = options.value;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.DataResponse&lt;m.Bed&gt; extends m.RestfulData{
+      data?: m.Bed;
     }
 */
 
 /**
- * 修改床位信息
+ * 获取床位
  * @param id number integer
- * @param value string
  */
-export function PutBed(options: {
+export function GetBedItem(options: {
   id: number;
-  value?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
+}): Promise<m.DataResponse<m.Bed>> {
   const opts: ApiRequestOptions = {
     url: `/api/Bed/${options.id}`,
-    method: "put",
-    reqName: "PutBed"
+    method: "get",
+    reqName: "GetBedItem"
   };
 
-  opts.data = options.value;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.DataResponse<m.Bed>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -168,7 +190,7 @@ export function PutBed(options: {
 */
 
 /**
- * 删除床位信息
+ * 删除床位项
  * @param id number integer
  */
 export function DeleteBed(options: {
@@ -192,13 +214,25 @@ export function DeleteBed(options: {
 */
 
 /**
- * 校区列表
+ * 获取校区列表
+ * @param page number integer
+ * @param pageSize number integer
  */
-export function GetCampusList(): Promise<m.PageResponse<m.Campus[]>> {
+export function GetCampusList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Campus[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Campus`,
     method: "get",
     reqName: "GetCampusList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
   };
 
   return apiSendAsync<m.PageResponse<m.Campus[]>>(opts);
@@ -210,11 +244,39 @@ export function GetCampusList(): Promise<m.PageResponse<m.Campus[]>> {
 */
 
 /**
- * 新增校区
- * @param campus m.Campus
+ * 修改校区项
+ * @param id number integer
+ * @param model m.Campus
+ */
+export function PutCampus(options: {
+  id?: number;
+  model?: m.Campus;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Campus`,
+    method: "put",
+    reqName: "PutCampus"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增校区项
+ * @param model m.Campus
  */
 export function PostCampus(options: {
-  campus?: m.Campus;
+  model?: m.Campus;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/Campus`,
@@ -222,32 +284,29 @@ export function PostCampus(options: {
     reqName: "PostCampus"
   };
 
-  opts.data = options.campus;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.DataResponse&lt;m.Campus&gt; extends m.RestfulData{
+      data?: m.Campus;
     }
 */
 
 /**
- * 更新校区
+ * 获取校区
  * @param id number integer
- * @param campus m.Campus
  */
-export function PutCampus(options: {
+export function GetCampusItem(options: {
   id: number;
-  campus?: m.Campus;
-}): Promise<m.DataResponse<m.RestfulData>> {
+}): Promise<m.DataResponse<m.Campus>> {
   const opts: ApiRequestOptions = {
     url: `/api/Campus/${options.id}`,
-    method: "put",
-    reqName: "PutCampus"
+    method: "get",
+    reqName: "GetCampusItem"
   };
 
-  opts.data = options.campus;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.DataResponse<m.Campus>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -256,7 +315,7 @@ export function PutCampus(options: {
 */
 
 /**
- * 删除校区
+ * 删除校区项
  * @param id number integer
  */
 export function DeleteCampus(options: {
@@ -281,12 +340,24 @@ export function DeleteCampus(options: {
 
 /**
  * 获取学院列表
+ * @param page number integer
+ * @param pageSize number integer
  */
-export function GetCollegeList(): Promise<m.PageResponse<m.College[]>> {
+export function GetCollegeList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.College[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/College`,
     method: "get",
     reqName: "GetCollegeList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
   };
 
   return apiSendAsync<m.PageResponse<m.College[]>>(opts);
@@ -298,11 +369,39 @@ export function GetCollegeList(): Promise<m.PageResponse<m.College[]>> {
 */
 
 /**
- * 新增学院
- * @param college m.College
+ * 修改学院项
+ * @param id number integer
+ * @param model m.College
+ */
+export function PutCollege(options: {
+  id?: number;
+  model?: m.College;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/College`,
+    method: "put",
+    reqName: "PutCollege"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增学院项
+ * @param model m.College
  */
 export function PostCollege(options: {
-  college?: m.College;
+  model?: m.College;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/College`,
@@ -310,32 +409,29 @@ export function PostCollege(options: {
     reqName: "PostCollege"
   };
 
-  opts.data = options.college;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.DataResponse&lt;m.College&gt; extends m.RestfulData{
+      data?: m.College;
     }
 */
 
 /**
- * 更新学院
+ * 获取学院
  * @param id number integer
- * @param college m.College
  */
-export function Put(options: {
+export function GetCollegeItem(options: {
   id: number;
-  college?: m.College;
-}): Promise<m.DataResponse<m.RestfulData>> {
+}): Promise<m.DataResponse<m.College>> {
   const opts: ApiRequestOptions = {
     url: `/api/College/${options.id}`,
-    method: "put",
-    reqName: "Put"
+    method: "get",
+    reqName: "GetCollegeItem"
   };
 
-  opts.data = options.college;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.DataResponse<m.College>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -344,7 +440,7 @@ export function Put(options: {
 */
 
 /**
- * 删除学院
+ * 删除学院项
  * @param id number integer
  */
 export function DeleteCollege(options: {
@@ -368,37 +464,31 @@ export function DeleteCollege(options: {
 */
 
 /**
- * 学生获取财务信息
+ * 获取费用列表
+ * @param page number integer
+ * @param pageSize number integer
+ * @param keyword string string
  */
-export function GetStudentFee(): Promise<m.PageResponse<m.Fee[]>> {
+export function GetFeeList(options: {
+  page?: number;
+  pageSize?: number;
+  keyword?: string;
+}): Promise<m.PageResponse<m.Fee[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Fee/student`,
+    url: `/api/Fee`,
     method: "get",
-    reqName: "GetStudentFee"
+    reqName: "GetFeeList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    keyword: options.keyword
   };
 
   return apiSendAsync<m.PageResponse<m.Fee[]>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.Fee&gt; extends m.RestfulData{
-      data?: m.Fee;
-    }
-*/
-
-/**
- * 获取某个财务项
- * @param id number integer
- */
-export function GetFee(options: {
-  id: number;
-}): Promise<m.DataResponse<m.Fee>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Fee/${options.id}`,
-    method: "get",
-    reqName: "GetFee"
-  };
-
-  return apiSendAsync<m.DataResponse<m.Fee>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -407,21 +497,25 @@ export function GetFee(options: {
 */
 
 /**
- * 更改财务信息
+ * 修改费用项
  * @param id number integer
- * @param fee m.Fee
+ * @param model m.Fee
  */
 export function PutFee(options: {
-  id: number;
-  fee?: m.Fee;
+  id?: number;
+  model?: m.Fee;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Fee/${options.id}`,
+    url: `/api/Fee`,
     method: "put",
     reqName: "PutFee"
   };
 
-  opts.data = options.fee;
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -431,18 +525,19 @@ export function PutFee(options: {
 */
 
 /**
- * 删除财务信息
- * @param id number integer
+ * 新增某类型费用项
+ * @param model m.Fee
  */
-export function DeleteFee(options: {
-  id: number;
+export function PostFee(options: {
+  model?: m.Fee;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Fee/${options.id}`,
-    method: "delete",
-    reqName: "DeleteFee"
+    url: `/api/Fee`,
+    method: "post",
+    reqName: "PostFee"
   };
 
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -455,28 +550,44 @@ export function DeleteFee(options: {
 */
 
 /**
- * 获取财务列表
- * @param page number integer
- * @param pageSize number integer
+ * 根据学生类型获取费用列表
+ * @param studentType string string
  */
-export function GetFeeList(options: {
-  page?: number;
-  pageSize?: number;
+export function GetStudentFeeList(options: {
+  studentType?: string;
 }): Promise<m.PageResponse<m.Fee[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Fee`,
+    url: `/api/Fee/student`,
     method: "get",
-    reqName: "GetFeeList"
+    reqName: "GetStudentFeeList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
-
   opts.params = {
-    page: options.page,
-    pageSize: options.pageSize
+    studentType: options.studentType
   };
 
   return apiSendAsync<m.PageResponse<m.Fee[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Fee&gt; extends m.RestfulData{
+      data?: m.Fee;
+    }
+*/
+
+/**
+ * 获取某类型费用列表
+ * @param id number integer
+ */
+export function GetFeeItem(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Fee>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Fee/${options.id}`,
+    method: "get",
+    reqName: "GetFeeItem"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Fee>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -485,19 +596,18 @@ export function GetFeeList(options: {
 */
 
 /**
- * 新增财务信息项
- * @param fee m.Fee
+ * 删除费用项
+ * @param id number integer
  */
-export function PostFee(options: {
-  fee?: m.Fee;
+export function DeleteFee(options: {
+  id: number;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Fee`,
-    method: "post",
-    reqName: "PostFee"
+    url: `/api/Fee/${options.id}`,
+    method: "delete",
+    reqName: "DeleteFee"
   };
 
-  opts.data = options.fee;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -532,14 +642,27 @@ export function GetFile(options: {
 
 /**
  * 获取绿色通道列表
+ * @param page number integer
+ * @param pageSize number integer
+ * @param studentId number integer
  */
-export function GetGreenChannelList(): Promise<
-  m.PageResponse<m.GreenChannel[]>
-> {
+export function GetGreenChannelList(options: {
+  page?: number;
+  pageSize?: number;
+  studentId?: number;
+}): Promise<m.PageResponse<m.GreenChannel[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/GreenChannel`,
     method: "get",
     reqName: "GetGreenChannelList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    studentId: options.studentId
   };
 
   return apiSendAsync<m.PageResponse<m.GreenChannel[]>>(opts);
@@ -551,11 +674,39 @@ export function GetGreenChannelList(): Promise<
 */
 
 /**
- * 新增绿色通道申请
- * @param greenChannel m.GreenChannel
+ * 修改绿色通道项
+ * @param id number integer
+ * @param model m.GreenChannel
+ */
+export function PutGreenChannel(options: {
+  id?: number;
+  model?: m.GreenChannel;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/GreenChannel`,
+    method: "put",
+    reqName: "PutGreenChannel"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增绿色通道项
+ * @param model m.GreenChannel
  */
 export function PostGreenChannel(options: {
-  greenChannel?: m.GreenChannel;
+  model?: m.GreenChannel;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/GreenChannel`,
@@ -563,7 +714,7 @@ export function PostGreenChannel(options: {
     reqName: "PostGreenChannel"
   };
 
-  opts.data = options.greenChannel;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -573,16 +724,16 @@ export function PostGreenChannel(options: {
 */
 
 /**
- * 获取某个学生的绿色通道申请
- * @param studentId number integer
+ * 获取绿色通道列表
+ * @param id number integer
  */
-export function GetGreenChannel(options: {
-  studentId: number;
+export function GetGreenChannelItem(options: {
+  id: number;
 }): Promise<m.DataResponse<m.GreenChannel>> {
   const opts: ApiRequestOptions = {
-    url: `/api/GreenChannel/${options.studentId}`,
+    url: `/api/GreenChannel/${options.id}`,
     method: "get",
-    reqName: "GetGreenChannel"
+    reqName: "GetGreenChannelItem"
   };
 
   return apiSendAsync<m.DataResponse<m.GreenChannel>>(opts);
@@ -594,31 +745,7 @@ export function GetGreenChannel(options: {
 */
 
 /**
- * 更改绿色通道申请
- * @param id number integer
- * @param greenChannele m.GreenChannel
- */
-export function PutGreenChannel(options: {
-  id: number;
-  greenChannele?: m.GreenChannel;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/GreenChannel/${options.id}`,
-    method: "put",
-    reqName: "PutGreenChannel"
-  };
-
-  opts.data = options.greenChannele;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 删除绿色通道申请
+ * 删除绿色通道项
  * @param id number integer
  */
 export function DeleteGreenChannel(options: {
@@ -633,6 +760,31 @@ export function DeleteGreenChannel(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
+    export interface m.DataResponse&lt;m.GreenChannel&gt; extends m.RestfulData{
+      data?: m.GreenChannel;
+    }
+*/
+
+/**
+ * 根据学生ID获取绿色通道记录
+ * @param studenId number integer
+ */
+export function GetGreenChannelByStudentId(options: {
+  studenId?: number;
+}): Promise<m.DataResponse<m.GreenChannel>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/GreenChannel/student`,
+    method: "get",
+    reqName: "GetGreenChannelByStudentId"
+  };
+
+  opts.params = {
+    studenId: options.studenId
+  };
+
+  return apiSendAsync<m.DataResponse<m.GreenChannel>>(opts);
+}
+/*
     export interface m.PageResponse&lt;m.InfoCategory[]&gt; extends m.RestfulData{
       data?: m.InfoCategory[];
       total: number;
@@ -643,14 +795,27 @@ export function DeleteGreenChannel(options: {
 
 /**
  * 获取信息类别列表
+ * @param page number integer
+ * @param pageSize number integer
+ * @param keyword string string
  */
-export function GetInfoCategoryList(): Promise<
-  m.PageResponse<m.InfoCategory[]>
-> {
+export function GetInfoCategoryList(options: {
+  page?: number;
+  pageSize?: number;
+  keyword?: string;
+}): Promise<m.PageResponse<m.InfoCategory[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/InfoCategory`,
     method: "get",
     reqName: "GetInfoCategoryList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    keyword: options.keyword
   };
 
   return apiSendAsync<m.PageResponse<m.InfoCategory[]>>(opts);
@@ -664,11 +829,11 @@ export function GetInfoCategoryList(): Promise<
 /**
  * 修改信息类别项
  * @param id number integer
- * @param value string
+ * @param model m.InfoCategory
  */
 export function PutInfoCategory(options: {
   id?: number;
-  value?: string;
+  model?: m.InfoCategory;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/InfoCategory`,
@@ -680,7 +845,7 @@ export function PutInfoCategory(options: {
     id: options.id
   };
 
-  opts.data = options.value;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -691,10 +856,10 @@ export function PutInfoCategory(options: {
 
 /**
  * 新增某类型信息类别项
- * @param value string
+ * @param model m.InfoCategory
  */
 export function PostInfoCategory(options: {
-  value?: string;
+  model?: m.InfoCategory;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/InfoCategory`,
@@ -702,15 +867,12 @@ export function PostInfoCategory(options: {
     reqName: "PostInfoCategory"
   };
 
-  opts.data = options.value;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.InfoCategory[]&gt; extends m.RestfulData{
-      data?: m.InfoCategory[];
-      total: number;
-      page: number;
-      pageSize: number;
+    export interface m.DataResponse&lt;m.InfoCategory&gt; extends m.RestfulData{
+      data?: m.InfoCategory;
     }
 */
 
@@ -718,16 +880,41 @@ export function PostInfoCategory(options: {
  * 获取某类型信息类别列表
  * @param type string string
  */
-export function GetInfoCategoryItem(options: {
-  type: string;
-}): Promise<m.PageResponse<m.InfoCategory[]>> {
+export function GetInfoCategoryByType(options: {
+  type?: string;
+}): Promise<m.DataResponse<m.InfoCategory>> {
   const opts: ApiRequestOptions = {
-    url: `/api/InfoCategory/${options.type}`,
+    url: `/api/InfoCategory/items`,
+    method: "get",
+    reqName: "GetInfoCategoryByType"
+  };
+
+  opts.params = {
+    type: options.type
+  };
+
+  return apiSendAsync<m.DataResponse<m.InfoCategory>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Major&gt; extends m.RestfulData{
+      data?: m.Major;
+    }
+*/
+
+/**
+ * 获取信息类别
+ * @param id number integer
+ */
+export function GetInfoCategoryItem(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Major>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/InfoCategory/${options.id}`,
     method: "get",
     reqName: "GetInfoCategoryItem"
   };
 
-  return apiSendAsync<m.PageResponse<m.InfoCategory[]>>(opts);
+  return apiSendAsync<m.DataResponse<m.Major>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -751,53 +938,6 @@ export function DeleteInfoCategory(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.Leave&gt; extends m.RestfulData{
-      data?: m.Leave;
-    }
-*/
-
-/**
- * 学生获取请假信息(包括请假与保留资格)
- * @param type number integer
- */
-export function GetLeave(options: {
-  type?: number;
-}): Promise<m.DataResponse<m.Leave>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Leave`,
-    method: "get",
-    reqName: "GetLeave"
-  };
-
-  opts.params = {
-    type: options.type
-  };
-
-  return apiSendAsync<m.DataResponse<m.Leave>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 学生新建请假
- * @param leave m.Leave
- */
-export function PostLeave(options: {
-  leave?: m.Leave;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Leave`,
-    method: "post",
-    reqName: "PostLeave"
-  };
-
-  opts.data = options.leave;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
     export interface m.PageResponse&lt;m.Leave[]&gt; extends m.RestfulData{
       data?: m.Leave[];
       total: number;
@@ -808,17 +948,15 @@ export function PostLeave(options: {
 
 /**
  * 获取请假列表
- * @param type number integer
  * @param page number integer
  * @param pageSize number integer
  */
 export function GetLeaveList(options: {
-  type?: number;
   page?: number;
   pageSize?: number;
 }): Promise<m.PageResponse<m.Leave[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Leave/list`,
+    url: `/api/Leave`,
     method: "get",
     reqName: "GetLeaveList"
   };
@@ -826,7 +964,6 @@ export function GetLeaveList(options: {
   options.pageSize = options.pageSize || defaultPageSize;
 
   opts.params = {
-    type: options.type,
     page: options.page,
     pageSize: options.pageSize
   };
@@ -840,21 +977,25 @@ export function GetLeaveList(options: {
 */
 
 /**
- * 更新请假申请
+ * 修改请假项
  * @param id number integer
- * @param leave m.Leave
+ * @param model m.Leave
  */
 export function PutLeave(options: {
-  id: number;
-  leave?: m.Leave;
+  id?: number;
+  model?: m.Leave;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Leave/${options.id}`,
+    url: `/api/Leave`,
     method: "put",
     reqName: "PutLeave"
   };
 
-  opts.data = options.leave;
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -864,7 +1005,50 @@ export function PutLeave(options: {
 */
 
 /**
- * 删除请假申请
+ * 新增请假项
+ * @param model m.Leave
+ */
+export function PostLeave(options: {
+  model?: m.Leave;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Leave`,
+    method: "post",
+    reqName: "PostLeave"
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Leave&gt; extends m.RestfulData{
+      data?: m.Leave;
+    }
+*/
+
+/**
+ * 获取请假
+ * @param id number integer
+ */
+export function GetLeaveItem(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Leave>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Leave/${options.id}`,
+    method: "get",
+    reqName: "GetLeaveItem"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Leave>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 删除请假项
  * @param id number integer
  */
 export function DeleteLeave(options: {
@@ -889,12 +1073,24 @@ export function DeleteLeave(options: {
 
 /**
  * 获取专业列表
+ * @param page number integer
+ * @param pageSize number integer
  */
-export function GetMajorList(): Promise<m.PageResponse<m.Major[]>> {
+export function GetMajorList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Major[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Major`,
     method: "get",
     reqName: "GetMajorList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
   };
 
   return apiSendAsync<m.PageResponse<m.Major[]>>(opts);
@@ -906,11 +1102,39 @@ export function GetMajorList(): Promise<m.PageResponse<m.Major[]>> {
 */
 
 /**
- * 新增专业
- * @param major m.Major
+ * 修改专业项
+ * @param id number integer
+ * @param model m.Major
+ */
+export function PutMajor(options: {
+  id?: number;
+  model?: m.Major;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Major`,
+    method: "put",
+    reqName: "PutMajor"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增专业项
+ * @param model m.Major
  */
 export function PostMajor(options: {
-  major?: m.Major;
+  model?: m.Major;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/Major`,
@@ -918,32 +1142,29 @@ export function PostMajor(options: {
     reqName: "PostMajor"
   };
 
-  opts.data = options.major;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.DataResponse&lt;m.Major&gt; extends m.RestfulData{
+      data?: m.Major;
     }
 */
 
 /**
- * 更改专业信息
+ * 获取专业
  * @param id number integer
- * @param major m.Major
  */
-export function PutMajor(options: {
+export function GetMajorItem(options: {
   id: number;
-  major?: m.Major;
-}): Promise<m.DataResponse<m.RestfulData>> {
+}): Promise<m.DataResponse<m.Major>> {
   const opts: ApiRequestOptions = {
     url: `/api/Major/${options.id}`,
-    method: "put",
-    reqName: "PutMajor"
+    method: "get",
+    reqName: "GetMajorItem"
   };
 
-  opts.data = options.major;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.DataResponse<m.Major>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -952,7 +1173,7 @@ export function PutMajor(options: {
 */
 
 /**
- * 删除专业信息
+ * 删除专业项
  * @param id number integer
  */
 export function DeleteMajor(options: {
@@ -1000,26 +1221,54 @@ export function GetNewsList(options: {
   return apiSendAsync<m.PageResponse<m.News[]>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.News&gt; extends m.RestfulData{
-      data?: m.News;
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
     }
 */
 
 /**
- * 新增新闻
- * @param news m.News
+ * 修改新闻项
+ * @param id number integer
+ * @param model m.News
+ */
+export function PutNews(options: {
+  id?: number;
+  model?: m.News;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/News`,
+    method: "put",
+    reqName: "PutNews"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增新闻项
+ * @param model m.News
  */
 export function PostNews(options: {
-  news?: m.News;
-}): Promise<m.DataResponse<m.News>> {
+  model?: m.News;
+}): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/News`,
     method: "post",
     reqName: "PostNews"
   };
 
-  opts.data = options.news;
-  return apiSendAsync<m.DataResponse<m.News>>(opts);
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.News&gt; extends m.RestfulData{
@@ -1028,42 +1277,18 @@ export function PostNews(options: {
 */
 
 /**
- * 获取新闻详情
+ * 获取新闻
  * @param id number integer
  */
-export function GetNews(options: {
+export function GetNewsItem(options: {
   id: number;
 }): Promise<m.DataResponse<m.News>> {
   const opts: ApiRequestOptions = {
     url: `/api/News/${options.id}`,
     method: "get",
-    reqName: "GetNews"
+    reqName: "GetNewsItem"
   };
 
-  return apiSendAsync<m.DataResponse<m.News>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.News&gt; extends m.RestfulData{
-      data?: m.News;
-    }
-*/
-
-/**
- * 修改新闻
- * @param id number integer
- * @param news m.News
- */
-export function PutNews(options: {
-  id: number;
-  news?: m.News;
-}): Promise<m.DataResponse<m.News>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/News/${options.id}`,
-    method: "put",
-    reqName: "PutNews"
-  };
-
-  opts.data = options.news;
   return apiSendAsync<m.DataResponse<m.News>>(opts);
 }
 /*
@@ -1073,7 +1298,7 @@ export function PutNews(options: {
 */
 
 /**
- * 删除新闻
+ * 删除新闻项
  * @param id number integer
  */
 export function DeleteNews(options: {
@@ -1097,13 +1322,25 @@ export function DeleteNews(options: {
 */
 
 /**
- * 获取缴费信息列表
+ * 获取缴费列表
+ * @param page number integer
+ * @param pageSize number integer
  */
-export function GetPaymentList(): Promise<m.PageResponse<m.Payment[]>> {
+export function GetPaymentList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Payment[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Payment`,
     method: "get",
     reqName: "GetPaymentList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
   };
 
   return apiSendAsync<m.PageResponse<m.Payment[]>>(opts);
@@ -1115,11 +1352,39 @@ export function GetPaymentList(): Promise<m.PageResponse<m.Payment[]>> {
 */
 
 /**
- * 新增缴费
- * @param value string
+ * 修改缴费项
+ * @param id number integer
+ * @param model m.Payment
+ */
+export function PutPayment(options: {
+  id?: number;
+  model?: m.Payment;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Payment`,
+    method: "put",
+    reqName: "PutPayment"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增某类型缴费项
+ * @param model m.Payment
  */
 export function PostPayment(options: {
-  value?: string;
+  model?: m.Payment;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/Payment`,
@@ -1127,32 +1392,29 @@ export function PostPayment(options: {
     reqName: "PostPayment"
   };
 
-  opts.data = options.value;
+  opts.data = options.model;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.DataResponse&lt;m.Payment&gt; extends m.RestfulData{
+      data?: m.Payment;
     }
 */
 
 /**
- * 更新缴费
+ * 获取某类型缴费列表
  * @param id number integer
- * @param value string
  */
-export function PutPayment(options: {
+export function GetPaymentItem(options: {
   id: number;
-  value?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
+}): Promise<m.DataResponse<m.Payment>> {
   const opts: ApiRequestOptions = {
     url: `/api/Payment/${options.id}`,
-    method: "put",
-    reqName: "PutPayment"
+    method: "get",
+    reqName: "GetPaymentItem"
   };
 
-  opts.data = options.value;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.DataResponse<m.Payment>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -1161,7 +1423,7 @@ export function PutPayment(options: {
 */
 
 /**
- * 删除缴费
+ * 删除缴费项
  * @param id number integer
  */
 export function DeletePayment(options: {
@@ -1260,11 +1522,11 @@ export function GetStudent(options: {
 /**
  * 更新学生信息
  * @param id number integer
- * @param value string
+ * @param value m.Student
  */
 export function PutStudent(options: {
   id: number;
-  value?: string;
+  value?: m.Student;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/Student/${options.id}`,
@@ -1336,11 +1598,11 @@ export function GetUserList(options: {
 */
 
 /**
- * 新增用户
- * @param user m.User
+ *
+ * @param value m.User
  */
 export function PostUser(options: {
-  user?: m.User;
+  value?: m.User;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/User`,
@@ -1348,7 +1610,7 @@ export function PostUser(options: {
     reqName: "PostUser"
   };
 
-  opts.data = options.user;
+  opts.data = options.value;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -1358,7 +1620,7 @@ export function PostUser(options: {
 */
 
 /**
- * 获取用户信息
+ *
  * @param id number integer
  */
 export function GetUser(options: {
@@ -1379,13 +1641,13 @@ export function GetUser(options: {
 */
 
 /**
- * 更改用户
- * @param id number integer
- * @param user m.User
+ *
+ * @param value m.User
+ * @param id string string
  */
 export function PutUser(options: {
-  id: number;
-  user?: m.User;
+  value?: m.User;
+  id: string;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
     url: `/api/User/${options.id}`,
@@ -1393,7 +1655,7 @@ export function PutUser(options: {
     reqName: "PutUser"
   };
 
-  opts.data = options.user;
+  opts.data = options.value;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -1403,7 +1665,7 @@ export function PutUser(options: {
 */
 
 /**
- * 删除用户
+ *
  * @param id number integer
  */
 export function DeleteUser(options: {
