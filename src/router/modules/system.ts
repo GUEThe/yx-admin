@@ -16,13 +16,13 @@ const systemRoutes: RouteConfig = {
     },
     {
       path: 'college',
-      component: () => import(/* webpackChunkName: "inlineEditTable" */ '@/views/charts/keyboard.vue'),
+      component: () => import(/* webpackChunkName: "inlineEditTable" */ '@/views/01studentmanaged/college/index.vue'),
       name: 'College',
       meta: { title: 'studentmanaged-college' }
     },
     {
       path: 'major',
-      component: () => import(/* webpackChunkName: "dynamicTable" */ '@/views/charts/keyboard.vue'),
+      component: () => import(/* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/major/index.vue'),
       name: 'Major',
       meta: { title: 'studentmanaged-major' }
     }

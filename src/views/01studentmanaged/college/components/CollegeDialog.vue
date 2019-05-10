@@ -2,12 +2,8 @@
   <div>
     <el-dialog :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog',false)">
       <el-form :model="formData" label-width="100px" :disabled="loading">
-        <el-form-item label="校区名称">
+        <el-form-item label="学院名称">
           <el-input v-model="formData.name"></el-input>
-        </el-form-item>
-
-        <el-form-item label="校区地址">
-          <el-input v-model="formData.address" type="textarea" :rows="3"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -26,7 +22,7 @@ import * as api from '@/api';
 import * as models from '@/api/models';
 
 @Component({})
-export default class CampusDialog extends Vue {
+export default class CollegeDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
   @Prop() id!: number;
@@ -34,10 +30,11 @@ export default class CampusDialog extends Vue {
   private dialogTitle: string = '';
 
   private loading = false;
-  private formData: models.Campus = {
+  private formData: models.College = {
     id: 0,
     name: '',
-    address: ''
+    code: '',
+    campus: 0
   }
 
   mounted() {
@@ -47,23 +44,24 @@ export default class CampusDialog extends Vue {
   @Watch('showDialog')
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
-      this.dialogTitle = '编辑校区信息';
-      const { data } = await api.GetCampusItem({ id: this.id });
+      this.dialogTitle = '编辑学院信息';
+      const { data } = await api.GetCollegeItem({ id: this.id });
       this.formData = data!;
     } else {
-      this.dialogTitle = '增加校区';
+      this.dialogTitle = '增加学院';
     }
     if (!val) {
       this.formData = {
         id: 0,
         name: '',
-        address: ''
+        code: '',
+        campus: 0
       }
     }
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutCampus({ id: this.id, model: this.formData }) : await api.PostCampus({ model: this.formData });
+    const { data } = this.type ? await api.PutCollege({ id: this.id, model: this.formData }) : await api.PostCollege({ model: this.formData });
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');

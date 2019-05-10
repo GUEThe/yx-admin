@@ -2,12 +2,8 @@
   <div>
     <el-dialog :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog',false)">
       <el-form :model="formData" label-width="100px" :disabled="loading">
-        <el-form-item label="校区名称">
+        <el-form-item label="专业名称">
           <el-input v-model="formData.name"></el-input>
-        </el-form-item>
-
-        <el-form-item label="校区地址">
-          <el-input v-model="formData.address" type="textarea" :rows="3"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -26,7 +22,7 @@ import * as api from '@/api';
 import * as models from '@/api/models';
 
 @Component({})
-export default class CampusDialog extends Vue {
+export default class MajorDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
   @Prop() id!: number;
@@ -34,10 +30,11 @@ export default class CampusDialog extends Vue {
   private dialogTitle: string = '';
 
   private loading = false;
-  private formData: models.Campus = {
+  private formData: models.Major = {
     id: 0,
     name: '',
-    address: ''
+    code: '',
+    collegeCode: ''
   }
 
   mounted() {
@@ -47,23 +44,24 @@ export default class CampusDialog extends Vue {
   @Watch('showDialog')
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
-      this.dialogTitle = '编辑校区信息';
-      const { data } = await api.GetCampusItem({ id: this.id });
+      this.dialogTitle = '编辑专业信息';
+      const { data } = await api.GetMajorItem({ id: this.id });
       this.formData = data!;
     } else {
-      this.dialogTitle = '增加校区';
+      this.dialogTitle = '增加专业';
     }
     if (!val) {
       this.formData = {
         id: 0,
         name: '',
-        address: ''
+        code: '',
+        collegeCode: ''
       }
     }
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutCampus({ id: this.id, model: this.formData }) : await api.PostCampus({ model: this.formData });
+    const { data } = this.type ? await api.PutMajor({ id: this.id, model: this.formData }) : await api.PostMajor({ model: this.formData });
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');
