@@ -66,7 +66,9 @@ export default {
     'studentmanaged-major': '专业管理',
     'studentmanaged-campus': '校区管理',
     'studentmanaged-college': '学院管理',
-    'studentmanaged-stureport': '学生报道管理'
+    'studentmanaged-stureport': '学生报道管理',
+    chargemanaged: '收费管理',
+    'chargemanaged-payment': '缴费管理'
   },
   navbar: {
     logOut: '退出登录',

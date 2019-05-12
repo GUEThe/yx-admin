@@ -6,7 +6,8 @@ import Layout from '@/layout/index.vue'
 
 /* Router modules */
 // import componentsRouter from './modules/components'
-import systemRoutes from './modules/system'
+import studentmanagedRoutes from './modules/studentmanaged'
+import chargemanagedRoutes from './modules/chargemanaged'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -48,28 +49,37 @@ export const constantRoutes: RouteConfig[] = [
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import(/* webpackChunkName: "redirect" */ '@/views/redirect/index.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "redirect" */ '@/views/redirect/index.vue'
+          )
       }
     ]
   },
   {
     path: '/login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: { hidden: true }
   },
   {
     path: '/auth-redirect',
-    component: () => import(/* webpackChunkName: "authRedirect" */ '@/views/login/auth-redirect.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "authRedirect" */ '@/views/login/auth-redirect.vue'
+      ),
     meta: { hidden: true }
   },
   {
     path: '/404',
-    component: () => import(/* webpackChunkName: "404" */ '@/views/error-page/404.vue'),
+    component: () =>
+      import(/* webpackChunkName: "404" */ '@/views/error-page/404.vue'),
     meta: { hidden: true }
   },
   {
     path: '/401',
-    component: () => import(/* webpackChunkName: "401" */ '@/views/error-page/401.vue'),
+    component: () =>
+      import(/* webpackChunkName: "401" */ '@/views/error-page/401.vue'),
     meta: { hidden: true }
   },
   {
@@ -79,9 +89,17 @@ export const constantRoutes: RouteConfig[] = [
     children: [
       {
         path: 'dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'
+          ),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
+        meta: {
+          title: 'dashboard',
+          icon: 'dashboard',
+          noCache: true,
+          affix: true
+        }
       }
     ]
   }
@@ -115,7 +133,7 @@ export const constantRoutes: RouteConfig[] = [
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
-*/
+ */
 export const asyncRoutes: RouteConfig[] = [
   {
     path: '/permission',
@@ -130,7 +148,10 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'page',
-        component: () => import(/* webpackChunkName: "pagePermission" */ '@/views/permission/page.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "pagePermission" */ '@/views/permission/page.vue'
+          ),
         name: 'PagePermission',
         meta: {
           title: 'pagePermission',
@@ -139,7 +160,10 @@ export const asyncRoutes: RouteConfig[] = [
       },
       {
         path: 'directive',
-        component: () => import(/* webpackChunkName: "directivePermission" */ '@/views/permission/directive.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "directivePermission" */ '@/views/permission/directive.vue'
+          ),
         name: 'DirectivePermission',
         meta: {
           title: 'directivePermission'
@@ -148,7 +172,10 @@ export const asyncRoutes: RouteConfig[] = [
       },
       {
         path: 'role',
-        component: () => import(/* webpackChunkName: "rolePermission" */ '@/views/permission/role.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "rolePermission" */ '@/views/permission/role.vue'
+          ),
         name: 'RolePermission',
         meta: {
           title: 'rolePermission',
@@ -157,14 +184,16 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  systemRoutes,
+  studentmanagedRoutes,
+  chargemanagedRoutes,
   {
     path: '/icon',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
+        component: () =>
+          import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
         name: 'Icons',
         meta: { title: 'icons', icon: 'icon', noCache: true }
       }
@@ -357,25 +386,26 @@ export const asyncRoutes: RouteConfig[] = [
   }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
-  scrollBehavior: (to, from, savedPosition) => {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  },
-  base: process.env.BASE_URL,
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
+    scrollBehavior: (to, from, savedPosition) => {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
+    base: process.env.BASE_URL,
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter();
-  (router as any).matcher = (newRouter as any).matcher // reset router
+  const newRouter = createRouter()
+  ;(router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router

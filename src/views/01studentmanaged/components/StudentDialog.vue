@@ -133,7 +133,7 @@ import * as api from '@/api';
 import * as models from '@/api/models';
 
 @Component({})
-export default class CampusDialog extends Vue {
+export default class StudentDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
   @Prop() id!: number;
