@@ -42,7 +42,7 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import CampusDialog from './components/CampusDialog.vue';
+import CampusDialog from '../components/CampusDialog.vue';
 
 /** 校区管理 */
 @Component({

@@ -5,6 +5,12 @@
         <el-form-item label="专业名称">
           <el-input v-model="formData.name"></el-input>
         </el-form-item>
+        <el-form-item label="专业代码">
+          <el-input v-model="formData.code"></el-input>
+        </el-form-item>
+        <el-form-item label="所属学院代码">
+          <el-input v-model="formData.collegeCode"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button-group>

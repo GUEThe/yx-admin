@@ -2,8 +2,8 @@
   <div style="padding:5px">
     <el-container>
       <el-main>
-        <h3>专业管理</h3>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditMajor(0)">新增专业</el-button>
+        <h3>学生报道管理</h3>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditStudent(0)">新增学生</el-button>
         <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -12,16 +12,15 @@
               {{ scope.$index }}
             </template>
           </el-table-column>
-          <el-table-column label="专业名称" align="center" prop="name"></el-table-column>
-          <el-table-column label="专业代码" align="center" prop="code"></el-table-column>
-          <el-table-column label="所属学院代码" align="center" prop="collegeCode"></el-table-column>
+          <el-table-column label="学生名称" align="center" prop="name"></el-table-column>
+          <el-table-column label="是否来报道" align="center" prop="isCome"></el-table-column>
           <el-table-column align="center" width="400">
             <template slot="header">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
             </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onEditMajor(scope.row.id,1)">编辑</el-button>
+                <el-button type="primary" size="mini" @click="onEditStudent(scope.row.id,1)">编辑</el-button>
                 <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
               </el-button-group>
             </template>
@@ -35,7 +34,7 @@
         <br>
       </el-main>
     </el-container>
-    <MajorDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getMajorAsync()" />
+    <StudentDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getStuAsync()" />
   </div>
 </template>
 
@@ -43,17 +42,17 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import MajorDialog from '../components/MajorDialog.vue';
+import StudentDialog from './components/StudentDialog.vue';
 
-/** 专业管理 */
+/** 学生报道管理 */
 @Component({
   components: {
-    MajorDialog
+    StudentDialog
   }
 })
-export default class Major extends Vue {
+export default class StuReport extends Vue {
   listLoading: boolean = false;
-  listData: models.Major[] = [];
+  listData: models.Student[] = [];
   search = '';
   editId = 0;
   editType = 0;
@@ -62,40 +61,40 @@ export default class Major extends Vue {
   total = 0;
 
   mounted() {
-    this.getMajorAsync();
+    this.getStuAsync();
   }
 
   @Watch('page')
   async onPageChangeASync(val: number) {
-    this.getMajorAsync(val);
+    this.getStuAsync(val);
   }
 
-  async getMajorAsync(page: number = 1) {
+  async getStuAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetMajorList({ page, pageSize: 20 });
+    const { data, total } = await api.GetStudentList({ page, pageSize: 20 });
     console.log(data);
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
   }
 
-  onEditMajor(id: number = 0, type: number) {
+  onEditStudent(id: number = 0, type: number) {
     this.editId = id;
     this.editType = type;
     this.showDialog = true;
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该专业？', '提示', {
+    this.$confirm('确定删除该学生？', '提示', {
       type: 'warning'
     }).then(async () => {
-      const { data } = await api.DeleteMajor({ id })
+      const { data } = await api.DeleteStudent({ id })
       console.log('del', data);
       this.$message({
         type: 'success',
         message: '删除成功!'
       });
-      this.listData = this.listData.filter((e: models.Major) => e.id !== id);
+      this.listData = this.listData.filter((e: models.Student) => e.id !== id);
     }).catch(() => {
       //
     });

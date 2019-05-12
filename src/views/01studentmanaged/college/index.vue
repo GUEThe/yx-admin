@@ -13,6 +13,8 @@
             </template>
           </el-table-column>
           <el-table-column label="学院名称" align="center" prop="name"></el-table-column>
+          <el-table-column label="学院代码" align="center" prop="code"></el-table-column>
+          <el-table-column label="所属校区代码" align="center" prop="campus"></el-table-column>
           <el-table-column align="center" width="400">
             <template slot="header">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
@@ -41,7 +43,7 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import CollegeDialog from './components/CollegeDialog.vue';
+import CollegeDialog from '../components/CollegeDialog.vue';
 
 /** 学院管理 */
 @Component({
