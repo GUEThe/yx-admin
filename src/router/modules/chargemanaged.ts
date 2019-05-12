@@ -6,7 +6,7 @@ const chargemanagedRoutes: RouteConfig = {
   component: Layout,
   redirect: '/chargemanaged/payment',
   name: 'Chargemanaged',
-  meta: { title: 'chargemanaged', icon: 'peoples' },
+  meta: { title: 'chargemanaged', icon: 'money' },
   children: [
     {
       path: 'payment',
@@ -16,6 +16,15 @@ const chargemanagedRoutes: RouteConfig = {
         ),
       name: 'Payment',
       meta: { title: 'chargemanaged-payment' }
+    },
+    {
+      path: 'fee',
+      component: () =>
+        import(
+          /* webpackChunkName: "payment" */ '@/views/02chargemanaged/fee/index.vue'
+        ),
+      name: 'Fee',
+      meta: { title: 'chargemanaged-fee' }
     }
   ]
 }
