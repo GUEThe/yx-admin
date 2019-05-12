@@ -8,6 +8,7 @@ import Layout from '@/layout/index.vue'
 // import componentsRouter from './modules/components'
 import studentmanagedRoutes from './modules/studentmanaged'
 import chargemanagedRoutes from './modules/chargemanaged'
+import systemRoutes from './modules/system'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -186,6 +187,7 @@ export const asyncRoutes: RouteConfig[] = [
   },
   studentmanagedRoutes,
   chargemanagedRoutes,
+  systemRoutes,
   {
     path: '/icon',
     component: Layout,

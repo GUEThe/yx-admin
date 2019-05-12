@@ -25,8 +25,8 @@
         </el-form-item>
         <el-form-item label="是否申请绿色通道">
           <el-radio-group v-model="formData.isGreenChannel">
-            <el-radio :value="true" label="是" />
-            <el-radio :value="false" label="否" />
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

@@ -69,7 +69,11 @@ export default {
     'studentmanaged-stureport': '学生报道管理',
     chargemanaged: '收费管理',
     'chargemanaged-payment': '缴费管理',
-    'chargemanaged-fee': '费用项管理'
+    'chargemanaged-fee': '费用项管理',
+    systemmanaged: '系统管理',
+    'systemmanaged-user': '用户管理',
+    'systemmanaged-infoCategory': '信息类别管理',
+    'systemmanaged-news': '新闻管理'
   },
   navbar: {
     logOut: '退出登录',

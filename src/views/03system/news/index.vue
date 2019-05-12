@@ -2,9 +2,9 @@
   <div style="padding:5px">
     <el-container>
       <el-main>
-        <h3>缴费报道管理</h3>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditPayment(0)">新增缴费</el-button>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.status.toLowerCase().includes(search.toLowerCase()))"
+        <h3>新闻管理</h3>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditNews(0)">新增新闻</el-button>
+        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.newsname.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
@@ -12,22 +12,22 @@
               {{ scope.$index }}
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="center" prop="status"></el-table-column>
-          <el-table-column label="金额" align="center" prop="amount"></el-table-column>
-          <el-table-column label="时间" align="center" prop="time"></el-table-column>
-          <el-table-column label="学号" align="center" prop="studentId"></el-table-column>
-          <el-table-column label="总额" align="center" prop="total"></el-table-column>
-          <el-table-column label="减免金额" align="center" prop="waiver"></el-table-column>
-          <el-table-column label="标记" align="center" prop="mark"></el-table-column>
-          <el-table-column label="是否申请绿色通道" align="center" prop="isGreenChannel">
+          <el-table-column label="标题" align="center" prop="title"></el-table-column>
+          <el-table-column label="类型" align="center" prop="type">
             <template slot-scope="scope">
-              {{ scope.row.isGreenChannel?'是':'否' }}
+              {{ scope.row.type===1&&"入学教育"||scope.row.type===2&&"报道须知"||scope.row.type===3&&"通知公告" }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="400">
+          <el-table-column label="内容" align="center" prop="content"></el-table-column>
+          <el-table-column label="发布时间" align="center" prop="publishTime"></el-table-column>
+          <el-table-column label="年份" align="center" prop="year"></el-table-column>
+          <el-table-column align="center" width="400">
+            <template slot="header">
+              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+            </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onEditPayment(scope.row.id,1)">编辑</el-button>
+                <el-button type="primary" size="mini" @click="onEditNews(scope.row.id,1)">编辑</el-button>
                 <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
               </el-button-group>
             </template>
@@ -41,7 +41,7 @@
         <br>
       </el-main>
     </el-container>
-    <PaymentDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getPayAsync()" />
+    <NewsDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getNewsAsync()" />
   </div>
 </template>
 
@@ -49,17 +49,17 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import PaymentDialog from '../components/PaymentDialog.vue';
+import NewsDialog from '../components/NewsDialog.vue';
 
-/** 缴费管理 */
+/** 新闻管理 */
 @Component({
   components: {
-    PaymentDialog
+    NewsDialog
   }
 })
-export default class Payment extends Vue {
+export default class News extends Vue {
   listLoading: boolean = false;
-  listData: models.Payment[] = [];
+  listData: models.News[] = [];
   search = '';
   editId = 0;
   editType = 0;
@@ -68,40 +68,40 @@ export default class Payment extends Vue {
   total = 0;
 
   mounted() {
-    this.getPayAsync();
+    this.getNewsAsync();
   }
 
   @Watch('page')
   async onPageChangeASync(val: number) {
-    this.getPayAsync(val);
+    this.getNewsAsync(val);
   }
 
-  async getPayAsync(page: number = 1) {
+  async getNewsAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetPaymentList({ page, pageSize: 20 });
+    const { data, total } = await api.GetNewsList({ page, pageSize: 20 });
     console.log(data);
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
   }
 
-  onEditPayment(id: number = 0, type: number) {
+  onEditNews(id: number = 0, type: number) {
     this.editId = id;
     this.editType = type;
     this.showDialog = true;
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该缴费信息？', '提示', {
+    this.$confirm('确定删除该新闻？', '提示', {
       type: 'warning'
     }).then(async () => {
-      const { data } = await api.DeletePayment({ id })
+      const { data } = await api.DeleteNews({ id })
       console.log('del', data);
       this.$message({
         type: 'success',
         message: '删除成功!'
       });
-      this.listData = this.listData.filter((e: models.Payment) => e.id !== id);
+      this.listData = this.listData.filter((e: models.News) => e.id !== id);
     }).catch(() => {
       //
     });

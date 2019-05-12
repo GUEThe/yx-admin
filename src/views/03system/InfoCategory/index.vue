@@ -2,9 +2,9 @@
   <div style="padding:5px">
     <el-container>
       <el-main>
-        <h3>缴费报道管理</h3>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditPayment(0)">新增缴费</el-button>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.status.toLowerCase().includes(search.toLowerCase()))"
+        <h3>信息类别管理</h3>
+        <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditInfoCategory(0)">新增信息类别</el-button>
+        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
@@ -12,22 +12,26 @@
               {{ scope.$index }}
             </template>
           </el-table-column>
-          <el-table-column label="状态" align="center" prop="status"></el-table-column>
-          <el-table-column label="金额" align="center" prop="amount"></el-table-column>
-          <el-table-column label="时间" align="center" prop="time"></el-table-column>
-          <el-table-column label="学号" align="center" prop="studentId"></el-table-column>
-          <el-table-column label="总额" align="center" prop="total"></el-table-column>
-          <el-table-column label="减免金额" align="center" prop="waiver"></el-table-column>
-          <el-table-column label="标记" align="center" prop="mark"></el-table-column>
-          <el-table-column label="是否申请绿色通道" align="center" prop="isGreenChannel">
+          <el-table-column label="名称" align="center" prop="name"></el-table-column>
+          <el-table-column label="值" align="center" prop="value"></el-table-column>
+          <el-table-column label="类型" align="center" prop="type"></el-table-column>
+          <el-table-column label="是否启动" align="center" prop="enable">
             <template slot-scope="scope">
-              {{ scope.row.isGreenChannel?'是':'否' }}
+              {{ scope.row.enable?'是':'否' }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" width="400">
+          <el-table-column label="是否是默认值" align="center" prop="default">
+             <template slot-scope="scope">
+              {{ scope.row.default?'是':'否' }}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" width="400">
+            <template slot="header">
+              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+            </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onEditPayment(scope.row.id,1)">编辑</el-button>
+                <el-button type="primary" size="mini" @click="onEditInfoCategory(scope.row.id,1)">编辑</el-button>
                 <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
               </el-button-group>
             </template>
@@ -41,7 +45,7 @@
         <br>
       </el-main>
     </el-container>
-    <PaymentDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getPayAsync()" />
+    <InfoCategoryDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getPayAsync()" />
   </div>
 </template>
 
@@ -49,17 +53,17 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import PaymentDialog from '../components/PaymentDialog.vue';
+import InfoCategoryDialog from '../components/InfoCategoryDialog.vue';
 
-/** 缴费管理 */
+/** 信息类别管理 */
 @Component({
   components: {
-    PaymentDialog
+    InfoCategoryDialog
   }
 })
-export default class Payment extends Vue {
+export default class InfoCategory extends Vue {
   listLoading: boolean = false;
-  listData: models.Payment[] = [];
+  listData: models.InfoCategory[] = [];
   search = '';
   editId = 0;
   editType = 0;
@@ -78,30 +82,30 @@ export default class Payment extends Vue {
 
   async getPayAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetPaymentList({ page, pageSize: 20 });
+    const { data, total } = await api.GetInfoCategoryList({ page, pageSize: 20, keyword: '' });
     console.log(data);
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
   }
 
-  onEditPayment(id: number = 0, type: number) {
+  onEditInfoCategory(id: number = 0, type: number) {
     this.editId = id;
     this.editType = type;
     this.showDialog = true;
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该缴费信息？', '提示', {
+    this.$confirm('确定删除该信息类别？', '提示', {
       type: 'warning'
     }).then(async () => {
-      const { data } = await api.DeletePayment({ id })
+      const { data } = await api.DeleteInfoCategory({ id })
       console.log('del', data);
       this.$message({
         type: 'success',
         message: '删除成功!'
       });
-      this.listData = this.listData.filter((e: models.Payment) => e.id !== id);
+      this.listData = this.listData.filter((e: models.InfoCategory) => e.id !== id);
     }).catch(() => {
       //
     });

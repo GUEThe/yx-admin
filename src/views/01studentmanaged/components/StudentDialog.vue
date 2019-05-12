@@ -8,8 +8,8 @@
 
         <el-form-item label="性别">
           <el-radio-group v-model="formData.gender">
-            <el-radio :value="0" label="男" />
-            <el-radio :value="1" label="女" />
+            <el-radio :label="0">男</el-radio>
+            <el-radio :label="1">女</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -68,8 +68,8 @@
 
         <el-form-item label="婚否">
           <el-radio-group v-model="formData.marriage">
-            <el-radio :value="0" label="是" />
-            <el-radio :value="1" label="否" />
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -107,13 +107,13 @@
 
         <el-form-item label="是否来校报道">
           <el-radio-group v-model="formData.isCome">
-            <el-radio :value="0" label="是" />
-            <el-radio :value="1" label="否" />
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
 
         <el-form-item label="报道时间">
-          <el-date-picker v-model="formData.birthDay" type="dateTime" placeholder="选择日期">
+          <el-date-picker v-model="formData.time" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
       </el-form>
