@@ -28,8 +28,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <!-- <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-count="pageCount"
-          @current-change="changePage" align="center" /> -->
+          <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
+            align="center" />
         </div>
         <br>
       </el-main>
@@ -58,7 +58,7 @@ export default class Campus extends Vue {
   editType = 0;
   showDialog = false;
   page = 1;
-  pageCount = 0;
+  total = 0;
 
   mounted() {
     this.getCampusAsync();
@@ -71,9 +71,10 @@ export default class Campus extends Vue {
 
   async getCampusAsync(page: number = 1) {
     this.listLoading = true;
-    const data = await api.GetCampusList({ page });
+    const { data, total } = await api.GetCampusList({ page, pageSize: 20 });
     console.log(data);
-    this.listData = data!.data!;
+    this.listData = data!;
+    this.total = total!;
     this.listLoading = false;
   }
 
