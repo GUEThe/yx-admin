@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="className"
-    :style="{height: height,width: width}"
-  />
+  <div :class="className" :style="{height: height,width: width}" />
 </template>
 
 <script lang="ts">
@@ -39,21 +36,23 @@ export default class PieChart extends mixins(ResizeMixin) {
       legend: {
         left: 'center',
         bottom: '10',
-        data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+        data: ['机电', '通信', '计算机', '商学院', '外国语', '艺术', '数学']
       },
       series: [
         {
-          name: 'WEEKLY WRITE ARTICLES',
+          name: '报到情况',
           type: 'pie',
           roseType: 'radius',
           radius: [15, 95],
           center: ['50%', '38%'],
           data: [
-            { value: 320, name: 'Industries' },
-            { value: 240, name: 'Technology' },
-            { value: 149, name: 'Forex' },
-            { value: 100, name: 'Gold' },
-            { value: 59, name: 'Forecasts' }
+            { value: 320, name: '机电' },
+            { value: 240, name: '通信' },
+            { value: 149, name: '计算机' },
+            { value: 100, name: '商学院' },
+            { value: 59, name: '外国语' },
+            { value: 100, name: '艺术' },
+            { value: 59, name: '数学' }
           ],
           animationEasing: 'cubicInOut',
           animationDuration: 2600

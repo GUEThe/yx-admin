@@ -1,121 +1,54 @@
 <template>
-  <el-row
-    :gutter="40"
-    class="panel-group"
-  >
-    <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
-    >
-      <div
-        class="card-panel"
-        @click="handleSetLineChartData('newVisitis')"
-      >
+  <el-row :gutter="40" class="panel-group">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon
-            name="peoples"
-            class="card-panel-icon"
-          />
+          <svg-icon name="peoples" class="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            New Visits
+            报道人数
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="102400"
-            :duration="2600"
-            class="card-panel-num"
-          />
+          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
-    >
-      <div
-        class="card-panel"
-        @click="handleSetLineChartData('messages')"
-      >
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon
-            name="message"
-            class="card-panel-icon"
-          />
+          <svg-icon name="message" class="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            入住人数
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="81212"
-            :duration="3000"
-            class="card-panel-num"
-          />
+          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
-    >
-      <div
-        class="card-panel"
-        @click="handleSetLineChartData('purchases')"
-      >
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon
-            name="money"
-            class="card-panel-icon"
-          />
+          <svg-icon name="money" class="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Purchases
+            缴费人数
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="9280"
-            :duration="3200"
-            class="card-panel-num"
-          />
+          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
-    >
-      <div
-        class="card-panel"
-        @click="handleSetLineChartData('shoppings')"
-      >
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
         <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon
-            name="shopping"
-            class="card-panel-icon"
-          />
+          <svg-icon name="shopping" class="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Shoppings
+            绿色通道
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="13600"
-            :duration="3600"
-            class="card-panel-num"
-          />
+          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -154,8 +87,8 @@ export default class PanelGroup extends Vue {
     overflow: hidden;
     color: #666;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
 
     &:hover {
       .card-panel-icon-wrapper {
@@ -163,7 +96,7 @@ export default class PanelGroup extends Vue {
       }
 
       .icon-people {
-         background: #40c9c6;
+        background: #40c9c6;
       }
 
       .icon-message {
@@ -175,7 +108,7 @@ export default class PanelGroup extends Vue {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #34bfa3;
       }
     }
 
@@ -192,7 +125,7 @@ export default class PanelGroup extends Vue {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
