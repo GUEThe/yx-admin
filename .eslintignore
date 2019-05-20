@@ -2,3 +2,4 @@ dist/*.js
 src/assets
 tests/unit/coverage
 node_modules
+publish/*js

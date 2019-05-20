@@ -12,14 +12,14 @@
             <el-radio :label="3">通知公告</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="内容">
-          <el-input v-model="formData.content" type="textarea" :rows="3"></el-input>
-        </el-form-item>
         <el-form-item label="发布时间">
           <el-input v-model="formData.publishTime"></el-input>
         </el-form-item>
         <el-form-item label="年份">
           <el-input v-model="formData.year"></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <Editor :editorContent.sync="formData.content" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -36,8 +36,13 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import Editor from '@/components/Tinymce/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    Editor
+  }
+})
 export default class NewsDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
