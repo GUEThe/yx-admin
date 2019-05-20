@@ -73,7 +73,11 @@ export default {
     systemmanaged: '系统管理',
     'systemmanaged-user': '用户管理',
     'systemmanaged-infoCategory': '信息类别管理',
-    'systemmanaged-news': '新闻管理'
+    'systemmanaged-news': '新闻管理',
+    'stats': '统计',
+    'stats-come': '学生报道统计',
+    'stats-cloth': '学生衣服统计',
+    'stats-shoe': '学生鞋子统计'
   },
   navbar: {
     logOut: '退出登录',

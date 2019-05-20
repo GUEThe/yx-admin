@@ -9,6 +9,7 @@ import Layout from '@/layout/index.vue'
 import studentmanagedRoutes from './modules/studentmanaged'
 import chargemanagedRoutes from './modules/chargemanaged'
 import systemRoutes from './modules/system'
+import statsRoutes from './modules/stats'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -136,71 +137,72 @@ export const constantRoutes: RouteConfig[] = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes: RouteConfig[] = [
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/index',
-    meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'], // you can set roles in root nav
-      alwaysShow: true // will always show the root menu
-    },
-    children: [
-      {
-        path: 'page',
-        component: () =>
-          import(
-            /* webpackChunkName: "pagePermission" */ '@/views/permission/page.vue'
-          ),
-        name: 'PagePermission',
-        meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () =>
-          import(
-            /* webpackChunkName: "directivePermission" */ '@/views/permission/directive.vue'
-          ),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'directivePermission'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () =>
-          import(
-            /* webpackChunkName: "rolePermission" */ '@/views/permission/role.vue'
-          ),
-        name: 'RolePermission',
-        meta: {
-          title: 'rolePermission',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/permission',
+  //   component: Layout,
+  //   redirect: '/permission/index',
+  //   meta: {
+  //     title: 'permission',
+  //     icon: 'lock',
+  //     roles: ['admin', 'editor'], // you can set roles in root nav
+  //     alwaysShow: true // will always show the root menu
+  //   },
+  //   children: [
+  //     {
+  //       path: 'page',
+  //       component: () =>
+  //         import(
+  //           /* webpackChunkName: "pagePermission" */ '@/views/permission/page.vue'
+  //         ),
+  //       name: 'PagePermission',
+  //       meta: {
+  //         title: 'pagePermission',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     },
+  //     {
+  //       path: 'directive',
+  //       component: () =>
+  //         import(
+  //           /* webpackChunkName: "directivePermission" */ '@/views/permission/directive.vue'
+  //         ),
+  //       name: 'DirectivePermission',
+  //       meta: {
+  //         title: 'directivePermission'
+  //         // if do not set roles, means: this page does not require permission
+  //       }
+  //     },
+  //     {
+  //       path: 'role',
+  //       component: () =>
+  //         import(
+  //           /* webpackChunkName: "rolePermission" */ '@/views/permission/role.vue'
+  //         ),
+  //       name: 'RolePermission',
+  //       meta: {
+  //         title: 'rolePermission',
+  //         roles: ['admin']
+  //       }
+  //     }
+  //   ]
+  // },
   studentmanagedRoutes,
   chargemanagedRoutes,
   systemRoutes,
-  {
-    path: '/icon',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () =>
-          import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
-        name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
-      }
-    ]
-  },
+  statsRoutes,
+  // {
+  //   path: '/icon',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () =>
+  //         import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
+  //       name: 'Icons',
+  //       meta: { title: 'icons', icon: 'icon', noCache: true }
+  //     }
+  //   ]
+  // },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
   // chartsRouter,
@@ -407,7 +409,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-  ;(router as any).matcher = (newRouter as any).matcher // reset router
+    ; (router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router
