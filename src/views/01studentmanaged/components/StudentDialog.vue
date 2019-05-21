@@ -1,130 +1,158 @@
 <template>
-  <div>
-    <el-dialog :title="dialogTitle" :visible="showDialog" fullscreen @close="$emit('update:showDialog',false)">
-      <el-form :model="formData" label-width="100px" :disabled="loading">
-        <el-form-item label="姓名">
-          <el-input v-model="formData.name" :readonly="!editdisable"></el-input>
-        </el-form-item>
+  <el-dialog width="60%" :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog',false)">
+    <el-form :model="formData" label-width="100px" :disabled="loading">
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="姓名">
+            <el-input v-model="formData.name" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="性别">
+            <el-radio-group v-model="formData.gender">
+              <el-radio :label="0">男</el-radio>
+              <el-radio :label="1">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="出生日期">
+            <el-date-picker v-model="formData.birthDay" type="date" placeholder="选择日期" :readonly="!editdisable">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="学号">
+            <el-input v-model="formData.studentId" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="考生号">
+            <el-input v-model="formData.examineeNo" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="身份证号">
+            <el-input v-model="formData.idCardNo" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="学院代码">
+            <el-input v-model="formData.collegeCode" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="专业代码">
+            <el-input v-model="formData.majorCode" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="班级">
+            <el-input v-model="formData.class" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="年度">
+            <el-input v-model="formData.year" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
 
-        <el-form-item label="性别">
-          <el-radio-group v-model="formData.gender">
-            <el-radio :label="0">男</el-radio>
-            <el-radio :label="1">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="出生日期">
-          <el-date-picker v-model="formData.birthDay" type="date" placeholder="选择日期" :readonly="!editdisable">
-          </el-date-picker>
-        </el-form-item>
-
-        <el-form-item label="学号">
-          <el-input v-model="formData.studentId" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="考生号">
-          <el-input v-model="formData.examineeNo" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="身份证号">
-          <el-input v-model="formData.idCardNo" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="学院代码">
-          <el-input v-model="formData.collegeCode" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="专业代码">
-          <el-input v-model="formData.majorCode" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="班级">
-          <el-input v-model="formData.class" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="年度">
-          <el-input v-model="formData.year" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="类型">
-          <el-input v-model="formData.type" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="衣服尺寸">
-          <el-input v-model="formData.clothesSize" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="鞋码">
-          <el-input v-model="formData.shoesSize" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="图片">
-          <el-input v-model="formData.picture" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="政治面貌">
-          <el-input v-model="formData.politicalStatus" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="婚否">
-          <el-radio-group v-model="formData.marriage">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="籍贯">
-          <el-input v-model="formData.nativePlace" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="出生地">
-          <el-input v-model="formData.birthPlace" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="国家">
-          <el-input v-model="formData.nation" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="手机号">
-          <el-input v-model="formData.phone" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="QQ号">
-          <el-input v-model="formData.qqNo" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="邮箱">
-          <el-input v-model="formData.mailingAddress" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="家长名字">
-          <el-input v-model="formData.parentName" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="家长号码">
-          <el-input v-model="formData.parentPhone" :readonly="!editdisable"></el-input>
-        </el-form-item>
-
-        <el-form-item label="是否来校报道">
-          <el-radio-group v-model="formData.isCome">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="报道时间">
-          <el-date-picker v-model="formData.time" type="datetime" placeholder="选择日期时间">
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button-group>
-          <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
-          <el-button v-if="editdisable" type="primary" icon="el-icon-check" @click="onSubmitAsync()">提交</el-button>
-        </el-button-group>
-      </div>
-    </el-dialog>
-  </div>
+        <el-col :span="8">
+          <el-form-item label="类型">
+            <el-input v-model="formData.type" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="衣服尺寸">
+            <el-input v-model="formData.clothesSize" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="鞋码">
+            <el-input v-model="formData.shoesSize" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="图片">
+            <el-input v-model="formData.picture" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="政治面貌">
+            <el-input v-model="formData.politicalStatus" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="婚否">
+            <el-radio-group v-model="formData.marriage">
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="籍贯">
+            <el-input v-model="formData.nativePlace" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="出生地">
+            <el-input v-model="formData.birthPlace" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="国家">
+            <el-input v-model="formData.nation" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="手机号">
+            <el-input v-model="formData.phone" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="QQ号">
+            <el-input v-model="formData.qqNo" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="邮箱">
+            <el-input v-model="formData.mailingAddress" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="家长名字">
+            <el-input v-model="formData.parentName" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="家长号码">
+            <el-input v-model="formData.parentPhone" :readonly="!editdisable"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否来校报道">
+            <el-radio-group v-model="formData.isCome">
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="报道时间">
+            <el-date-picker v-model="formData.time" type="datetime" placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+</el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button-group>
+        <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
+        <el-button v-if="editdisable" type="primary" icon="el-icon-check" @click="onSubmitAsync()">提交</el-button>
+      </el-button-group>
+    </div>
+  </el-dialog>
 </template>
 
 <script  lang="ts">

@@ -190,18 +190,18 @@ export const asyncRoutes: RouteConfig[] = [
   {
     path: '/stureport',
     component: Layout,
+    meta: { alwaysShow: true, title: 'studentManage', icon: 'people' },
     children: [
       {
         path: '',
         component: () =>
           import(
-        /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/stureport/index.vue'
+            /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/stureport/index.vue'
           ),
         name: 'Stureport',
-        meta: { title: 'studentmanaged-stureport', icon: 'people' }
+        meta: { title: 'studentmanaged-stureport' }
       }
     ]
-
   },
   {
     path: '/greenchannel',
@@ -211,7 +211,7 @@ export const asyncRoutes: RouteConfig[] = [
         path: '',
         component: () =>
           import(
-        /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
+            /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
           ),
         name: 'Greenchannel',
         meta: { title: 'studentmanaged-greenchannel', icon: 'shopping' }
@@ -440,7 +440,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-    ; (router as any).matcher = (newRouter as any).matcher // reset router
+  ;(router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router
