@@ -34,15 +34,6 @@ const studentmanagedRoutes: RouteConfig = {
         ),
       name: 'Major',
       meta: { title: 'studentmanaged-major' }
-    },
-    {
-      path: 'stureport',
-      component: () =>
-        import(
-          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/stureport/index.vue'
-        ),
-      name: 'Stureport',
-      meta: { title: 'studentmanaged-stureport' }
     }
   ]
 }

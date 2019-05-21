@@ -32,6 +32,7 @@ apiAxios.interceptors.request.use(
   error => {
     // Handle request error here
     // Promise.reject(error);
+    console.log(error)
   }
 )
 

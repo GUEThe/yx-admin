@@ -186,10 +186,41 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
-  studentmanagedRoutes,
-  chargemanagedRoutes,
-  systemRoutes,
   statsRoutes,
+  {
+    path: '/stureport',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import(
+        /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/stureport/index.vue'
+          ),
+        name: 'Stureport',
+        meta: { title: 'studentmanaged-stureport', icon: 'people' }
+      }
+    ]
+
+  },
+  {
+    path: '/greenchannel',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import(
+        /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
+          ),
+        name: 'Greenchannel',
+        meta: { title: 'studentmanaged-greenchannel', icon: 'shopping' }
+      }
+    ]
+  },
+  chargemanagedRoutes,
+  studentmanagedRoutes,
+  systemRoutes,
   // {
   //   path: '/icon',
   //   component: Layout,
