@@ -9,7 +9,7 @@
           <el-input v-model="formData.code"></el-input>
         </el-form-item>
         <el-form-item label="所属学院代码">
-          <el-input v-model="formData.collegeCode"></el-input>
+          <CollegeSelect :collegeId.sync="formData.collegeCode" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -26,8 +26,13 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import CollegeSelect from '@/components/CollegeSelect/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    CollegeSelect
+  }
+})
 export default class MajorDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
@@ -67,11 +72,15 @@ export default class MajorDialog extends Vue {
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutMajor({ id: this.id, model: this.formData }) : await api.PostMajor({ model: this.formData });
-    if (data) {
-      this.$message.success('操作成功！');
-      this.$emit('refresh');
-      this.$emit('update:showDialog', false);
+    if (this.formData.name && this.formData.code && this.formData.collegeCode) {
+      const { data } = this.type ? await api.PutMajor({ id: this.id, model: this.formData }) : await api.PostMajor({ model: this.formData });
+      if (data) {
+        this.$message.success('操作成功！');
+        this.$emit('refresh');
+        this.$emit('update:showDialog', false);
+      }
+    } else {
+      this.$message.error('请填写完整信息后操作！');
     }
   }
 }

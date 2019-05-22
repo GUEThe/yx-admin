@@ -8,8 +8,8 @@
         <el-form-item label="学院代码">
           <el-input v-model="formData.code"></el-input>
         </el-form-item>
-        <el-form-item label="所属校区代码">
-          <el-input v-model="formData.campus"></el-input>
+        <el-form-item label="所属校区">
+          <CampusSelect :campusId.sync="formData.campus" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -26,8 +26,13 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import CampusSelect from '@/components/CampusSelect/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    CampusSelect
+  }
+})
 export default class CollegeDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;

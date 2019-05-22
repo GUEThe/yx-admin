@@ -38,12 +38,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="学院代码">
-            <el-input v-model="formData.collegeCode" :readonly="!editdisable"></el-input>
+            <CollegeSelect :collegeId.sync="formData.collegeCode" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="专业代码">
-            <el-input v-model="formData.majorCode" :readonly="!editdisable"></el-input>
+            <MajorSelect :majorId.sync="formData.majorCode" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -140,12 +140,12 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="报道时间">
-            <el-date-picker v-model="formData.time" type="datetime" placeholder="选择日期时间">
+            <el-date-picker v-model="time" type="datetime" placeholder="选择日期时间" @change="timechange">
             </el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
-</el-form>
+    </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button-group>
         <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
@@ -159,8 +159,17 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import CampusSelect from '@/components/CampusSelect/index.vue';
+import CollegeSelect from '@/components/CollegeSelect/index.vue';
+import MajorSelect from '@/components/MajorSelect/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    CampusSelect,
+    CollegeSelect,
+    MajorSelect
+  }
+})
 export default class StudentDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
@@ -169,6 +178,7 @@ export default class StudentDialog extends Vue {
   private dialogTitle: string = '';
 
   private loading = false;
+  private time = '';
   private formData: models.Student = {
     id: 0,
     name: '',
@@ -213,6 +223,11 @@ export default class StudentDialog extends Vue {
       this.type === 3 ? this.dialogTitle = '查看学生信息' : this.dialogTitle = '编辑学生信息';
       const { data } = await api.GetStudent({ id: this.id });
       this.formData = data!;
+      if (this.formData.time) {
+        this.time = this.timestampToTime(this.formData.time);
+        console.log('tttt', this.time);
+      }
+      console.log('ggg')
     } else {
       this.dialogTitle = '增加学生';
     }
@@ -256,6 +271,21 @@ export default class StudentDialog extends Vue {
       this.$emit('refresh');
       this.$emit('update:showDialog', false);
     }
+  }
+  timechange(e: any) {
+    this.formData.time = new Date(e).getTime();
+    console.log(e);
+  }
+
+  timestampToTime(timestamp: number) {
+    var date = new Date(timestamp.toString().length > 10 ? timestamp : timestamp * 1000);// 时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y + M + D + h + m + s;
   }
 }
 </script>
