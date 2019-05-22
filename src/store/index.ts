@@ -6,6 +6,7 @@ import { ITagsViewState } from './modules/tagsView'
 import { IErrorLogState } from './modules/errorLog'
 import { IPermissionState } from './modules/permission'
 import { ISettingsState } from './modules/settings'
+import { YearState } from './modules/year'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export interface IRootState {
   errorLog: IErrorLogState
   permission: IPermissionState
   settings: ISettingsState
+  year: YearState
 }
 
 // Declare empty store first, dynamically register all modules later.
