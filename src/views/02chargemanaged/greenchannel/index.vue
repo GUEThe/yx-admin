@@ -13,13 +13,18 @@
           </el-table-column>
           <el-table-column label="学号" align="center" prop="studentId">
             <template slot-scope="scope">
-              <el-button type="text" @click="onEditGreenChannel(scope.row.studentId)">{{ scope.row.studentId }}</el-button>
+              <el-button type="text" @click="onEditGreenChannel(scope.row.id)">{{ scope.row.studentId }}</el-button>
             </template>
           </el-table-column>
           <el-table-column label="申请缓缴金额" align="center" prop="amount"></el-table-column>
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
               {{ scope.row.status | stateFilter }}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button type="primary" size="mini" @click="onEditGreenChannel(scope.row.id)">审核</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -31,7 +36,7 @@
         <br>
       </el-main>
     </el-container>
-    <GreenChannelDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getGreenChannelAsync()" />
+    <GreenChannelDialog :id="editId" :showDialog.sync="showDialog" @refresh="getGreenChannelAsync()" />
   </div>
 </template>
 
@@ -63,7 +68,6 @@ export default class GreenChannel extends Vue {
   listData: models.GreenChannel[] = [];
   search = '';
   editId = 0;
-  editType = 0;
   showDialog = false;
   page = 1;
   total = 0;

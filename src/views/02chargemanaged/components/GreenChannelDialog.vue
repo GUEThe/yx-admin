@@ -1,42 +1,86 @@
 <template>
   <div>
     <el-dialog :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog',false)">
-      <el-form :model="formData" label-width="100px" :disabled="loading">
-        <el-form-item label="学号">
-          <el-input v-model="formData.status" readonly></el-input>
-        </el-form-item>
-        <el-form-item label="合同编号">
-          <el-input v-model="formData.amount"></el-input>
-        </el-form-item>
-        <el-form-item label="申请缓缴金额">
-          <el-input v-model="formData.time"></el-input>
-        </el-form-item>
-        <el-form-item label="补充说明">
-          <el-input v-model="formData.studentId"></el-input>
-        </el-form-item>
-        <el-form-item label="补充文件">
-          <el-input v-model="formData.total"></el-input>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-input v-model="formData.waiver"></el-input>
-        </el-form-item>
-        <el-form-item label="审核人">
-          <el-input v-model="formData.mark"></el-input>
-        </el-form-item>
-        <el-form-item label="审核意见">
-          <el-input v-model="formData.mark"></el-input>
-        </el-form-item>
-        <el-form-item label="审核时间">
-          <el-radio-group v-model="formData.isGreenChannel">
-            <el-radio :label="true">是</el-radio>
-            <el-radio :label="false">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
+      <el-form :model="formData" label-width="150px" :disabled="loading">
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="学号">
+              <el-input v-model="formData.studentId" readonly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="合同编号">
+              <el-input v-model="formData.amount"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="贷款回执校验码">
+              <el-input v-model="formData.replyCode"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="生源地管理部门名称">
+              <el-input v-model="formData.deptName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="联系人">
+              <el-input v-model="formData.contact"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="联系地址">
+              <el-input v-model="formData.deptAddress"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="联系电话">
+              <el-input v-model="formData.deptPhone"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="申请缓缴金额">
+              <el-input v-model="formData.amount"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="补充说明">
+              <el-input v-model="formData.description" type="textarea" :rows="3"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="补充文件">
+              <el-link v-if="formData.fileId" :href="'/v1/api/File/'+formData.fileId">点击下载</el-link>
+              <span v-if="!formData.fileId">暂无文件</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="状态">
+              {{ formData.status | stateFilter }}
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-col :span="20">
+          <el-form-item label="审核意见">
+            <el-input v-model="formData.mark" type="textarea" :rows="3"></el-input>
+          </el-form-item>
+        </el-col>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button-group>
           <el-button type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
-          <el-button type="primary" icon="el-icon-check" @click="onSubmitAsync()">提交</el-button>
+          <el-button type="primary" @click="onSubmitAsync(2)">审核通过</el-button>
+          <el-button type="danger" @click="onSubmitAsync(3)">审核不通过</el-button>
         </el-button-group>
       </div>
     </el-dialog>
@@ -63,23 +107,12 @@ import * as models from '@/api/models';
 })
 export default class GreenChannelDialog extends Vue {
   @Prop() showDialog!: boolean;
-  @Prop() type!: number;
   @Prop() id!: number;
 
   private dialogTitle: string = '';
 
   private loading = false;
-  private formData: any = {
-    // id: 0,
-    // status: 0,
-    // amount: 0,
-    // time: 0,
-    // studentId: 0,
-    // total: 0,
-    // waiver: 0,
-    // mark: '',
-    // isGreenChannel: false
-  }
+  private formData: models.GreenChannel = {} as models.GreenChannel;
 
   mounted() {
     //
@@ -87,30 +120,16 @@ export default class GreenChannelDialog extends Vue {
 
   @Watch('showDialog')
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
-    // if (this.type) {
-    //   this.dialogTitle = '编辑缴费信息';
-    //   const { data } = await api.GetGreenChannelItem({ id: this.id });
-    //   this.formData = data!;
-    // } else {
-    //   this.dialogTitle = '增加缴费信息';
-    // }
-    if (!val) {
-      // this.formData = {
-      //   id: 0,
-      //   status: 0,
-      //   amount: 0,
-      //   time: 0,
-      //   studentId: 0,
-      //   total: 0,
-      //   waiver: 0,
-      //   mark: '',
-      //   isGreenChannel: false
-      // }
+    if (val) {
+      this.dialogTitle = '审核绿色通道';
+      const { data } = await api.GetGreenChannelItem({ id: this.id });
+      this.formData = data!;
     }
   }
 
-  async onSubmitAsync() {
-    const { data } = this.type ? await api.PutGreenChannel({ id: this.id, model: this.formData }) : await api.PostGreenChannel({ model: this.formData });
+  async onSubmitAsync(audit: number) {
+    this.formData.status = audit;
+    const { data } = await api.PutGreenChannel({ id: this.id, model: this.formData })
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');

@@ -18,7 +18,7 @@
           </el-table-column>
           <el-table-column label="学生名称" align="center">
             <template slot-scope="scope">
-              <el-button type="text" @click="onEditStudent(scope.row.id,3)">{{ scope.row.name }}</el-button>
+              <el-button type="text" @click="onEditStudent(scope.row.studentId,3)">{{ scope.row.name }}</el-button>
             </template>
           </el-table-column>
           <el-table-column label="学院代码" align="center" prop="collegeCode"></el-table-column>
@@ -31,7 +31,7 @@
             </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onEditStudent(scope.row.id,1)">编辑</el-button>
+                <el-button type="primary" size="mini" @click="onEditStudent(scope.row.studentId,1)">编辑</el-button>
                 <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
               </el-button-group>
             </template>
@@ -46,7 +46,7 @@
       </el-main>
     </el-container>
     <el-dialog :visible="showUpoad" title="上传文件" @close="showUpoad=false">
-      <el-upload class="upload-demo" drag action="http://localhost:9527/v1//api/Student/importUploadFile" multiple>
+      <el-upload class="upload-demo" drag action="v1/api/Student/importUploadFile" :show-file-list="false">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
