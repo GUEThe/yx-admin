@@ -72,7 +72,7 @@
         </el-row>
         <el-col :span="20">
           <el-form-item label="审核意见">
-            <el-input v-model="formData.mark" type="textarea" :rows="3"></el-input>
+            <el-input v-model="formData.opinion" type="textarea" :rows="3"></el-input>
           </el-form-item>
         </el-col>
       </el-form>

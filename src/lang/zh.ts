@@ -79,7 +79,8 @@ export default {
     stats: '信息统计',
     'stats-come': '学生报道统计',
     'stats-cloth': '学生衣服统计',
-    'stats-shoe': '学生鞋子统计'
+    'stats-shoe': '学生鞋子统计',
+    'leave': '请假审核'
   },
   navbar: {
     logOut: '退出登录',

@@ -204,6 +204,21 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/leave',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        component: () =>
+          import(
+            /* webpackChunkName: "leave" */ '@/views/05leave/index.vue'
+          ),
+        name: 'Leave',
+        meta: { title: 'leave', icon: 'shopping' }
+      }
+    ]
+  },
+  {
     path: '/greenchannel',
     component: Layout,
     children: [
@@ -440,7 +455,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-  ;(router as any).matcher = (newRouter as any).matcher // reset router
+    ; (router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router
