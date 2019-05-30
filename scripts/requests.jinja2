@@ -13,7 +13,6 @@ import { encodeQuery } from "@/utils";
 import { Log } from "@/logbox";
 import { apiSendAsync ,ApiRequestOptions} from '@/utils/apiRequest';
 
-const defaultPageSize=20;
 
   const protocol = "https"
   export const apiHost = process.env.VUE_APP_API_HOST;
@@ -63,7 +62,7 @@ const defaultPageSize=20;
 
       {% for param in req.params %}
         {% if param.name == 'page' %}
-        options.pageSize = options.pageSize || defaultPageSize
+        options.pageSize = options.pageSize
         {% endif %}
       {% endfor %}
 
