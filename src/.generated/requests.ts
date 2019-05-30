@@ -28,7 +28,7 @@ export const wssBaseUrl = `wss://${apiHost}${basePath}/ws`;
 */
 
 /**
- * 登陆获取token
+ * 登陆获取token测试
  * @param signinForm m.SigninForm
  */
 export function Sigin(options: {
@@ -551,7 +551,7 @@ export function PostFee(options: {
 
 /**
  * 根据学生类型获取费用列表
- * @param studentType string string
+ * @param studentType string string 学生类型（本科生，研究生，在信息类别里定义）
  */
 export function GetStudentFeeList(options: {
   studentType?: string;
@@ -896,8 +896,8 @@ export function GetInfoCategoryByType(options: {
   return apiSendAsync<m.DataResponse<m.InfoCategory>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.Major&gt; extends m.RestfulData{
-      data?: m.Major;
+    export interface m.DataResponse&lt;m.InfoCategory&gt; extends m.RestfulData{
+      data?: m.InfoCategory;
     }
 */
 
@@ -907,14 +907,14 @@ export function GetInfoCategoryByType(options: {
  */
 export function GetInfoCategoryItem(options: {
   id: number;
-}): Promise<m.DataResponse<m.Major>> {
+}): Promise<m.DataResponse<m.InfoCategory>> {
   const opts: ApiRequestOptions = {
     url: `/api/InfoCategory/${options.id}`,
     method: "get",
     reqName: "GetInfoCategoryItem"
   };
 
-  return apiSendAsync<m.DataResponse<m.Major>>(opts);
+  return apiSendAsync<m.DataResponse<m.InfoCategory>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -1447,13 +1447,17 @@ export function DeletePayment(options: {
 */
 
 /**
- * 获取学生信息列表
- * @param page number integer
- * @param pageSize number integer
+ * 获取学生信息列表(role为admin获取全部，college获取本学院)
+ * @param page number integer 当前页
+ * @param pageSize number integer 页大小
+ * @param collegeCode string string 学院代码(可选,role为college时无效)
+ * @param majorCode string string 专业代码（可选，优先级高于学院代码，有collegeCode不起作用)
  */
 export function GetStudentList(options: {
   page?: number;
   pageSize?: number;
+  collegeCode?: string;
+  majorCode?: string;
 }): Promise<m.PageResponse<m.Student[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Student`,
@@ -1465,10 +1469,34 @@ export function GetStudentList(options: {
 
   opts.params = {
     page: options.page,
-    pageSize: options.pageSize
+    pageSize: options.pageSize,
+    collegeCode: options.collegeCode,
+    majorCode: options.majorCode
   };
 
   return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 更新学生信息
+ * @param value m.Student  学生对象
+ */
+export function PutStudent(options: {
+  value?: m.Student;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student`,
+    method: "put",
+    reqName: "PutStudent"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.Student&gt; extends m.RestfulData{
@@ -1500,42 +1528,18 @@ export function PostStudent(options: {
 
 /**
  * 获取学生（admin可以获得任意学生，student只能获取自己）
- * @param id number integer
+ * @param studentId number integer 学号
  */
 export function GetStudent(options: {
-  id: number;
+  studentId: number;
 }): Promise<m.DataResponse<m.Student>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/${options.id}`,
+    url: `/api/Student/${options.studentId}`,
     method: "get",
     reqName: "GetStudent"
   };
 
   return apiSendAsync<m.DataResponse<m.Student>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 更新学生信息
- * @param id number integer
- * @param value m.Student
- */
-export function PutStudent(options: {
-  id: number;
-  value?: m.Student;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Student/${options.id}`,
-    method: "put",
-    reqName: "PutStudent"
-  };
-
-  opts.data = options.value;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -1554,6 +1558,194 @@ export function DeleteStudent(options: {
     url: `/api/Student/${options.id}`,
     method: "delete",
     reqName: "DeleteStudent"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取学生衣服统计列表（1代表男生，0代表女生）
+ */
+export function GetClothData(): Promise<m.PageResponse<m.Statistics[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/Cloth`,
+    method: "get",
+    reqName: "GetClothData"
+  };
+
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取学生鞋子统计列表（1代表男生，0代表女生）
+ */
+export function GetShoseData(): Promise<m.PageResponse<m.Statistics[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/Shose`,
+    method: "get",
+    reqName: "GetShoseData"
+  };
+
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取学生报到统计列表（1代表已报到，0代表未报到）
+ */
+export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/Come`,
+    method: "get",
+    reqName: "GetComeData"
+  };
+
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.StudentStation[]&gt; extends m.RestfulData{
+      data?: m.StudentStation[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ * @param station string string
+ * @param isNeed number integer
+ */
+export function GetStudentStationList(options: {
+  page?: number;
+  pageSize?: number;
+  station?: string;
+  isNeed?: number;
+}): Promise<m.PageResponse<m.StudentStation[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/StudentStation`,
+    method: "get",
+    reqName: "GetStudentStationList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    station: options.station,
+    isNeed: options.isNeed
+  };
+
+  return apiSendAsync<m.PageResponse<m.StudentStation[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 修改新生到站
+ * @param studentStation m.StudentStation  学生到站实体
+ */
+export function PutStudentStation(options: {
+  studentStation?: m.StudentStation;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/StudentStation`,
+    method: "put",
+    reqName: "PutStudentStation"
+  };
+
+  opts.data = options.studentStation;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增新生到站
+ * @param studentStation m.StudentStation
+ */
+export function PostStudentStation(options: {
+  studentStation?: m.StudentStation;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/StudentStation`,
+    method: "post",
+    reqName: "PostStudentStation"
+  };
+
+  opts.data = options.studentStation;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.StudentStation&gt; extends m.RestfulData{
+      data?: m.StudentStation;
+    }
+*/
+
+/**
+ * 获取新生到站(新生获取自己，管理员任意)
+ * @param studentId number integer 学号
+ */
+export function GetStudentStation(options: {
+  studentId: number;
+}): Promise<m.DataResponse<m.StudentStation>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/StudentStation/${options.studentId}`,
+    method: "get",
+    reqName: "GetStudentStation"
+  };
+
+  return apiSendAsync<m.DataResponse<m.StudentStation>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function Delete(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/StudentStation/${options.id}`,
+    method: "delete",
+    reqName: "Delete"
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);

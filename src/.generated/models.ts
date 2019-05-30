@@ -247,6 +247,36 @@ export interface GreenChannel {
    */
   contractNo: string;
   /**
+   *
+   *
+   * @serverType string
+   */
+  replyCode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  deptName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  contact: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  deptAddress: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  deptPhone: string;
+  /**
    *  int32
    *
    * @serverType integer
@@ -288,6 +318,12 @@ export interface GreenChannel {
    * @serverType string
    */
   opinion: string;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  year: number;
 }
 /*
  * @namespace models
@@ -333,35 +369,6 @@ export interface InfoCategory {
 /*
  * @namespace models
  */
-export interface Major {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  code: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  collegeCode: string;
-}
-/*
- * @namespace models
- */
 export interface Leave {
   /**
    *  int32
@@ -369,6 +376,12 @@ export interface Leave {
    * @serverType integer
    */
   id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
   /**
    *
    *
@@ -411,6 +424,41 @@ export interface Leave {
    * @serverType integer
    */
   handleTime: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  year: number;
+}
+/*
+ * @namespace models
+ */
+export interface Major {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  code: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegeCode: string;
 }
 /*
  * @namespace models
@@ -464,6 +512,12 @@ export interface Payment {
    */
   id: number;
   /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
    *  int32
    *
    * @serverType integer
@@ -481,12 +535,6 @@ export interface Payment {
    * @serverType integer
    */
   time: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  studentId: number;
   /**
    *  int32
    *
@@ -601,11 +649,11 @@ export interface Student {
    */
   shoesSize: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  picture: number;
+  picture: string;
   /**
    *
    *
@@ -682,6 +730,82 @@ export interface Student {
 /*
  * @namespace models
  */
+export interface Statistics {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  count: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+}
+/*
+ * @namespace models
+ */
+export interface StudentStation {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  station: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  peopleNum: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  baggageNum: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  arriveTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  isNeed: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  year: number;
+}
+/*
+ * @namespace models
+ */
 export interface User {
   /**
    *  int32
@@ -720,11 +844,11 @@ export interface User {
    */
   collegeCode: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  studentId: number;
+  studentId: string;
 }
 export interface DataResponse<T> extends RestfulData {
   data?: T;

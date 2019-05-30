@@ -52,7 +52,7 @@ export default class UserDialog extends Vue {
     nickname: '',
     role: '',
     collegeCode: '',
-    studentId: 0
+    studentId: ''
   }
 
   mounted() {
@@ -64,7 +64,7 @@ export default class UserDialog extends Vue {
     if (this.type) {
       this.dialogTitle = '编辑费用信息';
       const { data } = await api.GetUser({ id: this.id as number });
-      this.formData = data!;
+      this.formData = Object.assign(this.formData, data!);
     } else {
       this.dialogTitle = '增加费用信息';
     }
@@ -76,7 +76,7 @@ export default class UserDialog extends Vue {
         nickname: '',
         role: '',
         collegeCode: '',
-        studentId: 0
+        studentId: ''
       }
     }
   }

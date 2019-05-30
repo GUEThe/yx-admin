@@ -92,7 +92,7 @@ export default class GreenChannel extends Vue {
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该校区？', '提示', {
+    this.$confirm('确定删除该绿色通道？', '提示', {
       type: 'warning'
     }).then(async () => {
       const { data } = await api.DeleteGreenChannel({ id })

@@ -162,6 +162,7 @@ import * as models from '@/api/models';
 import CampusSelect from '@/components/CampusSelect/index.vue';
 import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
+import { connect } from 'echarts';
 
 @Component({
   components: {
@@ -195,7 +196,7 @@ export default class StudentDialog extends Vue {
     type: '',
     clothesSize: '',
     shoesSize: '',
-    picture: 0,
+    picture: '',
     politicalStatus: '',
     marriage: 0,
     nativePlace: '',
@@ -221,8 +222,8 @@ export default class StudentDialog extends Vue {
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
       this.type === 3 ? this.dialogTitle = '查看学生信息' : this.dialogTitle = '编辑学生信息';
-      const { data } = await api.GetStudent({ id: this.id });
-      this.formData = data!;
+      const { data } = await api.GetStudent({ studentId: this.id });
+      this.formData = Object.assign(this.formData, data!);
       if (this.formData.time) {
         this.time = this.timestampToTime(this.formData.time);
         console.log('tttt', this.time);
@@ -248,7 +249,7 @@ export default class StudentDialog extends Vue {
         type: '',
         clothesSize: '',
         shoesSize: '',
-        picture: 0,
+        picture: '',
         politicalStatus: '',
         marriage: 0,
         nativePlace: '',
@@ -265,7 +266,7 @@ export default class StudentDialog extends Vue {
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutStudent({ id: this.id, value: this.formData }) : await api.PostStudent({ student: this.formData });
+    const { data } = this.type ? await api.PutStudent({ value: this.formData }) : await api.PostStudent({ student: this.formData });
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');
