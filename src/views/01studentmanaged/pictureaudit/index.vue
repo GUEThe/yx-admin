@@ -3,6 +3,11 @@
     <el-container>
       <el-main>
         <h3>新生照片审核</h3>
+        <el-select v-model="listQuery.status" placeholder="审核状态" clearable @change="getStudentAsync()">
+          <el-option :value="0" label="待审核"></el-option>
+          <el-option :value="1" label="审核通过"></el-option>
+          <el-option :value="2" label="审核不通过"></el-option>
+        </el-select>
         <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>

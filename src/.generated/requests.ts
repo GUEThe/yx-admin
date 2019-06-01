@@ -1024,7 +1024,7 @@ export function PutLeave(options: {
 */
 
 /**
- * 新增请假项
+ * 新增(保存)请假项
  * @param model m.Leave
  */
 export function PostLeave(options: {
@@ -1701,7 +1701,8 @@ export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
  * @param pageSize number integer
  * @param station string string 站点（选填，默认全部，桂林站，桂林北站，桂林西站，两江机场）
  * @param isNeed number integer 是否需要接待（选填，默认全部，0.否1.是）
- * @param time array array 抵达时间段（选填，[时间戳1，时间戳2]）1要小于2
+ * @param time1 number integer 时间戳1抵达时间段1要小于2
+ * @param time2 number integer 时间戳2抵达时间段1要小于2
  * @param year number integer 年份（选填，默认当年）
  */
 export function GetStudentStationList(options: {
@@ -1709,7 +1710,8 @@ export function GetStudentStationList(options: {
   pageSize?: number;
   station?: string;
   isNeed?: number;
-  time?: number;
+  time1?: number;
+  time2?: number;
   year?: number;
 }): Promise<m.PageResponse<m.StudentStationView[]>> {
   const opts: ApiRequestOptions = {
@@ -1725,7 +1727,8 @@ export function GetStudentStationList(options: {
     pageSize: options.pageSize,
     station: options.station,
     isNeed: options.isNeed,
-    time: options.time,
+    time1: options.time1,
+    time2: options.time2,
     year: options.year
   };
 

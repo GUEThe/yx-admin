@@ -68,6 +68,7 @@ export default {
     'studentmanaged-college': '学院管理',
     'studentmanaged-stureport': '新生管理',
     'studentmanaged-pictureaudit': '新生照片审核',
+    'studentmanaged-station': '新生到站统计',
     studentManage: '录取新生管理',
     chargemanaged: '收费管理',
     'chargemanaged-payment': '缴费管理',
