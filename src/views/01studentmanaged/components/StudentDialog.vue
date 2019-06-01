@@ -207,7 +207,8 @@ export default class StudentDialog extends Vue {
     parentName: '',
     parentPhone: '',
     isCome: 0,
-    time: 0
+    time: 0,
+    status: 0
   }
 
   mounted() {
@@ -260,7 +261,8 @@ export default class StudentDialog extends Vue {
         parentName: '',
         parentPhone: '',
         isCome: 0,
-        time: 0
+        time: 0,
+        status: 0
       }
     }
   }

@@ -146,6 +146,41 @@ export interface Bed {
 /*
  * @namespace models
  */
+export interface StudentBedView {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  bedId: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  pickTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+}
+/*
+ * @namespace models
+ */
 export interface Campus {
   /**
    *  int32
@@ -235,11 +270,11 @@ export interface GreenChannel {
    */
   id: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  studentId: number;
+  studentId: string;
   /**
    *
    *
@@ -721,6 +756,12 @@ export interface Student {
    */
   isCome: number;
   /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
    *  int64
    *
    * @serverType integer
@@ -749,6 +790,83 @@ export interface Statistics {
    * @serverType integer
    */
   type: number;
+}
+/*
+ * @namespace models
+ */
+export interface StudentStationView {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegeCode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  majorCode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  gender: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  station: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  peopleNum: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  baggageNum: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  arriveTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  isNeed: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  year: number;
 }
 /*
  * @namespace models

@@ -13,8 +13,6 @@ import { encodeQuery } from "@/utils";
 import { Log } from "@/logbox";
 import { apiSendAsync, ApiRequestOptions } from "@/utils/apiRequest";
 
-const defaultPageSize = 20;
-
 const protocol = "https";
 export const apiHost = process.env.VUE_APP_API_HOST;
 const basePath = "";
@@ -103,7 +101,7 @@ export function GetBedList(options: {
     reqName: "GetBedList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -205,6 +203,27 @@ export function DeleteBed(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
+    export interface m.DataResponse&lt;m.StudentBedView&gt; extends m.RestfulData{
+      data?: m.StudentBedView;
+    }
+*/
+
+/**
+ *
+ * @param studentId number integer
+ */
+export function GetStudentBed(options: {
+  studentId: number;
+}): Promise<m.DataResponse<m.StudentBedView>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Bed/studentbed/${options.studentId}`,
+    method: "get",
+    reqName: "GetStudentBed"
+  };
+
+  return apiSendAsync<m.DataResponse<m.StudentBedView>>(opts);
+}
+/*
     export interface m.PageResponse&lt;m.Campus[]&gt; extends m.RestfulData{
       data?: m.Campus[];
       total: number;
@@ -228,7 +247,7 @@ export function GetCampusList(options: {
     reqName: "GetCampusList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -353,7 +372,7 @@ export function GetCollegeList(options: {
     reqName: "GetCollegeList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -480,7 +499,7 @@ export function GetFeeList(options: {
     reqName: "GetFeeList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -657,7 +676,7 @@ export function GetGreenChannelList(options: {
     reqName: "GetGreenChannelList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -702,7 +721,7 @@ export function PutGreenChannel(options: {
 */
 
 /**
- * 新增绿色通道项
+ * 新增(保存)绿色通道项
  * @param model m.GreenChannel
  */
 export function PostGreenChannel(options: {
@@ -767,10 +786,10 @@ export function DeleteGreenChannel(options: {
 
 /**
  * 根据学生ID获取绿色通道记录
- * @param studenId number integer
+ * @param studentId number integer
  */
 export function GetGreenChannelByStudentId(options: {
-  studenId?: number;
+  studentId?: number;
 }): Promise<m.DataResponse<m.GreenChannel>> {
   const opts: ApiRequestOptions = {
     url: `/api/GreenChannel/student`,
@@ -779,7 +798,7 @@ export function GetGreenChannelByStudentId(options: {
   };
 
   opts.params = {
-    studenId: options.studenId
+    studentId: options.studentId
   };
 
   return apiSendAsync<m.DataResponse<m.GreenChannel>>(opts);
@@ -810,7 +829,7 @@ export function GetInfoCategoryList(options: {
     reqName: "GetInfoCategoryList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -961,7 +980,7 @@ export function GetLeaveList(options: {
     reqName: "GetLeaveList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -1086,7 +1105,7 @@ export function GetMajorList(options: {
     reqName: "GetMajorList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -1211,7 +1230,7 @@ export function GetNewsList(options: {
     reqName: "GetNewsList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -1336,7 +1355,7 @@ export function GetPaymentList(options: {
     reqName: "GetPaymentList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
@@ -1452,12 +1471,14 @@ export function DeletePayment(options: {
  * @param pageSize number integer 页大小
  * @param collegeCode string string 学院代码(可选,role为college时无效)
  * @param majorCode string string 专业代码（可选，优先级高于学院代码，有collegeCode不起作用)
+ * @param year number integer 年份，默认当年
  */
 export function GetStudentList(options: {
   page?: number;
   pageSize?: number;
   collegeCode?: string;
   majorCode?: string;
+  year?: number;
 }): Promise<m.PageResponse<m.Student[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Student`,
@@ -1465,13 +1486,14 @@ export function GetStudentList(options: {
     reqName: "GetStudentList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
     collegeCode: options.collegeCode,
-    majorCode: options.majorCode
+    majorCode: options.majorCode,
+    year: options.year
   };
 
   return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
@@ -1519,6 +1541,45 @@ export function PostStudent(options: {
 
   opts.data = options.student;
   return apiSendAsync<m.DataResponse<m.Student>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Student[]&gt; extends m.RestfulData{
+      data?: m.Student[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取已上传照片的所有新生
+ * @param page number integer 当前页
+ * @param pageSize number integer 页大小
+ * @param status number integer 状态(可选，不传或者传null.全部，0.待审核，1审核通过，2审核不通过)
+ * @param year number integer 年份（可选，默认当年）
+ */
+export function GetStudentImgList(options: {
+  page?: number;
+  pageSize?: number;
+  status?: number;
+  year?: number;
+}): Promise<m.PageResponse<m.Student[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/img`,
+    method: "get",
+    reqName: "GetStudentImgList"
+  };
+
+  options.pageSize = options.pageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    status: options.status,
+    year: options.year
+  };
+
+  return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.Student&gt; extends m.RestfulData{
@@ -1626,8 +1687,8 @@ export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
   return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.StudentStation[]&gt; extends m.RestfulData{
-      data?: m.StudentStation[];
+    export interface m.PageResponse&lt;m.StudentStationView[]&gt; extends m.RestfulData{
+      data?: m.StudentStationView[];
       total: number;
       page: number;
       pageSize: number;
@@ -1635,34 +1696,40 @@ export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
 */
 
 /**
- *
+ * 获取新生到站统计列表
  * @param page number integer
  * @param pageSize number integer
- * @param station string string
- * @param isNeed number integer
+ * @param station string string 站点（选填，默认全部，桂林站，桂林北站，桂林西站，两江机场）
+ * @param isNeed number integer 是否需要接待（选填，默认全部，0.否1.是）
+ * @param time array array 抵达时间段（选填，[时间戳1，时间戳2]）1要小于2
+ * @param year number integer 年份（选填，默认当年）
  */
 export function GetStudentStationList(options: {
   page?: number;
   pageSize?: number;
   station?: string;
   isNeed?: number;
-}): Promise<m.PageResponse<m.StudentStation[]>> {
+  time?: number;
+  year?: number;
+}): Promise<m.PageResponse<m.StudentStationView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/StudentStation`,
     method: "get",
     reqName: "GetStudentStationList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
     station: options.station,
-    isNeed: options.isNeed
+    isNeed: options.isNeed,
+    time: options.time,
+    year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.StudentStation[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.StudentStationView[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -1693,7 +1760,7 @@ export function PutStudentStation(options: {
 */
 
 /**
- * 新增新生到站
+ * 新生填写到站（第一次post新增，第二次update）
  * @param studentStation m.StudentStation
  */
 export function PostStudentStation(options: {
@@ -1774,7 +1841,7 @@ export function GetUserList(options: {
     reqName: "GetUserList"
   };
 
-  options.pageSize = options.pageSize || defaultPageSize;
+  options.pageSize = options.pageSize;
 
   opts.params = {
     page: options.page,
