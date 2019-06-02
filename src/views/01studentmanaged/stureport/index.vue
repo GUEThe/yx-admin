@@ -49,23 +49,27 @@
         <br>
       </el-main>
     </el-container>
-    <el-dialog :visible="showUpoad" title="上传文件" @close="showUpoad=false">
-      <el-upload class="upload-demo" drag action="v1/api/Student/importUploadFile" :show-file-list="false">
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
+    <el-dialog width="30%" :visible="showUpoad" title="上传文件" @close="showUpoad=false">
+      <el-row type="flex" justify="center">
+        <el-upload class="upload-demo" :on-success="uploadSuccess" drag action="v1/api/Student/importUploadFile"
+          :headers="{Authorization: `Bearer ${token}`}" :show-file-list="false">
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        </el-upload>
+      </el-row>
     </el-dialog>
     <StudentDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getStuAsync()" />
   </div>
 </template>
 
 <script  lang="ts">
-import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import { Component,Vue,Watch,Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import StudentDialog from '../components/StudentDialog.vue';
 import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
+import { UserModule } from '@/store/modules/user'
 
 /** 学生报道管理 */
 @Component({
@@ -94,6 +98,9 @@ export default class StuReport extends Vue {
     year: 2019
   }
 
+  get token() {
+    return UserModule.token;
+  }
   mounted() {
     this.getStuAsync();
     this.listQuery.year = new Date().getFullYear();
@@ -107,26 +114,26 @@ export default class StuReport extends Vue {
   async getStuAsync(page: number = 1) {
     this.listLoading = true;
     this.listQuery.page = page;
-    console.log('qqq', this.listQuery);
-    const { data, total } = await api.GetStudentList(this.listQuery);
+    console.log('qqq',this.listQuery);
+    const { data,total } = await api.GetStudentList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
   }
 
-  onEditStudent(id: number = 0, type: number) {
+  onEditStudent(id: number = 0,type: number) {
     this.editId = id;
     this.editType = type;
     this.showDialog = true;
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该学生？', '提示', {
+    this.$confirm('确定删除该学生？','提示',{
       type: 'warning'
     }).then(async () => {
       const { data } = await api.DeleteStudent({ id })
-      console.log('del', data);
+      console.log('del',data);
       this.$message({
         type: 'success',
         message: '删除成功!'
@@ -135,6 +142,20 @@ export default class StuReport extends Vue {
     }).catch(() => {
       //
     });
+  }
+
+  uploadSuccess(resp: models.RestfulData) {
+    if (resp.code === 0) {
+      this.$message({
+        type: 'success',
+        message: resp.message
+      });
+    } else {
+      this.$message({
+        type: 'error',
+        message: resp.message
+      });
+    }
   }
 }
 </script>

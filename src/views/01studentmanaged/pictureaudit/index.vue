@@ -21,7 +21,7 @@
           <el-table-column label="身份证号" align="center" prop="idCardNo"></el-table-column>
           <el-table-column label="照片" align="center" prop="picture">
             <template slot-scope="scope">
-              <el-image :src="'/v1/'+scope.row.picture" style="widht:55px;height:55px;"></el-image>
+              <el-image :src="'/v1/'+scope.row.picture"></el-image>
             </template>
           </el-table-column>
           <el-table-column label="审核状态" align="center">
