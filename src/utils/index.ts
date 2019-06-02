@@ -61,12 +61,12 @@ export const param2Obj = (url: string) => {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -104,3 +104,12 @@ export const toggleClass = (ele: HTMLElement, className: string) => {
   }
   ele.className = classString
 }
+// Format and filter json data using filterKeys array
+export const formatJson = (filterKeys: any, jsonData: any) =>
+  jsonData.map((data: any) => filterKeys.map((key: string) => {
+    if (key === 'timestamp') {
+      return parseTime(data[key])
+    } else {
+      return data[key]
+    }
+  }))

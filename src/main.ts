@@ -14,6 +14,7 @@ import '@/icons/components'
 import '@/permission'
 import '@/utils/error-log' // Error log
 import '@/registerServiceWorker'
+import moment from 'moment'
 
 import { mockXHR } from '../mock'
 mockXHR()
@@ -27,6 +28,13 @@ Vue.use(SvgIcon, {
   tagName: 'svg-icon',
   defaultWidth: '1em',
   defaultHeight: '1em'
+})
+
+Vue.filter('TimeFilter', (value: any) => {
+  if (!value) {
+    return ''
+  }
+  return moment(value - 8 * 3600 * 1000).format('YYYY-MM-DD HH:mm')
 })
 
 Vue.config.productionTip = false
