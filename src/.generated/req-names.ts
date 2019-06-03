@@ -71,6 +71,7 @@ export const enum ReqNames {
   GetClothData = "GetClothData",
   GetShoseData = "GetShoseData",
   GetComeData = "GetComeData",
+  ConfirmStudents = "ConfirmStudents",
   GetStudentStationList = "GetStudentStationList",
   PutStudentStation = "PutStudentStation",
   PostStudentStation = "PostStudentStation",

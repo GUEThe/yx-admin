@@ -209,15 +209,6 @@ export const asyncRoutes: RouteConfig[] = [
           ),
         name: 'pictureaudit',
         meta: { title: 'studentmanaged-pictureaudit' }
-      },
-      {
-        path: 'station',
-        component: () =>
-          import(
-            /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/station/index.vue'
-          ),
-        name: 'station',
-        meta: { title: 'studentmanaged-station' }
       }
     ]
   },

@@ -148,12 +148,6 @@ export interface Bed {
  */
 export interface StudentBedView {
   /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
    *
    *
    * @serverType string
@@ -171,6 +165,66 @@ export interface StudentBedView {
    * @serverType integer
    */
   pickTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  campus: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  area: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  building: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  room: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cost: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  gender: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
   /**
    *  int32
    *
