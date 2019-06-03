@@ -17,7 +17,7 @@
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
-              {{ scope.$index }}
+              {{ scope.$index+1 }}
             </template>
           </el-table-column>
           <el-table-column label="学生名称" align="center">
