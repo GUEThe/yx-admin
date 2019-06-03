@@ -1,13 +1,17 @@
 <template>
-  <div style="padding:5px">
+  <div style="padding:5px" class="stureport-class">
     <el-container>
       <el-main>
         <h3>学生报道管理</h3>
-        <el-button-group>
+        <el-row type="flex">
+          <CollegeSelect :collegeId.sync="listQuery.collegeCode" />
+          <MajorSelect :majorId.sync="listQuery.majorCode" />
+          <el-input v-model="listQuery.studentId" placeholder="学号" style="width:200px;"></el-input>
+          <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditStudent(0)">新增学生</el-button>
           <el-button type="success" icon="el-icon-plus" size="mini" @click="showUpoad=true">导入录取新生</el-button>
-        </el-button-group>
-
+        </el-row>
+        <br>
         <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -60,11 +64,15 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import StudentDialog from '../components/StudentDialog.vue';
+import CollegeSelect from '@/components/CollegeSelect/index.vue';
+import MajorSelect from '@/components/MajorSelect/index.vue';
 
 /** 学生报道管理 */
 @Component({
   components: {
-    StudentDialog
+    StudentDialog,
+    CollegeSelect,
+    MajorSelect
   }
 })
 export default class StuReport extends Vue {
@@ -77,9 +85,18 @@ export default class StuReport extends Vue {
   showUpoad = false;
   page = 1;
   total = 0;
+  listQuery = {
+    page: 1,
+    pageSize: 20,
+    collegeCode: '',
+    majorCode: '',
+    studentId: '',
+    year: 2019
+  }
 
   mounted() {
     this.getStuAsync();
+    this.listQuery.year = new Date().getFullYear();
   }
 
   @Watch('page')
@@ -89,7 +106,9 @@ export default class StuReport extends Vue {
 
   async getStuAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetStudentList({ page, pageSize: 20 });
+    this.listQuery.page = page;
+    console.log('qqq', this.listQuery);
+    const { data, total } = await api.GetStudentList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -120,5 +139,8 @@ export default class StuReport extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
+.stureport-class .el-input {
+  width: 200px;
+}
 </style>
