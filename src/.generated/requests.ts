@@ -663,12 +663,14 @@ export function GetFile(options: {
  * 获取绿色通道列表
  * @param page number integer
  * @param pageSize number integer
- * @param studentId number integer
+ * @param status number integer
+ * @param studentId string string
  */
 export function GetGreenChannelList(options: {
   page?: number;
   pageSize?: number;
-  studentId?: number;
+  status?: number;
+  studentId?: string;
 }): Promise<m.PageResponse<m.GreenChannel[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/GreenChannel`,
@@ -681,6 +683,7 @@ export function GetGreenChannelList(options: {
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
+    status: options.status,
     studentId: options.studentId
   };
 
@@ -1457,6 +1460,24 @@ export function DeletePayment(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ */
+export function GetStuatus(): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Status`,
+    method: "get",
+    reqName: "GetStuatus"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
     export interface m.PageResponse&lt;m.Student[]&gt; extends m.RestfulData{
       data?: m.Student[];
       total: number;
@@ -1709,6 +1730,57 @@ export function ConfirmStudents(options: {
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Student[]&gt; extends m.RestfulData{
+      data?: m.Student[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取学生服装列表(role为admin获取全部，college获取本学院)
+ * @param page number integer 当前页
+ * @param pageSize number integer 页大小
+ * @param type string string 类型（clothesSize:衣服，shoesSize鞋子）
+ * @param value string string 值
+ * @param collegeCode string string 学院代码(可选,role为college时无效)
+ * @param majorCode string string 专业代码（可选，优先级高于学院代码，有collegeCode不起作用)
+ * @param studentId string string 学号
+ * @param year number integer 年份，默认当年
+ */
+export function GetStudentColList(options: {
+  page?: number;
+  pageSize?: number;
+  type?: string;
+  value?: string;
+  collegeCode?: string;
+  majorCode?: string;
+  studentId?: string;
+  year?: number;
+}): Promise<m.PageResponse<m.Student[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/colth`,
+    method: "get",
+    reqName: "GetStudentColList"
+  };
+
+  options.pageSize = options.pageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    type: options.type,
+    value: options.value,
+    collegeCode: options.collegeCode,
+    majorCode: options.majorCode,
+    studentId: options.studentId,
+    year: options.year
+  };
+
+  return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.StudentStationView[]&gt; extends m.RestfulData{

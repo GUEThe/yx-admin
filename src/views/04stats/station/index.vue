@@ -2,11 +2,10 @@
   <div style="padding:5px">
     <el-container>
       <el-main>
-        <h3>新生到站统计</h3>
-        <el-select v-model="listQuery.station" placeholder="站点" clearable @change="getGetStudentStation()">
-          <el-option :value="undefined" label="全部"></el-option>
-          <el-option value="桂林站"></el-option>
-          <el-option value="桂林北站"></el-option>
+        <h3>服装统计</h3>
+        <el-select v-model="listQuery.type" placeholder="统计类别" clearable @change="getGetStudentStation()">
+<el-option label="衣服统计" value="clothesSize"></el-option>
+          <el-option label="鞋子统计" value="shoesSize"></el-option>
           <el-option value="桂林西站"></el-option>
           <el-option value="两江机场"></el-option>
         </el-select>
@@ -79,7 +78,7 @@ import Moment from 'moment';
 @Component({})
 export default class AuditPicture extends Vue {
   listLoading: boolean = false;
-  listData: models.StudentStationView[] = [];
+  listData: models.Student[] = [];
   search = '';
   page = 1;
   total = 0;
@@ -88,7 +87,7 @@ export default class AuditPicture extends Vue {
   listQuery = {
     page: 1,
     pageSize: 20,
-    station: undefined,
+    type: 'clothesSize',
     isNeed: undefined,
     time1: undefined,
     time2: undefined,
@@ -108,7 +107,7 @@ export default class AuditPicture extends Vue {
   async getGetStudentStation(page: number = 1) {
     this.listLoading = true;
     console.log(this.listQuery);
-    const { data, total } = await api.GetStudentStationList(this.listQuery);
+    const { data, total } = await api.GetStudentColList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;

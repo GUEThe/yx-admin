@@ -25,12 +25,12 @@
               <el-button type="text" @click="onEditStudent(scope.row.studentId,3)">{{ scope.row.name }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="学院代码" align="center">
+          <el-table-column label="学院" align="center">
             <template slot-scope="scope">
               {{ scope.row.collegeCode|collegeFilter }}
             </template>
           </el-table-column>
-          <el-table-column label="专业代码" align="center">
+          <el-table-column label="专业" align="center">
             <template slot-scope="scope">
               {{ scope.row.majorCode|majorFilter }}
             </template>
@@ -40,7 +40,7 @@
           <el-table-column label="报道时间" align="center" prop="time"></el-table-column>
           <el-table-column align="center" width="400">
             <template slot="header">
-              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+              操作
             </template>
             <template slot-scope="scope">
               <el-button-group>

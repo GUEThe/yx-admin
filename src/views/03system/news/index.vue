@@ -23,7 +23,7 @@
           <el-table-column label="年份" align="center" prop="year"></el-table-column>
           <el-table-column align="center" width="400">
             <template slot="header">
-              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+              操作
             </template>
             <template slot-scope="scope">
               <el-button-group>

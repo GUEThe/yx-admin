@@ -6,7 +6,6 @@
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditCampus(0)">新增校区</el-button>
         <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
-          <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
               {{ scope.$index }}
@@ -16,7 +15,7 @@
           <el-table-column label="校区地址" align="center" prop="address"></el-table-column>
           <el-table-column label="操作" align="center">
             <template slot="header">
-              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+              操作
             </template>
             <template slot-scope="scope">
               <el-button-group>

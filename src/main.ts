@@ -31,13 +31,19 @@ Vue.use(SvgIcon, {
   defaultHeight: '1em'
 })
 
+Vue.filter('StudentTimeFilter', (value: any) => {
+  if (!value) {
+    return ''
+  }
+  return moment(value).format('YYYY-MM-DD HH:mm')
+})
+
 Vue.filter('TimeFilter', (value: any) => {
   if (!value) {
     return ''
   }
   return moment(value - 8 * 3600 * 1000).format('YYYY-MM-DD HH:mm')
 })
-
 Vue.config.productionTip = false
 
 new Vue({

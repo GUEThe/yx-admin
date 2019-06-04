@@ -21,13 +21,13 @@
             </template>
           </el-table-column>
           <el-table-column label="是否是默认值" align="center" prop="default">
-             <template slot-scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.default?'是':'否' }}
             </template>
           </el-table-column>
           <el-table-column align="center" width="400">
             <template slot="header">
-              <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+              操作
             </template>
             <template slot-scope="scope">
               <el-button-group>

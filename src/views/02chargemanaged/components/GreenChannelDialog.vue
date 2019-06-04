@@ -56,20 +56,20 @@
               <el-input v-model="formData.description" type="textarea" :rows="3"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <!-- <el-col :span="10">
             <el-form-item label="补充文件">
               <el-link v-if="formData.fileId" :href="'/v1/api/File/'+formData.fileId">点击下载</el-link>
               <span v-if="!formData.fileId">暂无文件</span>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
-        <el-row :gutter="24">
+        <!-- <el-row :gutter="24">
           <el-col :span="10">
             <el-form-item label="状态">
               {{ formData.status | stateFilter }}
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-col :span="20">
           <el-form-item label="审核意见">
             <el-input v-model="formData.opinion" type="textarea" :rows="3"></el-input>

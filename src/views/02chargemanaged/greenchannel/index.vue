@@ -3,6 +3,13 @@
     <el-container>
       <el-main>
         <h3>绿色通道管理</h3>
+        <el-select v-model="listQuery.status" placeholder="审核状态" clearable @change="getStudentAsync()">
+          <el-option :value="1" label="待审核"></el-option>
+          <el-option :value="2" label="审核通过"></el-option>
+          <el-option :value="3" label="审核不通过"></el-option>
+        </el-select>
+        <el-input v-model="listQuery.studentId" placeholder="学号" style="width:200px;"></el-input>
+        <el-button type="info" icon="el-icon-search" @click="changeQuery()">搜索</el-button>
         <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -71,6 +78,12 @@ export default class GreenChannel extends Vue {
   showDialog = false;
   page = 1;
   total = 0;
+  listQuery = {
+    page: 1,
+    pageSzie: 20,
+    status: undefined,
+    studentId: undefined
+  }
 
   mounted() {
     this.getGreenChannelAsync();
@@ -78,12 +91,13 @@ export default class GreenChannel extends Vue {
 
   @Watch('page')
   async onPageChangeASync(val: number) {
-    this.getGreenChannelAsync(val);
+    this.listQuery.page = val;
+    this.getGreenChannelAsync();
   }
 
-  async getGreenChannelAsync(page: number = 1) {
+  async getGreenChannelAsync() {
     this.listLoading = true;
-    const { data, total } = await api.GetGreenChannelList({ page, pageSize: 20 });
+    const { data, total } = await api.GetGreenChannelList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -93,6 +107,11 @@ export default class GreenChannel extends Vue {
   onEditGreenChannel(id: number = 0) {
     this.editId = id;
     this.showDialog = true;
+  }
+
+  changeQuery() {
+    this.listQuery.page = 1;
+    this.getGreenChannelAsync()
   }
 
   async onDeleteAsync(id: number) {
