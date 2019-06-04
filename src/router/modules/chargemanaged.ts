@@ -6,7 +6,11 @@ const chargemanagedRoutes: RouteConfig = {
   component: Layout,
   redirect: '/chargemanaged/payment',
   name: 'Chargemanaged',
-  meta: { title: 'chargemanaged', icon: 'money' },
+  meta: {
+    title: 'chargemanaged',
+    icon: 'money',
+    roles: ['admin', 'financial']
+  },
   children: [
     {
       path: 'payment',

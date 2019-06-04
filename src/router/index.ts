@@ -190,7 +190,11 @@ export const asyncRoutes: RouteConfig[] = [
   {
     path: '/stureport',
     component: Layout,
-    meta: { alwaysShow: true, title: 'studentManage', icon: 'people' },
+    meta: {
+      alwaysShow: true,
+      title: 'studentManage',
+      icon: 'people'
+    },
     children: [
       {
         path: '',
@@ -199,7 +203,7 @@ export const asyncRoutes: RouteConfig[] = [
             /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/stureport/index.vue'
           ),
         name: 'Stureport',
-        meta: { title: 'studentmanaged-stureport' }
+        meta: { title: 'studentmanaged-stureport', roles: ['admin', 'college'] }
       },
       {
         path: 'pictureaudit',
@@ -208,20 +212,19 @@ export const asyncRoutes: RouteConfig[] = [
             /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/pictureaudit/index.vue'
           ),
         name: 'pictureaudit',
-        meta: { title: 'studentmanaged-pictureaudit' }
+        meta: { title: 'studentmanaged-pictureaudit', roles: ['admin'] }
       }
     ]
   },
   {
     path: '/leave',
     component: Layout,
+    meta: { roles: ['admin', 'funder'] },
     children: [
       {
         path: '',
         component: () =>
-          import(
-            /* webpackChunkName: "leave" */ '@/views/05leave/index.vue'
-          ),
+          import(/* webpackChunkName: "leave" */ '@/views/05leave/index.vue'),
         name: 'Leave',
         meta: { title: 'leave', icon: 'shopping' }
       }
@@ -230,6 +233,7 @@ export const asyncRoutes: RouteConfig[] = [
   {
     path: '/greenchannel',
     component: Layout,
+    meta: { roles: ['admin', 'funder'] },
     children: [
       {
         path: '',
@@ -464,7 +468,7 @@ const router = createRouter()
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
-    ; (router as any).matcher = (newRouter as any).matcher // reset router
+  ;(router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router

@@ -15,6 +15,7 @@ import '@/permission'
 import '@/utils/error-log' // Error log
 import '@/registerServiceWorker'
 import moment from 'moment'
+import '@/filters/gobal.ts'
 
 import { mockXHR } from '../mock'
 mockXHR()
@@ -43,5 +44,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount('#app')

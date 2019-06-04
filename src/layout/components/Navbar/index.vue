@@ -81,7 +81,7 @@ export default class Navbar extends Vue {
 
   private logout() {
     UserModule.LogOut().then(() => {
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
     })
   }
 }

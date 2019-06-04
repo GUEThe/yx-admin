@@ -6,7 +6,7 @@ const systemRoutes: RouteConfig = {
   component: Layout,
   redirect: '/system/user',
   name: 'System',
-  meta: { title: 'systemmanaged', icon: 'table' },
+  meta: { title: 'systemmanaged', icon: 'table', roles: ['admin'] },
   children: [
     {
       path: 'user',

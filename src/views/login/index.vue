@@ -69,6 +69,7 @@ import { isValidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect/index.vue'
 import SocialSign from './socialSignin.vue'
 import { SigninForm } from '@/api/models'
+import { GetCollegeList, GetMajorList, GetCampusList } from '@/api'
 
 const validateUsername = (rule: any, value: string, callback: any) => {
   if (!isValidUsername(value)) {
@@ -99,9 +100,9 @@ export default class Login extends Vue {
   };
   private loginRules = {
     username: [
-      { required: true, trigger: 'blur', validator: validateUsername }
+      { required: true, trigger: 'blur', message: '请输入用户名' }
     ],
-    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+    password: [{ required: true, trigger: 'blur', message: '请输入密码' }]
   };
   private passwordType = 'password';
   private loading = false;
@@ -121,6 +122,15 @@ export default class Login extends Vue {
     } else if (this.loginForm.password === '') {
       (this.$refs.password as Input).focus()
     }
+    GetCollegeList({ page: 1, pageSize: 100 }).then(resp => {
+      localStorage.setItem('college', JSON.stringify(resp.data!));
+    });
+    GetMajorList({ page: 1, pageSize: 100 }).then(resp => {
+      localStorage.setItem('major', JSON.stringify(resp.data!));
+    });
+    GetCampusList({ page: 1, pageSize: 100 }).then(resp => {
+      localStorage.setItem('campus', JSON.stringify(resp.data!));
+    });
   }
 
   private showPwd() {

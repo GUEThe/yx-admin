@@ -4,7 +4,7 @@
       <el-main>
         <h3>学生报道管理</h3>
         <el-row type="flex">
-          <CollegeSelect :collegeId.sync="listQuery.collegeCode" />
+          <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.collegeCode" />
           <MajorSelect :majorId.sync="listQuery.majorCode" />
           <el-input v-model="listQuery.studentId" placeholder="学号" style="width:200px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
@@ -25,8 +25,17 @@
               <el-button type="text" @click="onEditStudent(scope.row.studentId,3)">{{ scope.row.name }}</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="学院代码" align="center" prop="collegeCode"></el-table-column>
-          <el-table-column label="专业代码" align="center" prop="majorCode"></el-table-column>
+          <el-table-column label="学院代码" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.collegeCode|collegeFilter }}
+            </template>
+          </el-table-column>
+          <el-table-column label="专业代码" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.majorCode|majorFilter }}
+            </template>
+          </el-table-column>
+          <el-table-column label="学号" align="center" prop="studentId"></el-table-column>
           <el-table-column label="是否来报道" align="center" prop="isCome"></el-table-column>
           <el-table-column label="报道时间" align="center" prop="time"></el-table-column>
           <el-table-column align="center" width="400">
@@ -43,7 +52,7 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
             align="center" />
         </div>
         <br>
@@ -63,13 +72,14 @@
 </template>
 
 <script  lang="ts">
-import { Component,Vue,Watch,Prop } from 'vue-property-decorator';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import StudentDialog from '../components/StudentDialog.vue';
 import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
 import { UserModule } from '@/store/modules/user'
+import { permission } from '@/directives/permission'
 
 /** 学生报道管理 */
 @Component({
@@ -77,6 +87,9 @@ import { UserModule } from '@/store/modules/user'
     StudentDialog,
     CollegeSelect,
     MajorSelect
+  },
+  directives: {
+    permission
   }
 })
 export default class StuReport extends Vue {
@@ -114,26 +127,26 @@ export default class StuReport extends Vue {
   async getStuAsync(page: number = 1) {
     this.listLoading = true;
     this.listQuery.page = page;
-    console.log('qqq',this.listQuery);
-    const { data,total } = await api.GetStudentList(this.listQuery);
+
+    const { data, total } = await api.GetStudentList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
   }
 
-  onEditStudent(id: number = 0,type: number) {
+  onEditStudent(id: number = 0, type: number) {
     this.editId = id;
     this.editType = type;
     this.showDialog = true;
   }
 
   async onDeleteAsync(id: number) {
-    this.$confirm('确定删除该学生？','提示',{
+    this.$confirm('确定删除该学生？', '提示', {
       type: 'warning'
     }).then(async () => {
       const { data } = await api.DeleteStudent({ id })
-      console.log('del',data);
+      console.log('del', data);
       this.$message({
         type: 'success',
         message: '删除成功!'

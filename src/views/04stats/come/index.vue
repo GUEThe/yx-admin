@@ -26,7 +26,7 @@
         <el-button type="primary" icon="el-icon-download">导出到excel</el-button>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
             align="center" />
         </div>
         <br>

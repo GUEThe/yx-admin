@@ -130,14 +130,14 @@
             <el-input v-model="formData.parentPhone" :readonly="!editdisable"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <el-form-item label="是否来校报道">
             <el-radio-group v-model="formData.isCome">
               <el-radio :label="1">是</el-radio>
               <el-radio :label="0">否</el-radio>
             </el-radio-group>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="8">
           <el-form-item label="报道时间">
             <el-date-picker v-model="time" type="datetime" placeholder="选择日期时间" @change="timechange">

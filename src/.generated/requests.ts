@@ -1471,7 +1471,7 @@ export function DeletePayment(options: {
  * @param pageSize number integer 页大小
  * @param collegeCode string string 学院代码(可选,role为college时无效)
  * @param majorCode string string 专业代码（可选，优先级高于学院代码，有collegeCode不起作用)
- * @param studendId string string 学号
+ * @param studentId string string 学号
  * @param year number integer 年份，默认当年
  */
 export function GetStudentList(options: {
@@ -1479,7 +1479,7 @@ export function GetStudentList(options: {
   pageSize?: number;
   collegeCode?: string;
   majorCode?: string;
-  studendId?: string;
+  studentId?: string;
   year?: number;
 }): Promise<m.PageResponse<m.Student[]>> {
   const opts: ApiRequestOptions = {
@@ -1495,7 +1495,7 @@ export function GetStudentList(options: {
     pageSize: options.pageSize,
     collegeCode: options.collegeCode,
     majorCode: options.majorCode,
-    studendId: options.studendId,
+    studentId: options.studentId,
     year: options.year
   };
 

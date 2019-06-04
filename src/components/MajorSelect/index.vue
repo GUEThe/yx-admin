@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select v-model="selectItem" placeholder="请选择" clearable @change="handleSelectChange">
+    <el-select v-model="selectItem" placeholder="请专业选择" clearable @change="handleSelectChange">
       <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.code">
       </el-option>
     </el-select>
@@ -18,7 +18,7 @@ export default class MajorSelect extends Vue {
   @Prop() majorId!: number;
 
   majorList: models.Major[] = [];
-  selectItem = '003001';
+  selectItem = '';
   mounted() {
     this.getMajorAsync();
   }

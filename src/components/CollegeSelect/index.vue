@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select v-model="selectItem" placeholder="请选择院校" clearable @change="handleSelectChange">
+    <el-select v-model="selectItem" placeholder="请选择学院" clearable @change="handleSelectChange">
       <el-option v-for="item in collegeList" :key="item.id" :label="item.name" :value="item.code">
       </el-option>
     </el-select>
@@ -18,7 +18,7 @@ export default class CollegeSelect extends Vue {
   @Prop() collegeId!: number;
 
   collegeList: models.College[] = [];
-  selectItem = '003';
+  selectItem = '';
   mounted() {
     this.getCollegeAsync();
   }
