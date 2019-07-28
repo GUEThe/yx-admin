@@ -420,18 +420,12 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/i18n',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "i18n" */ '@/views/international/index.vue'),
-  //       name: 'I18n',
-  //       meta: { title: 'i18n', icon: 'international' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/chart',
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/06chart/index.vue'),
+    meta: { hidden: true }
+  },
   // {
   //   path: 'external-link',
   //   component: Layout,
