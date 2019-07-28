@@ -49,8 +49,10 @@ export default class BarChart extends mixins(ResizeMixin) {
     '云南': [102.9199, 25.4663],
     '广东': [113.12244, 23.009505],
     '广西': [108.479, 23.1152],
+
     '海南': [110.3893, 19.8516],
-    '上海': [121.4648, 31.2891]
+    '上海': [121.4648, 31.2891],
+    '桂林': [110.479, 25.1152]
   }
 
   chinaDatas = [
@@ -77,13 +79,13 @@ export default class BarChart extends mixins(ResizeMixin) {
       value: 0
     }], [{
       name: '陕西',
-      value: 0
+      value: 1
     }], [{
       name: '甘肃',
-      value: 0
+      value: 2
     }], [{
       name: '宁夏',
-      value: 0
+      value: 3
     }], [{
       name: '青海',
       value: 0
@@ -113,7 +115,7 @@ export default class BarChart extends mixins(ResizeMixin) {
       value: 0
     }], [{
       name: '湖北',
-      value: 0
+      value: 22
     }], [{
       name: '浙江',
       value: 0
@@ -125,19 +127,27 @@ export default class BarChart extends mixins(ResizeMixin) {
       value: 0
     }], [{
       name: '湖南',
-      value: 0
+      value: 168
     }], [{
       name: '贵州',
-      value: 0
+      value: 32
+    }], [{
+      name: '云南',
+      value: 21
+    }],
+     [{
+      name: '广东',
+      value: 600
     }], [{
       name: '广西',
-      value: 0
-    }], [{
+      value: 1400
+    }],
+     [{
       name: '海南',
-      value: 0
+      value: 350
     }], [{
       name: '上海',
-      value: 1
+      value: 0
     }]
   ];
 
@@ -146,7 +156,7 @@ export default class BarChart extends mixins(ResizeMixin) {
     for (var i = 0; i < data.length; i++) {
       var dataItem = data[i];
       var fromCoord = this.chinaGeoCoordMap[dataItem[0].name];
-      var toCoord = [116.4551, 40.2539];
+      var toCoord = [110.479, 25.1152];
       if (fromCoord && toCoord) {
         res.push([{
           coord: fromCoord,
@@ -163,7 +173,7 @@ export default class BarChart extends mixins(ResizeMixin) {
 
   setData() {
     [
-      ['北京市', this.chinaDatas]
+      ['桂林', this.chinaDatas]
     ].forEach((item, i) => {
       console.log(item)
       this.series.push({
@@ -171,14 +181,14 @@ export default class BarChart extends mixins(ResizeMixin) {
         zlevel: 2,
         effect: {
           show: true,
-          period: 4, // 箭头指向速度，值越小速度越快
+          period: 10, // 箭头指向速度，值越小速度越快
           trailLength: 0.02, // 特效尾迹长度[0,1]值越大，尾迹越长重
           symbol: 'arrow', // 箭头图标
           symbolSize: 5 // 图标大小
         },
         lineStyle: {
           normal: {
-            width: 1, // 尾迹线条宽度
+            width: 0.5, // 尾迹线条宽度
             opacity: 1, // 尾迹线条透明度
             curveness: 0.3 // 尾迹线条曲直度
           }
@@ -189,7 +199,7 @@ export default class BarChart extends mixins(ResizeMixin) {
           coordinateSystem: 'geo',
           zlevel: 2,
           rippleEffect: { // 涟漪特效
-            period: 4, // 动画时间，值越小速度越快
+            period: 6, // 动画时间，值越小速度越快
             brushType: 'stroke', // 波纹绘制方式 stroke, fill
             scale: 4 // 波纹圆环最大限制，值越大波纹越大
           },
@@ -209,7 +219,16 @@ export default class BarChart extends mixins(ResizeMixin) {
           },
           symbol: 'circle',
           symbolSize: function (val) {
-            return 5 + val[2] * 5; // 圆环大小
+            // return val[2] * 0.1; // 圆环大小
+
+            if (val[2] > 1000) { return 15; }
+            if (val[2] > 500) { return 10; }
+            if (val[2] > 200) { return 9; }
+            if (val[2] > 100) {
+              return 7;
+            } else {
+              return 6;
+            }
           },
           itemStyle: {
             normal: {
@@ -238,15 +257,15 @@ export default class BarChart extends mixins(ResizeMixin) {
             normal: {
               show: true,
               position: 'right',
-              // offset:[5, 0],
+              offset: [-5, 0],
               color: '#0f0',
               formatter: '{b}',
               textStyle: {
-                color: '#0f0'
+                color: '#f00'
               }
             },
             emphasis: {
-              show: true,
+              show: false,
               color: '#f60'
             }
           },
@@ -276,7 +295,7 @@ export default class BarChart extends mixins(ResizeMixin) {
         var res = '';
         var name = params.name;
         var value = params.value[params.seriesIndex + 1];
-        res = "<span style='color:#fff;'>" + name + '</span><br/>数据：' + value;
+        res = "<span style='color:#fff;'>" + name + '</span><br/>人数：' + value;
         return res;
       }
     },
@@ -293,7 +312,7 @@ export default class BarChart extends mixins(ResizeMixin) {
     },
     geo: {
       map: 'china',
-      zoom: 1.2,
+      zoom: 2,
       label: {
         emphasis: {
           show: false

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="header">
-      <h1 class="header-title">大屏数据可视化模板</h1>
+      <h1 class="header-title">桂电迎新大数据展示</h1>
     </div>
     <div class="wrapper">
       <div class="content">
-        <div class="col col-l">
+        <!-- <div class="col col-l">
           <div class="xpanel-wrapper xpanel-wrapper-40">
             <div class="xpanel xpanel-l-t">
               <div class="title"></div>
@@ -16,20 +16,20 @@
               <div class="title"></div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col col-c">
           <div class="xpanel-wrapper xpanel-wrapper-75">
             <div class="xpanel no-bg">
-              <map-chart />
+              <map-chart height="1000px" />
             </div>
           </div>
-          <div class="xpanel-wrapper xpanel-wrapper-25">
+          <!-- <div class="xpanel-wrapper xpanel-wrapper-25">
             <div class="xpanel xpanel-c-b">
               <div class="title title-long"></div>
             </div>
-          </div>
+          </div> -->
         </div>
-        <div class="col col-r">
+        <!-- <div class="col col-r">
           <div class="xpanel-wrapper xpanel-wrapper-25">
             <div class="xpanel xpanel-r-t">
               <div class="title"></div>
@@ -45,7 +45,7 @@
               <div class="title"></div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
