@@ -9,11 +9,11 @@
     </el-row> -->
 
     <el-row :gutter="32">
-      <!-- <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <raddar-chart />
+          <map-chart />
         </div>
-      </el-col> -->
+      </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
           <pie-chart />
@@ -58,6 +58,7 @@
         <box-card />
       </el-col>
     </el-row> -->
+    <map-chart />
   </div>
 </template>
 
@@ -67,6 +68,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { UserModule } from '@/store/modules/user'
 import GithubCorner from '@/components/GithubCorner/index.vue'
 import BarChart from './components/BarChart.vue'
+import MapChart from './components/MapChart.vue'
 import BoxCard from './components/BoxCard.vue'
 import LineChart from './components/LineChart.vue'
 import PanelGroup from './components/PanelGroup.vue'
@@ -98,6 +100,7 @@ const lineChartData: { [type: string]: { expectedData: number[], actualData: num
   components: {
     GithubCorner,
     BarChart,
+    MapChart,
     BoxCard,
     LineChart,
     PanelGroup,

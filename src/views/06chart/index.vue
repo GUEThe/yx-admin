@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <div class="header">
       <h1 class="header-title">大屏数据可视化模板</h1>
     </div>
@@ -20,6 +20,7 @@
         <div class="col col-c">
           <div class="xpanel-wrapper xpanel-wrapper-75">
             <div class="xpanel no-bg">
+              <map-chart />
             </div>
           </div>
           <div class="xpanel-wrapper xpanel-wrapper-25">
@@ -47,14 +48,19 @@
         </div>
       </div>
     </div>
-  </fragment>
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { Component, Vue } from 'vue-property-decorator'
+import MapChart from './components/MapChart.vue'
 
+@Component({
+  components: {
+    MapChart
+  }
 })
+export default class Chart extends Vue { }
 </script>
 <style lang="css">
 /********** Global **********/
