@@ -58,7 +58,7 @@
         <box-card />
       </el-col>
     </el-row> -->
-    <map-chart />
+    <!-- <map-chart /> -->
   </div>
 </template>
 

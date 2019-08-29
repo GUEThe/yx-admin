@@ -69,7 +69,7 @@ export default {
     'studentmanaged-stureport': '新生管理',
     'studentmanaged-pictureaudit': '新生照片审核',
     'studentmanaged-station': '新生到站统计',
-    studentManage: '录取新生管理',
+    studentManage: '新生管理',
     chargemanaged: '收费管理',
     'chargemanaged-payment': '缴费管理',
     'chargemanaged-fee': '费用项管理',
@@ -78,11 +78,14 @@ export default {
     'systemmanaged-user': '用户管理',
     'systemmanaged-infoCategory': '信息类别管理',
     'systemmanaged-news': '新闻管理',
+    students: '学生列表',
+    courses: '课程列表',
+    score: '成绩',
     stats: '信息统计',
     'stats-come': '学生报道统计',
     'stats-cloth': '学生衣服统计',
     'stats-shoe': '学生鞋子统计',
-    'leave': '请假审核'
+    leave: '请假审核'
   },
   navbar: {
     logOut: '退出登录',

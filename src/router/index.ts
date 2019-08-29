@@ -213,40 +213,80 @@ export const asyncRoutes: RouteConfig[] = [
           ),
         name: 'pictureaudit',
         meta: { title: 'studentmanaged-pictureaudit', roles: ['admin'] }
-      }
-    ]
-  },
-  {
-    path: '/leave',
-    component: Layout,
-    meta: { roles: ['admin', 'funder'] },
-    children: [
+      },
+
       {
-        path: '',
-        component: () =>
-          import(/* webpackChunkName: "leave" */ '@/views/05leave/index.vue'),
-        name: 'Leave',
-        meta: { title: 'leave', icon: 'shopping' }
-      }
-    ]
-  },
-  {
-    path: '/greenchannel',
-    component: Layout,
-    meta: { roles: ['admin', 'funder'] },
-    children: [
+        path: '/leave',
+        component: Layout,
+        meta: { roles: ['admin', 'funder'] },
+        children: [
+          {
+            path: '',
+            component: () =>
+              import(
+                /* webpackChunkName: "leave" */ '@/views/05leave/index.vue'
+              ),
+            name: 'Leave',
+            meta: { title: 'leave' }
+          }
+        ]
+      },
       {
-        path: '',
+        path: '/greenchannel',
+        component: Layout,
+        meta: { roles: ['admin', 'funder'] },
+        children: [
+          {
+            path: '',
+            component: () =>
+              import(
+                /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
+              ),
+            name: 'Greenchannel',
+            meta: { title: 'studentmanaged-greenchannel' }
+          }
+        ]
+      },
+      {
+        path: 'come',
         component: () =>
           import(
-            /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
+            /* webpackChunkName: "come" */ '@/views/04stats/come/index.vue'
           ),
-        name: 'Greenchannel',
-        meta: { title: 'studentmanaged-greenchannel', icon: 'shopping' }
-      }
+        name: 'Come',
+        meta: { title: 'stats-come' }
+      },
+      {
+        path: 'cloth',
+        component: () =>
+          import(
+            /* webpackChunkName: "cloth" */ '@/views/04stats/cloth/index.vue'
+          ),
+        name: 'Cloth',
+        meta: { title: 'stats-cloth' }
+      },
+      {
+        path: 'shoe',
+        component: () =>
+          import(
+            /* webpackChunkName: "shoe" */ '@/views/04stats/shoe/index.vue'
+          ),
+        name: 'Shoe',
+        meta: { title: 'stats-shoe' }
+      },
+      {
+        path: 'station',
+        component: () =>
+          import(
+            /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/station/index.vue'
+          ),
+        name: 'station',
+        meta: { title: 'studentmanaged-station' }
+      },
+      chargemanagedRoutes
     ]
   },
-  chargemanagedRoutes,
+
   studentmanagedRoutes,
   systemRoutes,
   // {

@@ -34,6 +34,33 @@ const studentmanagedRoutes: RouteConfig = {
         ),
       name: 'Major',
       meta: { title: 'studentmanaged-major' }
+    },
+    {
+      path: 'student',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/index.vue'
+        ),
+      name: 'Student',
+      meta: { title: 'students' }
+    },
+    {
+      path: 'course',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/major/index.vue'
+        ),
+      name: 'Course',
+      meta: { title: 'courses' }
+    },
+    {
+      path: 'score',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/major/index.vue'
+        ),
+      name: 'Score',
+      meta: { title: 'score' }
     }
   ]
 }
