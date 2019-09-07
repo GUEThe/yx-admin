@@ -48,7 +48,7 @@ const studentmanagedRoutes: RouteConfig = {
       path: 'course',
       component: () =>
         import(
-          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/major/index.vue'
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/course/index.vue'
         ),
       name: 'Course',
       meta: { title: 'courses' }
@@ -57,7 +57,7 @@ const studentmanagedRoutes: RouteConfig = {
       path: 'score',
       component: () =>
         import(
-          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/major/index.vue'
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/score/index.vue'
         ),
       name: 'Score',
       meta: { title: 'score' }

@@ -194,6 +194,12 @@ export interface College {
    * @serverType integer
    */
   campus: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
 }
 /*
  * @namespace models
@@ -318,6 +324,88 @@ export interface Fee {
    * @serverType integer
    */
   amount: number;
+}
+/*
+ * @namespace models
+ */
+export interface FailStatisc {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  failCourseCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  failCredit: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  failCourse: FailCourse[];
+}
+/*
+ * @namespace models
+ */
+export interface FailCourse {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
 }
 /*
  * @namespace models
@@ -578,6 +666,12 @@ export interface Major {
    * @serverType string
    */
   degree: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
 }
 /*
  * @namespace models
@@ -795,130 +889,6 @@ export interface StudentAchievement {
 /*
  * @namespace models
  */
-export interface AchievementStatistics {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  grade: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  class: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  stid: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  term: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  termname: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  ttype: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  amount: number;
-  /**
-   *  double
-   *
-   * @serverType number
-   */
-  credithourTotal: number;
-  /**
-   *  double
-   *
-   * @serverType number
-   */
-  averageScore: number;
-}
-/*
- * @namespace models
- */
-export interface AchievementFailStatistics {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  grade: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  class: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  stid: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  term: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  termname: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  failPassTotal: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  noFailTotal: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  failNoPassTotal: number;
-}
-/*
- * @namespace models
- */
 export interface AchievementFailList {
   /**
    *  int32
@@ -1086,6 +1056,70 @@ export interface StudentScore {
    * @serverType string
    */
   name: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+}
+/*
+ * @namespace models
+ */
+export interface ScoreFail {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  spno: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  failCount: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  stuFail: FailList[];
+}
+/*
+ * @namespace models
+ */
+export interface FailList {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  ttype: string;
   /**
    *  double
    *

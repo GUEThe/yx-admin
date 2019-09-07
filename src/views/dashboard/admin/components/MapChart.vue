@@ -198,7 +198,7 @@ export default class BarChart extends mixins(ResizeMixin) {
               show: true,
               position: 'right', // 显示位置
               offset: [5, 0], // 偏移设置
-              formatter: function (params) { // 圆环显示文字
+              formatter: function (params: any) { // 圆环显示文字
                 return params.data.name;
               },
               fontSize: 13
@@ -208,7 +208,7 @@ export default class BarChart extends mixins(ResizeMixin) {
             }
           },
           symbol: 'circle',
-          symbolSize: function (val) {
+          symbolSize: function (val: any) {
             return 5 + val[2] * 5; // 圆环大小
           },
           itemStyle: {
@@ -216,13 +216,13 @@ export default class BarChart extends mixins(ResizeMixin) {
               show: false,
               color: '#f00'
             }
-          },
-          data: item[1].map((dataItem: any) => {
-            return {
-              name: dataItem[0].name,
-              value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
-            };
-          })
+          }
+          // data: item[1].map((dataItem: any) => {
+          //   return {
+          //     name: dataItem[0].name,
+          //     value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+          //   };
+          // })
         },
         // 被攻击点
         {
@@ -251,11 +251,11 @@ export default class BarChart extends mixins(ResizeMixin) {
             }
           },
           symbol: 'pin',
-          symbolSize: 50,
-          data: [{
-            name: item[0],
-            value: this.chinaGeoCoordMap[item[0]].concat([10])
-          }]
+          symbolSize: 50
+          // data: [{
+          //   name: item[0],
+          //   value: this.chinaGeoCoordMap[item[0]].concat([10])
+          // }]
         }
       );
     });

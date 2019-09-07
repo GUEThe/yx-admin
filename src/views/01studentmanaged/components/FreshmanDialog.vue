@@ -148,7 +148,9 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button-group>
-        <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
+        <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">
+取消
+        </el-button>
         <el-button v-if="editdisable" type="primary" icon="el-icon-check" @click="onSubmitAsync()">提交</el-button>
       </el-button-group>
     </div>
@@ -207,8 +209,8 @@ export default class StudentDialog extends Vue {
     parentName: '',
     parentPhone: '',
     isCome: 0,
-    time: 0,
-    status: 0
+    time: 0
+
   }
 
   mounted() {
@@ -261,8 +263,8 @@ export default class StudentDialog extends Vue {
         parentName: '',
         parentPhone: '',
         isCome: 0,
-        time: 0,
-        status: 0
+        time: 0
+
       }
     }
   }

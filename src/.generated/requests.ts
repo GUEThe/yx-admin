@@ -810,6 +810,95 @@ export function GetFile(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
+    export interface m.PageResponse&lt;m.FailStatisc[]&gt; extends m.RestfulData{
+      data?: m.FailStatisc[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 挂科情况统计，不包括重修
+ * @param grade string string 年级（不为空）
+ * @param bj string string 班级
+ * @param major string string 专业
+ * @param term string string 学期编号（不为空）
+ * @param orderType number integer 结果排序：1按科目，2按学分
+ */
+export function GetGlmcFailList(options: {
+  grade?: string;
+  bj?: string;
+  major?: string;
+  term?: string;
+  orderType?: number;
+}): Promise<m.PageResponse<m.FailStatisc[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/GetGlmcFailList`,
+    method: "get",
+    reqName: "GetGlmcFailList"
+  };
+
+  opts.params = {
+    grade: options.grade,
+    bj: options.bj,
+    major: options.major,
+    term: options.term,
+    orderType: options.orderType
+  };
+
+  return apiSendAsync<m.PageResponse<m.FailStatisc[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.FailStatisc[]&gt; extends m.RestfulData{
+      data?: m.FailStatisc[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 挂科情况统计
+ * @param bj string string 班级
+ * @param orderType number integer 结果排序：1按科目，2按学分
+ */
+export function GetGlmcFailStatisc(options: {
+  bj?: string;
+  orderType?: number;
+}): Promise<m.PageResponse<m.FailStatisc[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/GetGlmcFailStatisc`,
+    method: "get",
+    reqName: "GetGlmcFailStatisc"
+  };
+
+  opts.params = {
+    bj: options.bj,
+    orderType: options.orderType
+  };
+
+  return apiSendAsync<m.PageResponse<m.FailStatisc[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 更新成绩类型
+ */
+export function UpdateGlmcScoreType(): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/UpdateGlmcScoreType`,
+    method: "get",
+    reqName: "UpdateGlmcScoreType"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
     export interface m.PageResponse&lt;m.GreenChannel[]&gt; extends m.RestfulData{
       data?: m.GreenChannel[];
       total: number;
@@ -1065,6 +1154,27 @@ export function GetTerms(): Promise<m.PageResponse<m.InfoCategory[]>> {
     url: `/api/InfoCategory/Terms`,
     method: "get",
     reqName: "GetTerms"
+  };
+
+  return apiSendAsync<m.PageResponse<m.InfoCategory[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.InfoCategory[]&gt; extends m.RestfulData{
+      data?: m.InfoCategory[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取年级列表
+ */
+export function GetGrades(): Promise<m.PageResponse<m.InfoCategory[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/InfoCategory/Grades`,
+    method: "get",
+    reqName: "GetGrades"
   };
 
   return apiSendAsync<m.PageResponse<m.InfoCategory[]>>(opts);
@@ -1709,29 +1819,7 @@ export function GetStudentScore(options: {
 */
 
 /**
- * 更新成绩信息
- * @param value m.StudentAchievement  学生对象
- */
-export function UpdataScore(options: {
-  value?: m.StudentAchievement;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Score`,
-    method: "put",
-    reqName: "UpdataScore"
-  };
-
-  opts.data = options.value;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 更新学生成绩
+ * 更新学生成绩，内网接口
  * @param xh string string 学号
  * @param term string string 学期，为空时取当前学期
  */
@@ -1778,141 +1866,41 @@ export function UpdateCnoRank(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
+    export interface m.PageResponse&lt;m.FailStatisc[]&gt; extends m.RestfulData{
+      data?: m.FailStatisc[];
+      total: number;
+      page: number;
+      pageSize: number;
     }
 */
 
 /**
- * 根据课程编号和学期更新课程成绩排名
- * @param cid string string 开课编号，7位数字
- * @param term string string 学期
- */
-export function UpdateCidRank(options: {
-  cid?: string;
-  term?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Score/UpdateCidRank`,
-    method: "post",
-    reqName: "UpdateCidRank"
-  };
-
-  opts.params = {
-    cid: options.cid,
-    term: options.term
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 同步学生成绩
- * @param classno string string 班级编号
- */
-export function SynchronismScore(options: {
-  classno?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Score/SynchronismScore`,
-    method: "post",
-    reqName: "SynchronismScore"
-  };
-
-  opts.params = {
-    classno: options.classno
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 同步教务接口的学生信息
- * @param stid string string 学号
- */
-export function SynchronismStudent(options: {
-  stid?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Score/SynchronismStudent`,
-    method: "post",
-    reqName: "SynchronismStudent"
-  };
-
-  opts.params = {
-    stid: options.stid
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.AchievementStatistics&gt; extends m.RestfulData{
-      data?: m.AchievementStatistics;
-    }
-*/
-
-/**
- * 按学期统计学生成绩
- * @param stid string string 学号(不为空)
- * @param ttype string string 考试类型（为空默认正考）
+ * 挂科情况统计
+ * @param grade string string 年级（不为空）
+ * @param college string string 学院（不为空）
+ * @param major string string 专业
  * @param term string string 学期编号（不为空）
  */
-export function StatisticsAchievementByTerm(options: {
-  stid?: string;
-  ttype?: string;
+export function GetFailList(options: {
+  grade?: string;
+  college?: string;
+  major?: string;
   term?: string;
-}): Promise<m.DataResponse<m.AchievementStatistics>> {
+}): Promise<m.PageResponse<m.FailStatisc[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Score/StatisticsAchievementByTerm`,
+    url: `/api/Score/GetFailList`,
     method: "get",
-    reqName: "StatisticsAchievementByTerm"
+    reqName: "GetFailList"
   };
 
   opts.params = {
-    stid: options.stid,
-    ttype: options.ttype,
+    grade: options.grade,
+    college: options.college,
+    major: options.major,
     term: options.term
   };
 
-  return apiSendAsync<m.DataResponse<m.AchievementStatistics>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.AchievementFailStatistics&gt; extends m.RestfulData{
-      data?: m.AchievementFailStatistics;
-    }
-*/
-
-/**
- * 按学期统计挂科情况
- * @param stid string string 学号（不为空）
- * @param term string string 学期编号（不为空）
- */
-export function StatisticsAchievementFailByTerm(options: {
-  stid?: string;
-  term?: string;
-}): Promise<m.DataResponse<m.AchievementFailStatistics>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Score/StatisticsAchievementFailByTerm`,
-    method: "get",
-    reqName: "StatisticsAchievementFailByTerm"
-  };
-
-  opts.params = {
-    stid: options.stid,
-    term: options.term
-  };
-
-  return apiSendAsync<m.DataResponse<m.AchievementFailStatistics>>(opts);
+  return apiSendAsync<m.PageResponse<m.FailStatisc[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.AchievementFailList[]&gt; extends m.RestfulData{
@@ -1924,22 +1912,28 @@ export function StatisticsAchievementFailByTerm(options: {
 */
 
 /**
- * 重修课程列表
- * @param stid string string 学号(不为空)
+ * 重修情况统计
+ * @param grade string string 年级（不为空）
+ * @param college string string 学院（不为空）
+ * @param major string string 专业
  * @param term string string 学期编号（不为空）
  */
-export function StatisticsAchievementFailList(options: {
-  stid?: string;
+export function GetRetakeList(options: {
+  grade?: string;
+  college?: string;
+  major?: string;
   term?: string;
 }): Promise<m.PageResponse<m.AchievementFailList[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Score/StatisticsAchievementFailList`,
+    url: `/api/Score/GetRetakeList`,
     method: "get",
-    reqName: "StatisticsAchievementFailList"
+    reqName: "GetRetakeList"
   };
 
   opts.params = {
-    stid: options.stid,
+    grade: options.grade,
+    college: options.college,
+    major: options.major,
     term: options.term
   };
 
@@ -1969,6 +1963,46 @@ export function GetScoreByCno(options: {
   };
 
   return apiSendAsync<m.DataResponse<m.ScoreByCourse>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.ScoreFail&gt; extends m.RestfulData{
+      data?: m.ScoreFail;
+    }
+*/
+
+/**
+ * 挂科榜单
+ * @param stid string string 学号
+ * @param name string string 姓名
+ * @param spno string string 专业编号
+ * @param college string string 学院
+ * @param term string string 学期
+ * @param grade string string 学年
+ */
+export function GetScoreFail(options: {
+  stid?: string;
+  name?: string;
+  spno?: string;
+  college?: string;
+  term?: string;
+  grade?: string;
+}): Promise<m.DataResponse<m.ScoreFail>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Score/GetScoreFail`,
+    method: "get",
+    reqName: "GetScoreFail"
+  };
+
+  opts.params = {
+    stid: options.stid,
+    name: options.name,
+    spno: options.spno,
+    college: options.college,
+    term: options.term,
+    grade: options.grade
+  };
+
+  return apiSendAsync<m.DataResponse<m.ScoreFail>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.Newstudent[]&gt; extends m.RestfulData{
@@ -2515,31 +2549,6 @@ export function GetNewstudentMajorMWCount(options: {
   };
 
   return apiSendAsync<m.PageResponse<m.NewstudentMWCount[]>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 按年级，同步教务接口的学生信息
- * @param grade string string 年级
- */
-export function SynchronismStudentByGrade(options: {
-  grade?: string;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Student/SynchronismStudentByGrade`,
-    method: "post",
-    reqName: "SynchronismStudentByGrade"
-  };
-
-  opts.params = {
-    grade: options.grade
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.User[]&gt; extends m.RestfulData{

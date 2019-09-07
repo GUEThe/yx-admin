@@ -45,7 +45,12 @@ export default class MajorDialog extends Vue {
     id: 0,
     name: '',
     code: '',
-    collegeCode: ''
+    collegeCode: '',
+    engName: '',
+    sptype: '',
+    years: '',
+    degree: ''
+
   }
 
   mounted() {
@@ -66,7 +71,11 @@ export default class MajorDialog extends Vue {
         id: 0,
         name: '',
         code: '',
-        collegeCode: ''
+        collegeCode: '',
+        engName: '',
+        sptype: '',
+        years: '',
+        degree: ''
       }
     }
   }

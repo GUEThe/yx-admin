@@ -10,6 +10,7 @@ import studentmanagedRoutes from './modules/studentmanaged'
 import chargemanagedRoutes from './modules/chargemanaged'
 import systemRoutes from './modules/system'
 import statsRoutes from './modules/stats'
+import glmcRoutes from './modules/glmc'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -186,6 +187,7 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
+
   statsRoutes,
   {
     path: '/stureport',
@@ -193,7 +195,8 @@ export const asyncRoutes: RouteConfig[] = [
     meta: {
       alwaysShow: true,
       title: 'studentManage',
-      icon: 'people'
+      icon: 'people',
+      roles: ['admin']
     },
     children: [
       {
@@ -286,7 +289,7 @@ export const asyncRoutes: RouteConfig[] = [
       chargemanagedRoutes
     ]
   },
-
+  glmcRoutes,
   studentmanagedRoutes,
   systemRoutes,
   // {

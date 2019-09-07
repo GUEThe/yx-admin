@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="selectItem" placeholder="请专业选择" clearable @change="handleSelectChange">
-      <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.code">
+      <el-option v-for="item in majorList" :key="item.id" :label="item.name+item.code" :value="item.code">
       </el-option>
     </el-select>
   </div>
@@ -29,7 +29,7 @@ export default class MajorSelect extends Vue {
   }
   /** 获取所有专业 */
   async getMajorAsync() {
-    const { data } = await api.GetMajorList({});
+    const { data } = await api.GetMajorList({ pageSize: 100 });
     console.log('dadada', data!);
     this.majorList = data!;
   }

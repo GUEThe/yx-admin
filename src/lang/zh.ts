@@ -82,6 +82,8 @@ export default {
     courses: '课程列表',
     score: '成绩',
     stats: '信息统计',
+    fails: '挂科学生',
+    failStatics: '欠学分统计',
     'stats-come': '学生报道统计',
     'stats-cloth': '学生衣服统计',
     'stats-shoe': '学生鞋子统计',
