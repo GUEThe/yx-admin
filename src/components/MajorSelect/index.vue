@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="selectItem" placeholder="请专业选择" clearable @change="handleSelectChange">
-      <el-option v-for="item in majorList" :key="item.id" :label="item.name+item.code" :value="item.code">
+      <el-option v-for="item in majorList" :key="item.id" :label="item.name+item.code" :value="item.name">
       </el-option>
     </el-select>
   </div>

@@ -15,15 +15,7 @@ const statsRoutes: RouteConfig = {
       name: 'fail',
       meta: { title: 'fails' }
     },
-    {
-      path: 'FailStatisc',
-      component: () =>
-        import(
-          /* webpackChunkName: "come" */ '@/views/04stats/FailStatisc/index.vue'
-        ),
-      name: 'FailStatisc',
-      meta: { title: 'failStatics', roles: ['glmc-admin'] }
-    },
+
     {
       path: 'come',
       component: () =>

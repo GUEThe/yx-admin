@@ -4,12 +4,13 @@
       <el-main>
         <h3>学生管理</h3>
         <el-row type="flex">
-          <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.collegeCode" />
-          <MajorSelect :majorId.sync="listQuery.majorCode" />
+          <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.college" />
+          <el-input v-model="listQuery.year" placeholder="年级" style="width:150px;"></el-input>
+          <MajorSelect :majorId.sync="listQuery.major" />
           <el-input v-model="listQuery.stid" placeholder="学号" style="width:150px;"></el-input>
           <el-input v-model="listQuery.name" placeholder="姓名" style="width:100px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
-</el-row>
+        </el-row>
         <br>
         <el-table v-loading="listLoading"
           :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
@@ -46,7 +47,7 @@
             <template slot-scope="scope">
               <el-button-group>
                 <el-button type="primary" size="mini" @click="onEditStudent(scope.row.id)">编辑</el-button>
-</el-button-group>
+              </el-button-group>
             </template>
           </el-table-column>
         </el-table>
@@ -107,16 +108,16 @@ export default class StuReport extends Vue {
     college: '',
     major: '',
     name: '',
-
+    type: '',
     stid: '',
-    year: null
+    year: 2018
   }
 
   get token() {
     return UserModule.token;
   }
   mounted() {
-    this.getStuAsync();
+    // this.getStuAsync();
     // this.listQuery.year = new Date().getFullYear();
   }
 

@@ -25,6 +25,15 @@ const glmcRoutes: RouteConfig = {
         ),
       name: 'glmcfailstatisc',
       meta: { title: 'failStatics', roles: ['glmc-admin'] }
+    },
+    {
+      path: 'student',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/index.vue'
+        ),
+      name: 'Student',
+      meta: { title: 'students' }
     }
   ]
 }
