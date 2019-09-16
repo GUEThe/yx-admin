@@ -2,9 +2,9 @@ import { RouteConfig } from 'vue-router'
 import Layout from '@/layout/index.vue'
 
 const glmcRoutes: RouteConfig = {
-  path: '/stats',
+  path: '/glmcstats',
   component: Layout,
-  redirect: '/stats/come',
+  redirect: '/glmcstats/glmcfail',
   name: 'Stats',
   meta: { title: 'stats', icon: 'chart', roles: ['glmc-admin'] },
   children: [

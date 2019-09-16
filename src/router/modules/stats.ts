@@ -15,7 +15,15 @@ const statsRoutes: RouteConfig = {
       name: 'fail',
       meta: { title: 'fails' }
     },
-
+    {
+      path: 'gradeAnalysis',
+      component: () =>
+        import(
+          /* webpackChunkName: "come" */ '@/views/04stats/gradeAnalysis/index.vue'
+        ),
+      name: 'GradeAnalysis',
+      meta: { title: '成绩分析' }
+    },
     {
       path: 'come',
       component: () =>
