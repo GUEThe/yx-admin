@@ -5,8 +5,10 @@
         <h3>学生成绩分析</h3>
         <el-row type="flex">
         </el-row>
-        <div id="stuChart" style="width: 100%;height:600px;"></div>
+        <!-- 学生成绩图表 -->
+        <div id="stuChart" style="width: 100%;height:800px;"></div>
         <br />
+        <!-- 学生成绩table表格 -->
         <el-table ref="filterTable" :data="tableData" style="width: 100%">
           <el-table-column prop="termname" label="学期" sortable width="180" column-key="termname" :filters="termList"
             :filter-method="filterTerm">
@@ -17,16 +19,8 @@
             :formatter="formatterNature" />
           <el-table-column prop="courseno" label="课号">
           </el-table-column>
-          <el-table-column prop="score" sortable label="成绩">
+          <el-table-column prop="score" sortable label="成绩" :filters="gradeList" :filter-method="filterGrade">
           </el-table-column>
-          <!-- <el-table-column prop="score" label="成绩" width="100"
-            :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]" :filter-method="filterTag"
-            filter-placement="bottom-end">
-            <template slot-scope="scope">
-              <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'" disable-transitions>{{scope.row.tag}}
-              </el-tag>
-            </template>
-          </el-table-column> -->
         </el-table>
       </el-main>
     </el-container>
