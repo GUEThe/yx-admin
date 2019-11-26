@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     getList() {
-      console.log([this.termList, this.natureList, this.gradeList]);
       this.$emit('funScreen', [this.termList, this.natureList, this.gradeList]);
     }
   }

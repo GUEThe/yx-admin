@@ -299,11 +299,11 @@ export default {
                   if (res.data[k].term == this.datasheetData[0][i] && (res.data[k].score >= 75 && res.data[k].score < 90)) {
                     this.tableData.push(res.data[k]);
                   }
-                } else if (this.datasheetData[2][j] == '60-75(及格)') {
+                } else if (this.datasheetData[1][j] == '60-75(及格)') {
                   if (res.data[k].term == this.datasheetData[0][i] && (res.data[k].score >= 60 && res.data[k].score < 75)) {
                     this.tableData.push(res.data[k]);
                   }
-                } else if (this.datasheetData[2][j] == '60-(不及格)') {
+                } else if (this.datasheetData[1][j] == '60-(不及格)') {
                   if (res.data[k].term == this.datasheetData[0][i] && res.data[k].score < 60) {
                     this.tableData.push(res.data[k]);
                   }
