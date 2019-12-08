@@ -30,7 +30,7 @@ export default class CollegeSelect extends Vue {
   /** 获取所有校区 */
   async getCollegeAsync() {
     const { data } = await api.GetCollegeList({});
-    console.log('dadada', data!);
+    console.log('学院选择输出数据：', data!);
     this.collegeList = data!;
   }
 

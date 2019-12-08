@@ -30,7 +30,7 @@ export default class MajorSelect extends Vue {
   /** 获取所有专业 */
   async getMajorAsync() {
     const { data } = await api.GetMajorList({ pageSize: 100 });
-    console.log('dadada', data!);
+    console.log('专业选择输出数据：', data!);
     this.majorList = data!;
   }
 

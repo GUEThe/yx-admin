@@ -75,6 +75,143 @@ export interface UserInfo {
 /*
  * @namespace models
  */
+export interface Awards {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mayor: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  projectName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  projectType: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  projectClass: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  rank: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  paiming: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  partner: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacher: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacherCollege: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  organizer: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mark: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  status: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  school: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  awardTime: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handleTime: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handler: string;
+}
+/*
+ * @namespace models
+ */
 export interface Bed {
   /**
    *  int32
@@ -410,6 +547,47 @@ export interface FailCourse {
 /*
  * @namespace models
  */
+export interface scoreStatic {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  bj: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  average: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credit: number;
+}
+/*
+ * @namespace models
+ */
 export interface GreenChannel {
   /**
    *  int32
@@ -717,6 +895,47 @@ export interface News {
 /*
  * @namespace models
  */
+export interface OperateLog {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  xh: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  time: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mark: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handler: string;
+}
+/*
+ * @namespace models
+ */
 export interface Payment {
   /**
    *  int32
@@ -889,19 +1108,25 @@ export interface StudentAchievement {
 /*
  * @namespace models
  */
-export interface AchievementFailList {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  grade: number;
+export interface RetakeStatisc {
   /**
    *
    *
    * @serverType string
    */
-  class: string;
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
   /**
    *
    *
@@ -915,35 +1140,59 @@ export interface AchievementFailList {
    */
   name: string;
   /**
+   *  int32
    *
-   *
-   * @serverType string
+   * @serverType integer
    */
-  term: string;
+  passCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  passCredit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  notPassCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  notPassCredit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  noRetakeCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  noRetakeCredit: number;
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  termname: string;
+  passCourse: FailCourse[];
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  courseid: string;
+  notPassCourse: FailCourse[];
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  courseno: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  cname: string;
+  noRetakeCourse: FailCourse[];
 }
 /*
  * @namespace models
@@ -1080,11 +1329,23 @@ export interface ScoreFail {
    */
   name: string;
   /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
    *
    *
    * @serverType string
    */
-  spno: string;
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
   /**
    *  int32
    *
@@ -1092,45 +1353,22 @@ export interface ScoreFail {
    */
   failCount: number;
   /**
-   *
-   *
-   * @serverType array
-   */
-  stuFail: FailList[];
-}
-/*
- * @namespace models
- */
-export interface FailList {
-  /**
-   *
-   *
-   * @serverType string
-   */
-  cname: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  cno: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  ttype: string;
-  /**
    *  double
    *
    * @serverType number
    */
-  score: number;
+  failCredit: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  failCourse: FailCourse[];
 }
 /*
  * @namespace models
  */
-export interface Newstudent {
+export interface StuInfo {
   /**
    *  int32
    *
@@ -1226,12 +1464,6 @@ export interface Newstudent {
    *
    * @serverType string
    */
-  nplace: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
   birthday: string;
   /**
    *
@@ -1281,6 +1513,42 @@ export interface Newstudent {
    * @serverType string
    */
   changetype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  counselor: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  parentphone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  familyaddress: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  qq: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  email: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stustatus: string;
 }
 /*
  * @namespace models
@@ -1471,6 +1739,161 @@ export interface Statistics {
    * @serverType integer
    */
   type: number;
+}
+/*
+ * @namespace models
+ */
+export interface Newstudent {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  gender: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  examineeNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  idCardNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  nativePlace: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  spno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  nation: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  nplace: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  birthday: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  enrolldate: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  hostel: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  hostelphone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  postcode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  address: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phoneno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  familyheader: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  changetype: string;
 }
 /*
  * @namespace models

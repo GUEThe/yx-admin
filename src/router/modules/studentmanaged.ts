@@ -61,7 +61,7 @@ const studentmanagedRoutes: RouteConfig = {
         ),
       name: 'Score',
       meta: { title: 'score' }
-    }
+    },
   ]
 }
 

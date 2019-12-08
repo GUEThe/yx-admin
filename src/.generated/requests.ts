@@ -78,13 +78,192 @@ export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
   return apiSendAsync<m.DataResponse<m.UserInfo>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.Bed[]&gt; extends m.RestfulData{
-      data?: m.Bed[];
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+// /**
+//  * 下载文件
+//  * @param fileKey number integer
+//  */
+// export function GetFile(options: {
+//   fileKey: number;
+// }): Promise<m.DataResponse<m.RestfulData>> {
+//   const opts: ApiRequestOptions = {
+//     url: `/api/Awards/${options.fileKey}`,
+//     method: "get",
+//     reqName: "GetFile"
+//   };
+
+//   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+// }
+// /*
+//     export interface m.PageResponse&lt;m.Awards[]&gt; extends m.RestfulData{
+//       data?: m.Awards[];
+//       total: number;
+//       page: number;
+//       pageSize: number;
+//     }
+// */
+
+/**
+ * 根据学号获取获奖列表
+ * @param page number integer 当前页
+ * @param pageSize number integer 页大小
+ * @param studentId string string 学号
+ */
+export function GetAwardsListByStid(options: {
+  page?: number;
+  pageSize?: number;
+  studentId?: string;
+}): Promise<m.PageResponse<m.Awards[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Awards/GetAwardsListByStid`,
+    method: "get",
+    reqName: "GetAwardsListByStid"
+  };
+
+  options.pageSize = options.pageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    studentId: options.studentId
+  };
+
+  return apiSendAsync<m.PageResponse<m.Awards[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Awards[]&gt; extends m.RestfulData{
+      data?: m.Awards[];
       total: number;
       page: number;
       pageSize: number;
     }
 */
+
+/**
+ * 根据学院获取获奖列表
+ * @param page number integer 当前页
+ * @param pageSize number integer 页大小
+ * @param college string string 学院
+ */
+export function GetAwardsListByCollege(options: {
+  page?: number;
+  pageSize?: number;
+  college?: string;
+}): Promise<m.PageResponse<m.Awards[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Awards/GetAwardsListByCollege`,
+    method: "get",
+    reqName: "GetAwardsListByCollege"
+  };
+
+  options.pageSize = options.pageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    college: options.college
+  };
+
+  return apiSendAsync<m.PageResponse<m.Awards[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Awards&gt; extends m.RestfulData{
+      data?: m.Awards;
+    }
+*/
+
+/**
+ * 获取获奖信息
+ * @param id number integer
+ */
+export function GetMajorItem(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Awards>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Awards/${options.id}`,
+    method: "get",
+    reqName: "GetMajorItem"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Awards>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 删除获奖信息项
+ * @param id number integer
+ */
+export function DeleteAwards(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Awards/${options.id}`,
+    method: "delete",
+    reqName: "DeleteAwards"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 修改获奖信息项
+ * @param model m.Awards
+ */
+export function PutAwards(options: {
+  model?: m.Awards;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Awards`,
+    method: "put",
+    reqName: "PutAwards"
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+// /**
+//  * 新增获奖信息项
+//  * @param model m.Awards
+//  */
+// export function PostMajor(options: {
+//   model?: m.Awards;
+// }): Promise<m.DataResponse<m.RestfulData>> {
+//   const opts: ApiRequestOptions = {
+//     url: `/api/Awards`,
+//     method: "post",
+//     reqName: "PostMajor"
+//   };
+
+//   opts.data = options.model;
+//   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+// }
+// /*
+//     export interface m.PageResponse&lt;m.Bed[]&gt; extends m.RestfulData{
+//       data?: m.Bed[];
+//       total: number;
+//       page: number;
+//       pageSize: number;
+//     }
+// */
 
 /**
  * 获取床位列表
@@ -881,6 +1060,64 @@ export function GetGlmcFailStatisc(options: {
   return apiSendAsync<m.PageResponse<m.FailStatisc[]>>(opts);
 }
 /*
+    export interface m.PageResponse&lt;m.scoreStatic[]&gt; extends m.RestfulData{
+      data?: m.scoreStatic[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 必修课平均分统计
+ * @param grade string string 年级
+ * @param bj string string 班级
+ * @param min number integer 单科最低线
+ * @param orderType number integer 结果排序：1按科目，2按学分
+ */
+export function GetGlmcAvergeStatisc(options: {
+  grade?: string;
+  bj?: string;
+  min?: number;
+  orderType?: number;
+}): Promise<m.PageResponse<m.scoreStatic[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/GetGlmcAvergeStatisc`,
+    method: "get",
+    reqName: "GetGlmcAvergeStatisc"
+  };
+
+  opts.params = {
+    grade: options.grade,
+    bj: options.bj,
+    min: options.min,
+    orderType: options.orderType
+  };
+
+  return apiSendAsync<m.PageResponse<m.scoreStatic[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 导入成绩数据，直接写入不考虑更新
+ * @param file file file
+ */
+export function importGYscore(options: {
+  file?: file;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/importGYscore`,
+    method: "post",
+    reqName: "importGYscore"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
       data?: m.RestfulData;
     }
@@ -1484,26 +1721,26 @@ export function PostMajor(options: {
     }
 */
 
-/**
- * 获取专业
- * @param id number integer
- */
-export function GetMajorItem(options: {
-  id: number;
-}): Promise<m.DataResponse<m.Major>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Major/${options.id}`,
-    method: "get",
-    reqName: "GetMajorItem"
-  };
+// /**
+//  * 获取专业
+//  * @param id number integer
+//  */
+// export function GetMajorItem(options: {
+//   id: number;
+// }): Promise<m.DataResponse<m.Major>> {
+//   const opts: ApiRequestOptions = {
+//     url: `/api/Major/${options.id}`,
+//     method: "get",
+//     reqName: "GetMajorItem"
+//   };
 
-  return apiSendAsync<m.DataResponse<m.Major>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
+//   return apiSendAsync<m.DataResponse<m.Major>>(opts);
+// }
+// /*
+//     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+//       data?: m.RestfulData;
+//     }
+// */
 
 /**
  * 删除专业项
@@ -1662,6 +1899,150 @@ export function DeleteNews(options: {
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 修改操作日志
+ * @param id number integer
+ * @param model m.OperateLog
+ */
+export function PutOperateLog(options: {
+  id?: number;
+  model?: m.OperateLog;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperateLog`,
+    method: "put",
+    reqName: "PutOperateLog"
+  };
+
+  opts.params = {
+    id: options.id
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 新增操作日志
+ * @param model m.OperateLog
+ */
+export function PostOperateLog(options: {
+  model?: m.OperateLog;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperateLog`,
+    method: "post",
+    reqName: "PostOperateLog"
+  };
+
+  opts.data = options.model;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 删除操作日志
+ * @param id number integer
+ */
+export function DeleteOperateLog(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperateLog/${options.id}`,
+    method: "delete",
+    reqName: "DeleteOperateLog"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 添加学生备注信息
+ * @param xh string string
+ * @param mark string string
+ */
+export function PostStudentMark(options: {
+  xh?: string;
+  mark?: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperteLog`,
+    method: "post",
+    reqName: "PostStudentMark"
+  };
+
+  opts.params = {
+    xh: options.xh,
+    mark: options.mark
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 删除学生备注
+ * @param id number integer
+ */
+export function DeleteStudentMark(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperteLog/${options.id}`,
+    method: "delete",
+    reqName: "DeleteStudentMark"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.OperateLog[]&gt; extends m.RestfulData{
+      data?: m.OperateLog[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取学生备注列表
+ * @param stid string string 学号
+ */
+export function GetStudentMark(options: {
+  stid: string;
+}): Promise<m.PageResponse<m.OperateLog[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/OperteLog/${options.stid}`,
+    method: "get",
+    reqName: "GetStudentMark"
+  };
+
+  return apiSendAsync<m.PageResponse<m.OperateLog[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.Payment[]&gt; extends m.RestfulData{
@@ -1903,8 +2284,8 @@ export function GetFailList(options: {
   return apiSendAsync<m.PageResponse<m.FailStatisc[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.AchievementFailList[]&gt; extends m.RestfulData{
-      data?: m.AchievementFailList[];
+    export interface m.PageResponse&lt;m.RetakeStatisc[]&gt; extends m.RestfulData{
+      data?: m.RetakeStatisc[];
       total: number;
       page: number;
       pageSize: number;
@@ -1916,14 +2297,12 @@ export function GetFailList(options: {
  * @param grade string string 年级（不为空）
  * @param college string string 学院（不为空）
  * @param major string string 专业
- * @param term string string 学期编号（不为空）
  */
 export function GetRetakeList(options: {
   grade?: string;
   college?: string;
   major?: string;
-  term?: string;
-}): Promise<m.PageResponse<m.AchievementFailList[]>> {
+}): Promise<m.PageResponse<m.RetakeStatisc[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Score/GetRetakeList`,
     method: "get",
@@ -1933,11 +2312,10 @@ export function GetRetakeList(options: {
   opts.params = {
     grade: options.grade,
     college: options.college,
-    major: options.major,
-    term: options.term
+    major: options.major
   };
 
-  return apiSendAsync<m.PageResponse<m.AchievementFailList[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.RetakeStatisc[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.ScoreByCourse&gt; extends m.RestfulData{
@@ -1972,16 +2350,12 @@ export function GetScoreByCno(options: {
 
 /**
  * 挂科榜单
- * @param stid string string 学号
- * @param name string string 姓名
  * @param spno string string 专业编号
  * @param college string string 学院
  * @param term string string 学期
  * @param grade string string 学年
  */
 export function GetScoreFail(options: {
-  stid?: string;
-  name?: string;
   spno?: string;
   college?: string;
   term?: string;
@@ -1994,8 +2368,6 @@ export function GetScoreFail(options: {
   };
 
   opts.params = {
-    stid: options.stid,
-    name: options.name,
     spno: options.spno,
     college: options.college,
     term: options.term,
@@ -2005,8 +2377,8 @@ export function GetScoreFail(options: {
   return apiSendAsync<m.DataResponse<m.ScoreFail>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.Newstudent[]&gt; extends m.RestfulData{
-      data?: m.Newstudent[];
+    export interface m.PageResponse&lt;m.StuInfo[]&gt; extends m.RestfulData{
+      data?: m.StuInfo[];
       total: number;
       page: number;
       pageSize: number;
@@ -2017,23 +2389,27 @@ export function GetScoreFail(options: {
  * 获取在校学生信息列表
  * @param year number integer 年份
  * @param page number integer 当前页
+ * @param bj string string 班级
  * @param pageSize number integer 页大小
  * @param stid string string 学号
  * @param name string string 姓名
  * @param college string string 学院
  * @param major string string 专业
  * @param type string string 在校状态
+ * @param stustatus string string 学籍状态
  */
 export function GetStudentList(options: {
   year?: number;
   page?: number;
+  bj?: string;
   pageSize?: number;
   stid?: string;
   name?: string;
   college?: string;
   major?: string;
   type?: string;
-}): Promise<m.PageResponse<m.Newstudent[]>> {
+  stustatus?: string;
+}): Promise<m.PageResponse<m.StuInfo[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Student`,
     method: "get",
@@ -2045,37 +2421,17 @@ export function GetStudentList(options: {
   opts.params = {
     year: options.year,
     page: options.page,
+    bj: options.bj,
     pageSize: options.pageSize,
     stid: options.stid,
     name: options.name,
     college: options.college,
     major: options.major,
-    type: options.type
+    type: options.type,
+    stustatus: options.stustatus
   };
 
-  return apiSendAsync<m.PageResponse<m.Newstudent[]>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 更新学生信息
- * @param value m.Student  学生对象
- */
-export function PutStudent(options: {
-  value?: m.Student;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Student`,
-    method: "put",
-    reqName: "PutStudent"
-  };
-
-  opts.data = options.value;
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+  return apiSendAsync<m.PageResponse<m.StuInfo[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.Student&gt; extends m.RestfulData{
@@ -2084,7 +2440,7 @@ export function PutStudent(options: {
 */
 
 /**
- * 新增单个学生
+ * 新增单个新生学生信息
  * @param student m.Student
  */
 export function PostStudent(options: {
@@ -2139,22 +2495,51 @@ export function GetFreshmanList(options: {
   return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
 }
 /*
+    export interface m.DataResponse&lt;m.StuInfo&gt; extends m.RestfulData{
+      data?: m.StuInfo;
+    }
+*/
+
+/**
+ * 获取在校学生信息
+ * @param studentId number integer 学号
+ */
+export function GetStudentInfo(options: {
+  studentId?: number;
+}): Promise<m.DataResponse<m.StuInfo>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/studentId`,
+    method: "get",
+    reqName: "GetStudentInfo"
+  };
+
+  opts.params = {
+    studentId: options.studentId
+  };
+
+  return apiSendAsync<m.DataResponse<m.StuInfo>>(opts);
+}
+/*
     export interface m.DataResponse&lt;m.Student&gt; extends m.RestfulData{
       data?: m.Student;
     }
 */
 
 /**
- * 获取学生（admin可以获得任意学生，student只能获取自己）
+ * 获取新生学生信息（admin可以获得任意学生，student只能获取自己）
  * @param studentId number integer 学号
  */
 export function GetStudent(options: {
-  studentId: number;
+  studentId?: number;
 }): Promise<m.DataResponse<m.Student>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/${options.studentId}`,
+    url: `/api/Student/FreshmanStu`,
     method: "get",
     reqName: "GetStudent"
+  };
+
+  opts.params = {
+    studentId: options.studentId
   };
 
   return apiSendAsync<m.DataResponse<m.Student>>(opts);
@@ -2178,6 +2563,50 @@ export function ImportNewStudents(options: {
     reqName: "ImportNewStudents"
   };
 
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 更新学生信息
+ * @param value m.Student  学生对象
+ */
+export function PutFreshmanStudent(options: {
+  value?: m.Student;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/PutFreshmanStudent`,
+    method: "put",
+    reqName: "PutFreshmanStudent"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 更新在校学生信息
+ * @param value m.StuInfo  学生对象
+ */
+export function PutStudent(options: {
+  value?: m.StuInfo;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/PutStudent`,
+    method: "put",
+    reqName: "PutStudent"
+  };
+
+  opts.data = options.value;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
@@ -2549,6 +2978,62 @@ export function GetNewstudentMajorMWCount(options: {
   };
 
   return apiSendAsync<m.PageResponse<m.NewstudentMWCount[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 批量修改多个学生的辅导员
+ * @param groupstid array array
+ * @param counselor string string
+ */
+export function UpdateCounselor(options: {
+  groupstid?: array;
+  counselor?: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/UpdateCounselor`,
+    method: "post",
+    reqName: "UpdateCounselor"
+  };
+
+  opts.params = {
+    groupstid: options.groupstid,
+    counselor: options.counselor
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 批量修改学生学籍状态
+ * @param groupstid array array
+ * @param stustatus string string
+ */
+export function UpdateStustatus(options: {
+  groupstid?: array;
+  stustatus?: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/UpdateStustatus`,
+    method: "post",
+    reqName: "UpdateStustatus"
+  };
+
+  opts.params = {
+    groupstid: options.groupstid,
+    stustatus: options.stustatus
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.User[]&gt; extends m.RestfulData{
