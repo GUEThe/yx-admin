@@ -41,6 +41,8 @@
           </el-table-column>
           <el-table-column label="电话" align="center" prop="hostelphone"></el-table-column>
           <el-table-column label="宿舍" align="center" prop="hostel"></el-table-column>
+          <el-table-column label="是否离校" align="center" prop="changetype"></el-table-column>
+          <el-table-column label="学籍状态" align="center" prop="stustatus"></el-table-column>
           <el-table-column align="center" width="100">
             <template slot="header">
               操作
@@ -57,8 +59,13 @@
             </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onAddStudentLog(scope.row.id)">添加</el-button>
-                <el-button type="primary" size="mini" @click="onGetStudentLog(scope.row.id)">获取</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-plus" @click="onAddStudentLog(scope.row.id)">
+                  添加
+                </el-button>
+                <el-button type="primary" size="mini" icon="el-icon-view
+" @click="onGetStudentLog(scope.row.id)">
+                  查看
+                </el-button>
               </el-button-group>
             </template>
           </el-table-column>
@@ -68,8 +75,14 @@
             </template>
             <template slot-scope="scope">
               <el-button-group>
-                <el-button type="primary" size="mini" @click="onAddStudentNote(scope.row.studentId)">添加</el-button>
-                <el-button type="primary" size="mini" @click="onGetStudentNote(scope.row.studentId)">获取</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-plus"
+                  @click="onAddStudentNote(scope.row.studentId)">
+                  添加
+                </el-button>
+                <el-button type="primary" size="mini" icon="el-icon-view
+" @click="onGetStudentNote(scope.row.studentId)">
+                  查看
+                </el-button>
               </el-button-group>
             </template>
           </el-table-column>
@@ -172,10 +185,6 @@
     <!-- 添加学生备注信息的Dialog字段 -->
     <el-dialog width="40%" :visible="addNoteDialog" title="添加备注" @close="addNoteDialog=false">
       <el-form ref="addNoteForm" :model="addNoteForm" :inline="true">
-        <!-- 学号字段 -->
-        <el-form-item label="学生类型">
-          <el-input v-model="addNoteForm.xh" auto-complete="off"></el-input>
-        </el-form-item>
         <!-- 备注字段 -->
         <el-form-item label="备注">
           <el-input v-model="addNoteForm.mark" auto-complete="off"></el-input>
@@ -188,23 +197,21 @@
     </el-dialog>
 
     <!-- 获取备注表格的Dialog -->
-    <el-dialog width="40%" :visible="getNoteDialog" title="获取备注" @close="getNoteDialog=false">
+    <el-dialog width="40%" :visible="getNoteDialog" title="查看备注信息" @close="getNoteDialog=false">
       <el-table :data="NoteData">
-        <el-table-column property="id" label="id" width="100"></el-table-column>
-        <el-table-column property="xh" label="学生类型" width="100"></el-table-column>
-        <el-table-column property="type" label="日志类型" width="100"></el-table-column>
-        <el-table-column property="mark" label="备注" width="100"></el-table-column>
-        <el-table-column property="handler" label="操作人" width="100"></el-table-column>
-        <el-table-column align="center" width="100">
+        <el-table-column align="center" width="200">
           <template slot="header">
             删除备注
           </template>
           <template slot-scope="scope">
             <el-button-group>
-              <el-button type="danger" size="mini" @click="DelNote(scope.row.id)" icon="el-icon-delete">删除</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="DelNote(scope.row.id)">删除</el-button>
             </el-button-group>
           </template>
         </el-table-column>
+        <el-table-column property="xh" label="学生类型" width="100"></el-table-column>
+        <el-table-column property="mark" label="备注" width="100"></el-table-column>
+        <el-table-column property="handler" label="操作人" width="100"></el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="getNoteDialog = false">退出</el-button>
@@ -212,7 +219,7 @@
     </el-dialog>
 
     <!-- 获取日志表格的Dialog -->
-    <el-dialog width="40%" :visible="getLogDialog" title="获取日志" @close="getLogDialog=false">
+    <el-dialog width="40%" :visible="getLogDialog" title="查看日志信息" @close="getLogDialog=false">
       <el-table :data="LogData">
         <el-table-column property="id" label="id" width="100"></el-table-column>
         <el-table-column property="xh" label="学生类型" width="100"></el-table-column>
@@ -224,7 +231,7 @@
           </template>
           <template slot-scope="scope">
             <el-button-group>
-              <el-button type="danger" size="mini" @click="DelLog(scope.row.id)" icon="el-icon-delete">删除</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="DelLog(scope.row.id)">删除</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -234,7 +241,8 @@
           </template>
           <template slot-scope="scope">
             <el-button-group>
-              <el-button type="danger" size="mini" @click="onUpdateStudentLog(scope.row.id)" icon="el-icon-edit">修改
+              <el-button type="danger" size="mini" icon="el-icon-edit" @click="onUpdateStudentLog(scope.row.id)">
+                修改
               </el-button>
             </el-button-group>
           </template>
@@ -247,8 +255,8 @@
 
     <el-container>
       <el-main>
-        <div id="chart" style="width:40%;height:400px;float:left;" v-loading="chartloading"></div>
-        <div id="chart2" style="width:40%;height:400px;float:right;" v-loading="chartloading"></div>
+        <div id="chart" v-loading="chartloading" style="width:40%;height:400px;float:left;"></div>
+        <div id="chart2" v-loading="chartloading" style="width:40%;height:400px;float:right;"></div>
       </el-main>
     </el-container>
   </div>
@@ -293,9 +301,9 @@ export default class StuReport extends Vue {
   ID = 0;
   addStuLogDialog: boolean = false; // 添加学生日志信息的Dialog对话框是否隐藏的变量
   updateStuLogDialog: boolean = false;// 修改学生日志信息的Dialog对话框是否隐藏的变量
-  addNoteDialog: boolean = false;  //添加学生备注的信息的Dialog
-  getNoteDialog: boolean = false;  //获取学生备注信息Dialog
-  getLogDialog: boolean = false; //获取学生日志信息Dialog
+  addNoteDialog: boolean = false; // 添加学生备注的信息的Dialog
+  getNoteDialog: boolean = false; // 获取学生备注信息Dialog
+  getLogDialog: boolean = false; // 获取学生日志信息Dialog
   pickerOptions = { // 时间变量
     shortcuts: [{
       text: '今天',
@@ -318,10 +326,10 @@ export default class StuReport extends Vue {
   };
   numberAtSchool: number = 0; // 在校学生数量
   numberNotAtSchool: number = 0; // 离校学生数量
-  normal: number = 0;   //学籍状态正常
-  repeater: number = 0;  //学籍状态留级
-  continueReading: number = 0;//学籍状态续读
-  leaveSchool: number = 0;//学籍状态退学
+  normal: number = 0; // 学籍状态正常
+  repeater: number = 0; // 学籍状态留级
+  continueReading: number = 0;// 学籍状态续读
+  leaveSchool: number = 0;// 学籍状态退学
 
   // 第一张表单的数据存储
   selectedPersonData = {
@@ -425,7 +433,7 @@ export default class StuReport extends Vue {
     handler: ''
   }
 
-  //添加备注变量
+  // 添加备注变量
   private addNoteForm: models.OperateLog = {
     id: 0,
     xh: '',
@@ -435,9 +443,9 @@ export default class StuReport extends Vue {
     handler: 'xuegong'
   }
 
-  NoteID = []; //删除日志时需要的id
-  NoteData = []; //获取备注的Dialog的表格绑定的数据
-  LogData = [];  //日志的表格绑定的数据
+  NoteID = []; // 删除日志时需要的id
+  NoteData = []; // 获取备注的Dialog的表格绑定的数据
+  LogData = []; // 日志的表格绑定的数据
 
   get token() {
     return UserModule.token;
@@ -554,9 +562,9 @@ export default class StuReport extends Vue {
 
   // 时间传值
   transmitToForm(val: any) {
-    if (this.addStuLogDialog == true) {
+    if (this.addStuLogDialog === true) {
       this.addStuLogForm.time = val;
-    } else if (this.updateStuLogDialog == true) {
+    } else if (this.updateStuLogDialog === true) {
       this.updateStuLogForm.time = val;
     }
   }
@@ -575,7 +583,7 @@ export default class StuReport extends Vue {
     console.log('LOG', this.Log, this.ID);
   }
 
-  //打开添加备注
+  // 打开添加备注
   onAddStudentNote(index: string) {
     this.addNoteDialog = true;
     this.addNoteForm.xh = index;
@@ -595,7 +603,7 @@ export default class StuReport extends Vue {
     console.log('提交后', this.addStuLogForm);
     // this.LogData.push(this.addStuLogForm);
     var comment = this.addStuLogForm;
-    var list = JSON.parse(localStorage.getItem("cmts") || '[]');
+    var list = JSON.parse(localStorage.getItem('cmts') || '[]');
     list.unshift(comment);
     localStorage.setItem('cmts', JSON.stringify(list));
   }
@@ -608,15 +616,15 @@ export default class StuReport extends Vue {
 
     var cmts = JSON.parse(localStorage.getItem('cmts'));
     for (let i = 0; i < cmts.length; i++) {
-      if (cmts[i].id == this.updateStuLogForm.id) {
+      if (cmts[i].id === this.updateStuLogForm.id) {
         cmts[i].xh = this.updateStuLogForm.xh;
         cmts[i].type = this.updateStuLogForm.type;
         cmts[i].handler = this.updateStuLogForm.handler;
         localStorage.setItem('cmts', JSON.stringify(cmts));
       }
     }
-    //本地获取日志
-    var list = JSON.parse(localStorage.getItem("cmts") || '[]');
+    // 本地获取日志
+    var list = JSON.parse(localStorage.getItem('cmts') || '[]');
     this.LogData = list;
 
     if (!data) {
@@ -632,29 +640,29 @@ export default class StuReport extends Vue {
   // 日志获取
   onGetStudentLog(id: number) {
     this.getLogDialog = true;
-    var list = JSON.parse(localStorage.getItem("cmts") || '[]');
+    var list = JSON.parse(localStorage.getItem('cmts') || '[]');
     this.LogData = list;
   }
 
-  //日志删除
+  // 日志删除
   async DelLog(index: number) {
-    console.log("显示删除的id", index);
+    console.log('显示删除的id', index);
     let id = index;
     this.$confirm('确定删除该条日志？', '提示', {
       type: 'warning'
     }).then(async () => {
       const { data } = await api.DeleteOperateLog({ id })
       console.log('del', data, index);
-      //本地删除日志
+      // 本地删除日志
       var cmts = JSON.parse(localStorage.getItem('cmts'));
       for (let i = 0; i < cmts.length; i++) {
-        if (cmts[i].id == index) {
+        if (cmts[i].id === index) {
           cmts.splice(i, 1);
           localStorage.setItem('cmts', JSON.stringify(cmts));
         }
       }
-      //本地获取日志
-      var list = JSON.parse(localStorage.getItem("cmts") || '[]');
+      // 本地获取日志
+      var list = JSON.parse(localStorage.getItem('cmts') || '[]');
       this.LogData = list;
 
       this.$message({
@@ -667,7 +675,7 @@ export default class StuReport extends Vue {
     });
   }
 
-  //备注提交
+  // 备注提交
   async addFormInfo() {
     this.addNoteForm.time = new Date().toLocaleString();
     const { data } = await api.PostStudentMark({ xh: this.addNoteForm.xh, mark: this.addNoteForm.mark });
@@ -678,27 +686,27 @@ export default class StuReport extends Vue {
       this.$message.success('添加备注成功');
       this.addNoteDialog = false;
       this.getStuAsync();
-      console.log("返回数据", data);
+      console.log('返回数据', data);
     } else {
       console.log('提交失败');
     }
   }
 
-  //备注获取
+  // 备注获取
   async onGetStudentNote(index: number) {
     const { data } = await api.GetStudentMark({ stid: index });
-    console.log("返回获取的data", data);
+    console.log('返回获取的data', data);
     if (data) {
       this.getNoteDialog = true;
       this.NoteData = data;
     } else {
-      console.log("获取失败或者没有记录");
+      console.log('获取失败或者没有记录');
     }
   }
 
-  //备注删除
+  // 备注删除
   async DelNote(index: number) {
-    console.log("该ID值为：", index);
+    console.log('该ID值为：', index);
     let id = index;
     this.$confirm('确定删除该条备注？', '提示', {
       type: 'warning'
@@ -723,20 +731,20 @@ export default class StuReport extends Vue {
     console.log('打印出全部data数据', data, total);
     this.chartloading = false;
     for (let i = 0; i < data.length; i++) {
-      if (data[i].changetype == '在校') {
+      if (data[i].changetype === '在校') {
         this.numberAtSchool++;
       } else {
         this.numberNotAtSchool++;
       }
     }
     for (let i = 0; i < data.length; i++) {
-      if (data[i].stustatus == '正常') {
+      if (data[i].stustatus === '正常') {
         this.normal++;
-      } else if (data[i].stustats == '留级') {
+      } else if (data[i].stustats === '留级') {
         this.repeater++;
-      } else if (data[i].stustats == '续读') {
+      } else if (data[i].stustats === '续读') {
         this.continueReading++;
-      } else if (data[i].stustatus == '退学') {
+      } else if (data[i].stustatus === '退学') {
         this.leaveSchool++;
       }
     }
@@ -829,13 +837,13 @@ export default class StuReport extends Vue {
     }, true);
   }
 
-  //渲染学籍状态图标
+  // 渲染学籍状态图标
   createChart2() {
     const echart = echarts as any;
     const chart2 = echart.init(document.getElementById('chart2'));
     chart2.setOption({
-      backgroundColor: "#0B1837",
-      color: ["#EAEA26", "#906BF9", "#FE5656", "#01E17E", "#3DD1F9", "#FFAD05"],
+      backgroundColor: '#0B1837',
+      color: ['#EAEA26', '#906BF9', '#FE5656', '#01E17E', '#3DD1F9', '#FFAD05'],
       grid: {
         left: -100,
         top: 50,
@@ -845,14 +853,14 @@ export default class StuReport extends Vue {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{b} : {c} ({d}%)"
+        formatter: '{b} : {c} ({d}%)'
       },
       legend: {
-        type: "scroll",
-        orient: "vartical",
+        type: 'scroll',
+        orient: 'vartical',
         // x: "right",
-        top: "center",
-        right: "15",
+        top: 'center',
+        right: '15',
         // bottom: "0%",
         itemWidth: 16,
         itemHeight: 8,
@@ -873,18 +881,18 @@ export default class StuReport extends Vue {
         axisLine: {
           show: false,
           lineStyle: {
-            color: "#0B4A6B",
+            color: '#0B4A6B',
             width: 1,
-            type: "solid"
-          },
+            type: 'solid'
+          }
         },
         axisLabel: {
           interval: 0,
           show: true,
-          color: "#0B4A6B",
+          color: '#0B4A6B',
           margin: 8,
           fontSize: 16
-        },
+        }
       },
       radiusAxis: {
         min: 40,
@@ -893,30 +901,30 @@ export default class StuReport extends Vue {
         axisLine: {
           show: false,
           lineStyle: {
-            color: "#0B3E5E",
+            color: '#0B3E5E',
             width: 1,
-            type: "solid"
-          },
+            type: 'solid'
+          }
         },
         axisLabel: {
           formatter: '{value} %',
           show: false,
           padding: [0, 0, 20, 0],
-          color: "#0B3E5E",
+          color: '#0B3E5E',
           fontSize: 16
         },
         splitLine: {
           lineStyle: {
-            color: "#0B3E5E",
+            color: '#0B3E5E',
             width: 2,
-            type: "solid"
+            type: 'solid'
           }
         }
       },
       calculable: true,
       series: [{
         type: 'pie',
-        radius: ["5%", "10%"],
+        radius: ['5%', '10%'],
         hoverAnimation: false,
         labelLine: {
           normal: {
@@ -933,13 +941,13 @@ export default class StuReport extends Vue {
           value: 0,
           itemStyle: {
             normal: {
-              color: "#0B4A6B"
+              color: '#0B4A6B'
             }
           }
         }]
       }, {
         type: 'pie',
-        radius: ["90%", "95%"],
+        radius: ['90%', '95%'],
         hoverAnimation: false,
         labelLine: {
           normal: {
@@ -951,13 +959,13 @@ export default class StuReport extends Vue {
             show: false
           }
         },
-        name: "",
+        name: '',
         data: [{
           name: '',
           value: 0,
           itemStyle: {
             normal: {
-              color: "#0B4A6B"
+              color: '#0B4A6B'
             }
           }
         }]
@@ -970,9 +978,9 @@ export default class StuReport extends Vue {
         label: {
           normal: {
             show: true,
-            formatter: "{c}",
+            formatter: '{c}',
             textStyle: {
-              fontSize: 12,
+              fontSize: 12
             },
             position: 'outside'
           },
@@ -1005,9 +1013,9 @@ export default class StuReport extends Vue {
         {
           value: this.leaveSchool,
           name: '退学'
-        },
+        }
         ]
-      },]
+      }]
     }, true);
   }
 }
