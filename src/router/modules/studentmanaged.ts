@@ -45,6 +45,15 @@ const studentmanagedRoutes: RouteConfig = {
       meta: { title: 'students' }
     },
     {
+      path: 'list',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/list.vue'
+        ),
+      name: 'stuList',
+      meta: { title: 'stuList' }
+    },
+    {
       path: 'course',
       component: () =>
         import(
@@ -61,7 +70,7 @@ const studentmanagedRoutes: RouteConfig = {
         ),
       name: 'Score',
       meta: { title: 'score' }
-    },
+    }
   ]
 }
 

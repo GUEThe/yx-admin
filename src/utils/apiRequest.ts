@@ -68,7 +68,11 @@ apiAxios.interceptors.response.use(
           })
           break
         case 401:
-          alert('请重新登录')
+          Message({
+            message: '请重新登录',
+            type: 'warning',
+            duration: 3 * 1000
+          })
           router.push({ name: 'login' })
           break
         case 403:
@@ -79,9 +83,7 @@ apiAxios.interceptors.response.use(
           break
         default:
           MessageBox.alert(
-            `错误:code=${error.response.status},response=${
-              error.response.data.message
-            }`,
+            `错误:code=${error.response.status},response=${error.response.data.message}`,
             '错误'
           )
       }

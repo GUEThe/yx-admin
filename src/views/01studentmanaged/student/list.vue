@@ -1,0 +1,173 @@
+<template>
+  <div style="padding:5px" class="StuList-class">
+    <el-container>
+      <el-main>
+        <h3>学生列表</h3>
+        <el-row type="flex">
+          <CollegeSelect v-permission="['admin']" :collegeId.sync="queryOptions.college" />
+
+          <MajorSelect :majorId.sync="queryOptions.major" />
+          <el-input v-model="queryOptions.year" placeholder="年级" style="width:150px;"></el-input>
+          <el-input v-model="queryOptions.name" placeholder="姓名" style="width:150px;"></el-input>
+          <el-input v-model="queryOptions.stid" placeholder="学号" style="width:100px;"></el-input>
+
+          <el-button type="info" icon="el-icon-search" size="mini" @click="handleFilter()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="mini" @click="addStu()">新增</el-button>
+        </el-row>
+        <br>
+        <el-table v-loading="loading" :data="data" element-loading-text="正在加载..." border fit highlight-current-row>
+          <el-table-column type="selection" width="55" align="center"></el-table-column>
+          <el-table-column label="序号" width="55" align="center">
+            <template slot-scope="scope">
+              {{ (queryOptions.page-1)*queryOptions.pageSize+scope.$index+1 }}
+            </template>
+          </el-table-column>
+          <el-table-column label="学号" width="120" align="center" prop="studentId"></el-table-column>
+          <el-table-column label="姓名" width="150" align="center">
+            <template slot-scope="scope">
+              <el-button type="text" @click="showDetails(scope.$index)">{{ scope.row.name }}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="性别" width="50" align="center" prop="gender"></el-table-column>
+          <el-table-column label="学院" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.college }}
+            </template>
+          </el-table-column>
+          <el-table-column label="专业" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.major }}
+            </template>
+          </el-table-column>
+          <el-table-column label="电话" width="120" align="center" prop="phoneno"></el-table-column>
+          <el-table-column label="宿舍" align="center" prop="hostel"></el-table-column>
+          <el-table-column label="是否离校" width="50" align="center" prop="changetype"></el-table-column>
+          <el-table-column label="学籍状态" width="50" align="center" prop="stustatus"></el-table-column>
+          <el-table-column width="280" align="center">
+            <template slot="header">
+              操作
+            </template>
+            <template slot-scope="scope">
+              <el-button-group>
+                <el-button type="primary" size="mini" @click="onEditStudent(scope.row)">编辑</el-button>
+                <el-button type="warning" size="mini" @click="onEditStuStatus(scope.row)">学籍</el-button>
+                <el-button type="info" size="mini" @click="onEditStuMark(scope.row)">备注</el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+        <br>
+        <div style="text-align:center">
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="queryOptions.page"
+            :page-size="20" :total="total" align="center" @current-change="requestData" />
+        </div>
+        <br>
+      </el-main>
+    </el-container>
+    <stu-detail :stuId="stuInfo.id" :showDialog.sync="showStuDetail" />
+    <stu-status :stuInfo="stuInfo" :showDialog.sync="showStuStatus" />
+    <stu-mark :stuInfo="stuInfo" :showDialog.sync="showStuMark">
+    </stu-mark>
+  </div>
+</template>
+
+<script  lang="ts">
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import * as api from '@/api';
+import * as models from '@/api/models';
+import StudentDialog from '../components/StudentDialog.vue';
+import CollegeSelect from '@/components/CollegeSelect/index.vue';
+import MajorSelect from '@/components/MajorSelect/index.vue';
+import { UserModule } from '@/store/modules/user'
+import { permission } from '@/directives/permission'
+import { valid } from 'mockjs';
+import * as echarts from 'echarts';
+import StuDetail from './stuDetail.vue'
+import StuStatus from './stuStatus.vue'
+import StuMark from './stuMark.vue'
+/** 学生信息管理 */
+@Component({
+  components: {
+    StuMark,
+    StuStatus,
+    StuDetail,
+    StudentDialog,
+    CollegeSelect,
+    MajorSelect
+  },
+  directives: {
+    permission
+  }
+})
+export default class StuList extends Vue {
+  @Prop() id!: number;
+  stuInfo: models.StuInfo | Object = {};
+  showStuMark: boolean = false;
+  showStuDetail: boolean = false;
+  showStuStatus: boolean = false;
+  data: models.StuInfo[] = [];
+  total: number = 0;
+  queryOptions: models.IQueryStuOptions = {
+    year: undefined,
+    bj: '',
+    stid: '',
+    name: '',
+    college: '',
+    major: '',
+    type: '',
+    stustatus: '',
+    page: 1,
+    pageSize: 20
+  }
+  loading: boolean = false
+
+  mounted() {
+    this.init()
+  }
+
+  async init() {
+    this.requestData()
+  }
+
+  handleFilter() {
+    this.queryOptions.page = 1;
+    this.requestData()
+  }
+
+  async requestData() {
+    this.loading = true
+    const resp = await api.GetStudentList(this.queryOptions)
+    if (resp.code === 0) {
+      this.data = resp.data!
+      this.total = resp.total
+    }
+    this.loading = false
+  }
+
+  addStu() {
+    this.stuInfo = {}
+    this.showStuDetail = true
+  }
+
+  onEditStudent(stuInfo: models.StuInfo) {
+    this.stuInfo = stuInfo
+    this.showStuDetail = true
+  }
+
+  onEditStuStatus(stuInfo: models.StuInfo) {
+    this.showStuStatus = true
+    this.stuInfo = stuInfo
+  }
+
+  onEditStuMark(stuInfo: models.StuInfo) {
+    this.showStuMark = true
+    this.stuInfo = stuInfo
+  }
+}
+</script>
+
+<style>
+.StuList-class .el-input {
+  width: 200px;
+}
+</style>

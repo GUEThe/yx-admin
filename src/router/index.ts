@@ -220,35 +220,23 @@ export const asyncRoutes: RouteConfig[] = [
 
       {
         path: '/leave',
-        component: Layout,
-        meta: { roles: ['admin', 'funder'] },
-        children: [
-          {
-            path: '',
-            component: () =>
-              import(
-                /* webpackChunkName: "leave" */ '@/views/05leave/index.vue'
-              ),
-            name: 'Leave',
-            meta: { title: 'leave' }
-          }
-        ]
+        meta: { title: 'leave', roles: ['admin', 'funder'] },
+        component: () =>
+          import(/* webpackChunkName: "leave" */ '@/views/05leave/index.vue'),
+        name: 'Leave'
       },
       {
         path: '/greenchannel',
-        component: Layout,
-        meta: { roles: ['admin', 'funder'] },
-        children: [
-          {
-            path: '',
-            component: () =>
-              import(
-                /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
-              ),
-            name: 'Greenchannel',
-            meta: { title: 'studentmanaged-greenchannel' }
-          }
-        ]
+        meta: {
+          title: 'studentmanaged-greenchannel',
+          roles: ['admin', 'funder']
+        },
+
+        component: () =>
+          import(
+            /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
+          ),
+        name: 'Greenchannel'
       },
       {
         path: 'come',
@@ -285,10 +273,10 @@ export const asyncRoutes: RouteConfig[] = [
           ),
         name: 'station',
         meta: { title: 'studentmanaged-station' }
-      },
-      chargemanagedRoutes
+      }
     ]
   },
+  chargemanagedRoutes,
   glmcRoutes,
   studentmanagedRoutes,
   systemRoutes,

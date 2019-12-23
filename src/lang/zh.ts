@@ -79,6 +79,7 @@ export default {
     'systemmanaged-infoCategory': '信息类别管理',
     'systemmanaged-news': '新闻管理',
     students: '学生列表',
+    stuList: '学生列表2',
     courses: '课程列表',
     score: '成绩',
     stats: '信息统计',
