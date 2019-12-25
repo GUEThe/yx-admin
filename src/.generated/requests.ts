@@ -961,21 +961,7 @@ export function DeleteFee(options: {
     }
 */
 
-/**
- * 下载文件
- * @param fileKey number integer
- */
-export function GetFile(options: {
-  fileKey: number;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/File/${options.fileKey}`,
-    method: "get",
-    reqName: "GetFile"
-  };
 
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
 /*
     export interface m.PageResponse&lt;m.FailStatisc[]&gt; extends m.RestfulData{
       data?: m.FailStatisc[];
