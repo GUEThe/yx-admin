@@ -6,7 +6,11 @@ const studentmanagedRoutes: RouteConfig = {
   component: Layout,
   redirect: '/studentmanaged/campus',
   name: 'Studentmanaged',
-  meta: { title: 'studentmanaged', icon: 'peoples', roles: ['admin'] },
+  meta: {
+    title: 'studentmanaged',
+    icon: 'peoples',
+    roles: ['admin', 'college']
+  },
   children: [
     {
       path: 'campus',

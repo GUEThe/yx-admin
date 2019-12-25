@@ -2,15 +2,15 @@
   <div>
     <el-select
       v-model="selectItem"
-      placeholder="请选择专业"
+      placeholder="请选择学校"
       clearable
       @change="handleSelectChange"
     >
       <el-option
-        v-for="item in majorList"
+        v-for="item in dataList"
         :key="item.id"
-        :label="item.name + item.code"
-        :value="item.name"
+        :label="item.name + item.value"
+        :value="item.value"
       >
       </el-option>
     </el-select>
@@ -22,30 +22,29 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
 import * as api from '@/api'
 import * as models from '@/api/models'
 
-/** 专业列表 */
 @Component({})
-export default class MajorSelect extends Vue {
-  @Prop() majorId!: number
+export default class SchooolSelect extends Vue {
+  @Prop() Id!: number
 
-  majorList: models.Major[] = []
+  dataList: models.InfoCategory[] = []
   selectItem = ''
   mounted() {
-    this.getMajorAsync()
+    this.getListAsync()
   }
 
-  @Watch('majorId')
+  @Watch('Id')
   onMajorIdChange(val: string) {
     this.selectItem = val
   }
-  /** 获取所有专业 */
-  async getMajorAsync() {
-    const { data } = await api.GetMajorList({ pageSize: 100 })
-    console.log('专业选择输出数据：', data!)
-    this.majorList = data!
+  /** 获取下拉列表数据 */
+  async getListAsync() {
+    const { data } = await api.GetInfoCategoryByType({ type: '学校' })
+
+    this.dataList = data!
   }
 
   handleSelectChange(e: any) {
-    this.$emit('update:majorId', this.selectItem)
+    this.$emit('update:Id', this.selectItem)
   }
 }
 </script>

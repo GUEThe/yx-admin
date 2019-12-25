@@ -6,7 +6,7 @@ const glmcRoutes: RouteConfig = {
   component: Layout,
   redirect: '/glmcstats/glmcfail',
   name: 'Stats',
-  meta: { title: 'stats', icon: 'chart', roles: ['glmc-admin'] },
+  meta: { title: 'stats', icon: 'chart', roles: ['glmc-college'] },
   children: [
     {
       path: 'glmcfail',
@@ -15,7 +15,7 @@ const glmcRoutes: RouteConfig = {
           /* webpackChunkName: "come" */ '@/views/04stats/glmcfail/index.vue'
         ),
       name: 'glmcfail',
-      meta: { title: 'fails', roles: ['glmc-admin'] }
+      meta: { title: 'fails', roles: ['glmc-college'] }
     },
     {
       path: 'glmcfailstatisc',
@@ -24,13 +24,13 @@ const glmcRoutes: RouteConfig = {
           /* webpackChunkName: "come" */ '@/views/04stats/glmcfailstatisc/index.vue'
         ),
       name: 'glmcfailstatisc',
-      meta: { title: 'failStatics', roles: ['glmc-admin'] }
+      meta: { title: 'failStatics', roles: ['glmc-college'] }
     },
     {
       path: 'student',
       component: () =>
         import(
-          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/index.vue'
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/list.vue'
         ),
       name: 'Student',
       meta: { title: 'students' }
