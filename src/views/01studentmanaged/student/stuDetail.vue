@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="考生号">
-            <el-input v-model="stuDetail.examineeNo"></el-input>
+            <el-input v-model="stuDetail.examineeNo" readonly></el-input>
           </el-form-item>
         </el-col>
 
@@ -106,6 +106,11 @@
         <el-col :span="8">
           <el-form-item label="邮箱">
             <el-input v-model="stuDetail.email"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="辅导员">
+            <el-input v-model="stuDetail.counselor"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

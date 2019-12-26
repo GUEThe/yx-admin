@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="600px" :title="label" :visible="showDialog" destroy-on-close
+  <el-dialog width="800px" :title="label" :visible="showDialog" destroy-on-close
     @close="$emit('update:showDialog',false)">
     <el-table v-loading="loading" align="center" :data="data">
       <el-table-column label="序号" width="55" align="center">
@@ -18,6 +18,7 @@
           </el-input>
         </template>
       </el-table-column>
+      <el-table-column property="time" align="center" label="时间" width="150"></el-table-column>
       <el-table-column property="handler" align="center" label="操作人" width="100"></el-table-column>
       <el-table-column align="center" width="150">
         <template slot="header">
@@ -30,26 +31,28 @@
               {{ operateLog.id===scope.row.id? "保存":"修改" }}
             </el-button>
             <template>
-              <el-popconfirm confirmButtonText="确认" cancelButtonText="取消" icon="el-icon-info" iconColor="red"
+              <!-- <el-popconfirm confirmButtonText="确认" cancelButtonText="取消" icon="el-icon-info" iconColor="red"
                 title="确定此条备注删除吗？">
                 <el-button slot="reference" size="mini" type="danger">删除</el-button>
-              </el-popconfirm>
+              </el-popconfirm> -->
+              <Popconfirm placement="bottom" width="200" type="danger" okType="primary" okText="确认" title="确定此条备注删除吗？"
+                icon="el-icon-error" @confirm="onDelete(scope.row)">
+                <el-button type="danger" size="mini">删除</el-button>
+              </Popconfirm>
             </template>
           </el-button-group>
         </template>
       </el-table-column>
     </el-table>
-    <el-row type="flex" align="middle" style="margin-top:20px">
-      <el-col :span="19">
-        <el-form :model="operateLog" label-width="100px" :disabled="loading">
-          <el-form-item label="备注内容">
-            <el-input v-model="operateLog.mark" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
-          </el-form-item>
-        </el-form>
-      </el-col>
-      <el-col :offset="1" :span="4">
-        <el-button size="mini" type="primary" @click="handleSave">新增</el-button>
-      </el-col>
+    <el-row style="margin-top:20px">
+      <el-form :inline="true" :model="operateLog">
+        <el-form-item label="备注内容">
+          <el-input v-model="operateLog.mark" type="textarea" :rows="1" placeholder="请输入内容"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="mini" type="primary" @click="handleSave">新增</el-button>
+        </el-form-item>
+      </el-form>
     </el-row>
   </el-dialog>
 </template>
@@ -58,6 +61,8 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import Popconfirm from '@/components/Popconfirm/index.vue'
+import { deepClone } from '@/utils/index'
 
 const emptyLog = {
   id: 0,
@@ -70,6 +75,7 @@ const emptyLog = {
 
 @Component({
   components: {
+    Popconfirm
   }
 })
 export default class StuMark extends Vue {
@@ -94,7 +100,7 @@ export default class StuMark extends Vue {
 
   init() {
     if (JSON.stringify(this.stuInfo) !== '{}') {
-      this.newStuInfo = this.stuInfo
+      this.newStuInfo = deepClone(this.stuInfo) as models.StuInfo
       this.label = this.newStuInfo.studentId + ' ' + this.newStuInfo.name + ' ' + '的备注信息'
     }
     this.requestData()
@@ -118,6 +124,16 @@ export default class StuMark extends Vue {
       }
     } else {
       this.operateLog = mark
+    }
+  }
+
+  async onDelete(operateLog: models.OperateLog) {
+    const resp = await api.DeleteOperateLog({ id: operateLog.id })
+    if (resp.code === 0) {
+      this.data = this.data.filter(item => {
+        return item.id !== operateLog.id
+      })
+      this.$message.success('删除成功')
     }
   }
 
