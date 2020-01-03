@@ -78,27 +78,6 @@ export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
   return apiSendAsync<m.DataResponse<m.UserInfo>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 下载文件
- * @param fileKey number integer
- */
-export function GetFile(options: {
-  fileKey: number;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Awards/${options.fileKey}`,
-    method: "get",
-    reqName: "GetFile"
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
     export interface m.PageResponse&lt;m.Awards[]&gt; extends m.RestfulData{
       data?: m.Awards[];
       total: number;
@@ -507,6 +486,166 @@ export function DeleteCampus(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
+    export interface m.PageResponse&lt;m.CETRate[]&gt; extends m.RestfulData{
+      data?: m.CETRate[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 按学院\专业\班级统计CET通过率
+ * @param grade number integer 年级（不为空）
+ * @param college string string 学院（不为空）
+ * @param major string string 专业（可为空，为空代表全学院）
+ * @param classes string string 班级（可为空，为空代表全学院）
+ * @param school string string 学校（不为空）
+ * @param term string string 学期编号（不为空）
+ * @param type number integer CET类型（不为空，3,4,6,8）
+ */
+export function CollegePassRate(options: {
+  grade?: number;
+  college?: string;
+  major?: string;
+  classes?: string;
+  school?: string;
+  term?: string;
+  type?: number;
+}): Promise<m.PageResponse<m.CETRate[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET/CollegePassRate`,
+    method: "get",
+    reqName: "CollegePassRate"
+  };
+
+  opts.params = {
+    grade: options.grade,
+    college: options.college,
+    major: options.major,
+    classes: options.classes,
+    school: options.school,
+    term: options.term,
+    type: options.type
+  };
+
+  return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.CET[]&gt; extends m.RestfulData{
+      data?: m.CET[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 列表查询
+ * @param stid string string 学号
+ * @param name string string 姓名
+ * @param term string string 学期
+ * @param year number integer 年份
+ * @param type number integer 考试类型
+ * @param IdCardNo string string 身份证号
+ * @param reportNo string string 成绩单编号
+ * @param school string string 学校
+ */
+export function ListQuery(options: {
+  stid?: string;
+  name?: string;
+  term?: string;
+  year?: number;
+  type?: number;
+  IdCardNo?: string;
+  reportNo?: string;
+  school?: string;
+}): Promise<m.PageResponse<m.CET[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET/ListQuery`,
+    method: "get",
+    reqName: "ListQuery"
+  };
+
+  opts.params = {
+    stid: options.stid,
+    name: options.name,
+    term: options.term,
+    year: options.year,
+    type: options.type,
+    IdCardNo: options.IdCardNo,
+    reportNo: options.reportNo,
+    school: options.school
+  };
+
+  return apiSendAsync<m.PageResponse<m.CET[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.CETRate[]&gt; extends m.RestfulData{
+      data?: m.CETRate[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 按年级\专业统计CET通过率汇总
+ * @param grade number integer 年级
+ * @param college string string 学院（不为空）
+ * @param major string string 专业
+ * @param school string string 学校（不为空）
+ * @param term string string 学期编号（不为空）
+ * @param type number integer CET类型（不为空，3,4,6,8）
+ */
+export function PassRateGather(options: {
+  grade?: number;
+  college?: string;
+  major?: string;
+  school?: string;
+  term?: string;
+  type?: number;
+}): Promise<m.PageResponse<m.CETRate[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET/PassRateGather`,
+    method: "get",
+    reqName: "PassRateGather"
+  };
+
+  opts.params = {
+    grade: options.grade,
+    college: options.college,
+    major: options.major,
+    school: options.school,
+    term: options.term,
+    type: options.type
+  };
+
+  return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 批量删除CET成绩
+ * @param id number[]
+ */
+export function DeleteCET(options: {
+  id?: number[];
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET`,
+    method: "delete",
+    reqName: "DeleteCET"
+  };
+
+  opts.data = options.id;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
     export interface m.PageResponse&lt;m.College[]&gt; extends m.RestfulData{
       data?: m.College[];
       total: number;
@@ -779,27 +918,6 @@ export function DeleteCourse(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 解析JSON文件，写入数据库Course表
- * @param file file file
- */
-export function AnalysisJosnFile(options: {
-  file?: file;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Course/AnalysisJosnFile`,
-    method: "post",
-    reqName: "AnalysisJosnFile"
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
     export interface m.PageResponse&lt;m.Fee[]&gt; extends m.RestfulData{
       data?: m.Fee[];
       total: number;
@@ -961,7 +1079,21 @@ export function DeleteFee(options: {
     }
 */
 
+/**
+ * 下载文件
+ * @param fileKey number integer
+ */
+export function GetFile(options: {
+  fileKey: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/File/${options.fileKey}`,
+    method: "get",
+    reqName: "GetFile"
+  };
 
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
 /*
     export interface m.PageResponse&lt;m.FailStatisc[]&gt; extends m.RestfulData{
       data?: m.FailStatisc[];
@@ -1069,27 +1201,6 @@ export function GetGlmcAvergeStatisc(options: {
   };
 
   return apiSendAsync<m.PageResponse<m.scoreStatic[]>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 导入成绩数据，直接写入不考虑更新
- * @param file file file
- */
-export function importGYscore(options: {
-  file?: file;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Glmc/importGYscore`,
-    method: "post",
-    reqName: "importGYscore"
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -2499,27 +2610,6 @@ export function GetStudent(options: {
   };
 
   return apiSendAsync<m.DataResponse<m.Student>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 甘导入新生数据
- * @param file file file
- */
-export function ImportNewStudents(options: {
-  file?: file;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Student/importNewStudentsFile`,
-    method: "post",
-    reqName: "ImportNewStudents"
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{

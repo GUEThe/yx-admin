@@ -4,7 +4,8 @@
       <el-main>
         <h3>学生报道管理</h3>
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditStudent(0)">新增学生</el-button>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table v-loading="listLoading"
+          :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
@@ -28,8 +29,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
-            align="center" />
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20"
+            :total="total" align="center" />
         </div>
         <br>
       </el-main>
@@ -52,7 +53,7 @@ import StudentDialog from './components/StudentDialog.vue';
 })
 export default class StuReport extends Vue {
   listLoading: boolean = false;
-  listData: models.Student[] = [];
+  listData: models.Newstudent[] = [];
   search = '';
   editId = 0;
   editType = 0;
@@ -71,7 +72,7 @@ export default class StuReport extends Vue {
 
   async getStuAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetStudentList({ page, pageSize: 20 });
+    const { data, total } = await api.GetNewstudentquery({ page, pageSize: 20 });
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -94,7 +95,7 @@ export default class StuReport extends Vue {
         type: 'success',
         message: '删除成功!'
       });
-      this.listData = this.listData.filter((e: models.Student) => e.id !== id);
+      this.listData = this.listData.filter((e: models.Newstudent) => e.id !== id);
     }).catch(() => {
       //
     });

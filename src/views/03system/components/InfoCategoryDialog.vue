@@ -54,7 +54,7 @@ export default class InfoCategoryDialog extends Vue {
     value: '',
     type: '',
     enable: 0,
-    default: 0
+    isDefault: 0
   }
 
   mounted() {
@@ -77,7 +77,7 @@ export default class InfoCategoryDialog extends Vue {
         value: '',
         type: '',
         enable: 0,
-        default: 0
+        isDefault: 0
       }
     }
   }

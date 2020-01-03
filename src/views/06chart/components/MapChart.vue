@@ -135,14 +135,14 @@ export default class BarChart extends mixins(ResizeMixin) {
       name: '云南',
       value: 21
     }],
-     [{
+    [{
       name: '广东',
       value: 600
     }], [{
       name: '广西',
       value: 1400
     }],
-     [{
+    [{
       name: '海南',
       value: 350
     }], [{
@@ -155,6 +155,7 @@ export default class BarChart extends mixins(ResizeMixin) {
     var res = [];
     for (var i = 0; i < data.length; i++) {
       var dataItem = data[i];
+      // @ts-ignore
       var fromCoord = this.chinaGeoCoordMap[dataItem[0].name];
       var toCoord = [110.479, 25.1152];
       if (fromCoord && toCoord) {
@@ -195,54 +196,58 @@ export default class BarChart extends mixins(ResizeMixin) {
         },
         data: this.convertData(item[1])
       }, {
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          zlevel: 2,
-          rippleEffect: { // 涟漪特效
-            period: 6, // 动画时间，值越小速度越快
-            brushType: 'stroke', // 波纹绘制方式 stroke, fill
-            scale: 4 // 波纹圆环最大限制，值越大波纹越大
-          },
-          label: {
-            normal: {
-              show: true,
-              position: 'right', // 显示位置
-              offset: [5, 0], // 偏移设置
-              formatter: function (params) { // 圆环显示文字
-                return params.data.name;
-              },
-              fontSize: 13
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          symbol: 'circle',
-          symbolSize: function (val) {
-            // return val[2] * 0.1; // 圆环大小
-
-            if (val[2] > 1000) { return 15; }
-            if (val[2] > 500) { return 10; }
-            if (val[2] > 200) { return 9; }
-            if (val[2] > 100) {
-              return 7;
-            } else {
-              return 6;
-            }
-          },
-          itemStyle: {
-            normal: {
-              show: false,
-              color: '#f00'
-            }
-          },
-          data: item[1].map((dataItem: any) => {
-            return {
-              name: dataItem[0].name,
-              value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
-            };
-          })
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 2,
+        rippleEffect: { // 涟漪特效
+          period: 6, // 动画时间，值越小速度越快
+          brushType: 'stroke', // 波纹绘制方式 stroke, fill
+          scale: 4 // 波纹圆环最大限制，值越大波纹越大
         },
+        label: {
+          normal: {
+            show: true,
+            position: 'right', // 显示位置
+            offset: [5, 0], // 偏移设置
+            // @ts-ignore
+            formatter: function (params) { // 圆环显示文字
+              return params.data.name;
+            },
+            fontSize: 13
+          },
+          emphasis: {
+            show: true
+          }
+        },
+        symbol: 'circle',
+        // @ts-ignore
+        symbolSize: function (val) {
+          // return val[2] * 0.1; // 圆环大小
+
+          if (val[2] > 1000) { return 15; }
+          if (val[2] > 500) { return 10; }
+          if (val[2] > 200) { return 9; }
+          if (val[2] > 100) {
+            return 7;
+          } else {
+            return 6;
+          }
+        },
+        itemStyle: {
+          normal: {
+            show: false,
+            color: '#f00'
+          }
+        },
+        // @ts-ignore
+        data: item[1].map((dataItem: any) => {
+          return {
+            name: dataItem[0].name,
+            // @ts-ignore
+            value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+          };
+        })
+      },
         // 被攻击点
         {
           type: 'scatter',
@@ -273,6 +278,7 @@ export default class BarChart extends mixins(ResizeMixin) {
           symbolSize: 50,
           data: [{
             name: item[0],
+            // @ts-ignore
             value: this.chinaGeoCoordMap[item[0]].concat([10])
           }]
         }

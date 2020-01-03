@@ -306,6 +306,160 @@ export interface Campus {
 /*
  * @namespace models
  */
+export interface CETRate {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  classes: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  school: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  ccount: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  pcount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  rate: number;
+}
+/*
+ * @namespace models
+ */
+export interface CET {
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  idCardNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  reportNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  school: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  listen: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  reading: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  writing: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  others: number;
+}
+/*
+ * @namespace models
+ */
 export interface College {
   /**
    *  int32

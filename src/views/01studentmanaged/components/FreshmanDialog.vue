@@ -149,7 +149,7 @@
     <div slot="footer" class="dialog-footer">
       <el-button-group>
         <el-button v-if="editdisable" type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">
-取消
+          取消
         </el-button>
         <el-button v-if="editdisable" type="primary" icon="el-icon-check" @click="onSubmitAsync()">提交</el-button>
       </el-button-group>
@@ -270,7 +270,7 @@ export default class StudentDialog extends Vue {
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutStudent({ value: this.formData }) : await api.PostStudent({ student: this.formData });
+    const { data } = this.type ? await api.PutFreshmanStudent({ value: this.formData }) : await api.PostStudent({ student: this.formData });
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');

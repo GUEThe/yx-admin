@@ -116,8 +116,8 @@ export const formatJson = (filterKeys: any, jsonData: any) =>
     })
   )
 
-export function deepClone(obj) {
-  const objClone = Array.isArray(obj) ? [] : {}
+export function deepClone(obj: any) {
+  const objClone: any = Array.isArray(obj) ? [] : {}
   if (obj && typeof obj === 'object') {
     for (const key in obj) {
       // 判断是否为自身属性

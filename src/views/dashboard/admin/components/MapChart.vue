@@ -145,6 +145,7 @@ export default class BarChart extends mixins(ResizeMixin) {
     var res = [];
     for (var i = 0; i < data.length; i++) {
       var dataItem = data[i];
+      // @ts-ignore
       var fromCoord = this.chinaGeoCoordMap[dataItem[0].name];
       var toCoord = [116.4551, 40.2539];
       if (fromCoord && toCoord) {
@@ -185,45 +186,45 @@ export default class BarChart extends mixins(ResizeMixin) {
         },
         data: this.convertData(item[1])
       }, {
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          zlevel: 2,
-          rippleEffect: { // 涟漪特效
-            period: 4, // 动画时间，值越小速度越快
-            brushType: 'stroke', // 波纹绘制方式 stroke, fill
-            scale: 4 // 波纹圆环最大限制，值越大波纹越大
-          },
-          label: {
-            normal: {
-              show: true,
-              position: 'right', // 显示位置
-              offset: [5, 0], // 偏移设置
-              formatter: function (params: any) { // 圆环显示文字
-                return params.data.name;
-              },
-              fontSize: 13
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          symbol: 'circle',
-          symbolSize: function (val: any) {
-            return 5 + val[2] * 5; // 圆环大小
-          },
-          itemStyle: {
-            normal: {
-              show: false,
-              color: '#f00'
-            }
-          }
-          // data: item[1].map((dataItem: any) => {
-          //   return {
-          //     name: dataItem[0].name,
-          //     value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
-          //   };
-          // })
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        zlevel: 2,
+        rippleEffect: { // 涟漪特效
+          period: 4, // 动画时间，值越小速度越快
+          brushType: 'stroke', // 波纹绘制方式 stroke, fill
+          scale: 4 // 波纹圆环最大限制，值越大波纹越大
         },
+        label: {
+          normal: {
+            show: true,
+            position: 'right', // 显示位置
+            offset: [5, 0], // 偏移设置
+            formatter: function (params: any) { // 圆环显示文字
+              return params.data.name;
+            },
+            fontSize: 13
+          },
+          emphasis: {
+            show: true
+          }
+        },
+        symbol: 'circle',
+        symbolSize: function (val: any) {
+          return 5 + val[2] * 5; // 圆环大小
+        },
+        itemStyle: {
+          normal: {
+            show: false,
+            color: '#f00'
+          }
+        }
+        // data: item[1].map((dataItem: any) => {
+        //   return {
+        //     name: dataItem[0].name,
+        //     value: this.chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+        //   };
+        // })
+      },
         // 被攻击点
         {
           type: 'scatter',
