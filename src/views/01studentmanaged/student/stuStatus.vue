@@ -64,7 +64,7 @@ export default class StuStatus extends Vue {
 
   async handleSave() {
     this.saving = true
-    const resp = await api.PutStudent({ value: this.stuInfo as models.StuInfo })
+    const resp = await api.PutStudent({ value: this.newStuInfo as models.StuInfo })
     if (resp.code === 0) {
       this.$message.success('修改成功');
     }

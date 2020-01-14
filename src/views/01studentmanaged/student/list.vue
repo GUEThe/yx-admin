@@ -17,6 +17,27 @@
           <el-button :disabled="selectId.length===0" type="info">更改学籍</el-button>
         </el-row>
         <br>
+
+        <el-row>
+          <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getStatusValue" clearable>
+            <el-option v-for="item in stuStatusList" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="SchoolStatus" placeholder="在校状态" @change="getSchoolStatusValue" clearable>
+            <el-option v-for="item in SchoolStatusList" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="counselorValue" placeholder="选择辅导员" @change="getcounselorValue" clearable>
+            <el-option v-for="item in counselorList" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+
+          <el-button @click="onShowCharts()">查看图表</el-button>
+        </el-row>
+        <br>
+
         <el-table v-loading="loading" :data="data" element-loading-text="正在加载..." border fit highlight-current-row
           @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -74,6 +95,7 @@
     <stu-status :stuInfo="stuInfo" :showDialog.sync="showStuStatus" />
     <stu-mark :stuInfo="stuInfo" :showDialog.sync="showStuMark">
     </stu-mark>
+    <stu-charts :showDialog.sync="showStuCharts" :chartsData="chartsData"></stu-charts>
     <el-dialog title="批量设置辅导员" width="300px" :visible.sync="counselorVisible">
       <el-form>
         <el-form-item label="辅导员" :label-width="formLabelWidth">
@@ -85,6 +107,7 @@
         <el-button :loading="saving" type="primary" @click="handleUpdateCounselor">确 定</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -102,6 +125,7 @@ import * as echarts from 'echarts';
 import StuDetail from './stuDetail.vue'
 import StuStatus from './stuStatus.vue'
 import StuMark from './stuMark.vue'
+import StuCharts from './index.vue'
 /** 学生信息管理 */
 @Component({
   components: {
@@ -110,18 +134,40 @@ import StuMark from './stuMark.vue'
     StuDetail,
     StudentDialog,
     CollegeSelect,
-    MajorSelect
+    MajorSelect,
+    StuCharts
   },
   directives: {
     permission
   }
 })
 export default class StuList extends Vue {
+  stuStatusList: object = [
+    { value: '正常', label: '正常' },
+    { value: '留级', label: '留级' },
+    { value: '续读', label: '续读' },
+    { value: '退学', label: '退学' },
+  ];
+  stuStatusValue: string = '';
+  SchoolStatusList: object = [
+    { value: '在校', label: '在校' },
+    { value: '离校', label: '离校' },
+  ];
+  SchoolStatus: string = '';
+  counselorList: object = [
+    { value: '梁海', label: '梁海' },
+    { value: '韦松磊', label: '韦松磊' },
+    { value: '王子民', label: '王子民' },
+    { value: '杜华巍', label: '杜华巍' },
+  ];
+  counselorValue: string = '';
+  chartsData: number[] = [];
   @Prop() id!: number;
   stuInfo: models.StuInfo | Object = {};
   showStuMark: boolean = false;
   showStuDetail: boolean = false;
   showStuStatus: boolean = false;
+  showStuCharts: boolean = false;
   data: models.StuInfo[] = [];
   total: number = 0;
   queryOptions: models.IQueryStuOptions = {
@@ -132,6 +178,7 @@ export default class StuList extends Vue {
     college: '',
     major: '',
     type: '',
+    counselor: '',
     stustatus: '',
     page: 1,
     pageSize: 20
@@ -170,6 +217,10 @@ export default class StuList extends Vue {
     this.showStuDetail = true
   }
 
+  onShowCharts() {
+    this.showStuCharts = true;
+  }
+
   onEditStudent(stuInfo: models.StuInfo) {
     this.stuInfo = stuInfo
     this.showStuDetail = true
@@ -201,6 +252,22 @@ export default class StuList extends Vue {
     }
     this.saving = false
   }
+
+  async getStatusValue() {
+    this.queryOptions.stustatus = this.stuStatusValue;
+    this.requestData();
+  }
+
+  async getSchoolStatusValue() {
+    this.queryOptions.type = this.SchoolStatus;
+    this.requestData();
+  }
+
+  async getcounselorValue() {
+    this.queryOptions.counselor = this.counselorValue;
+    this.requestData();
+  }
+
 }
 </script>
 

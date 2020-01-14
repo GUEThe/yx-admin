@@ -27,7 +27,7 @@ module.exports = {
       //   }
       // }
       '/v1': {
-        target: 'http://localhost:53227/',
+        target: 'http://203.195.140.254:9527',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

@@ -9,4 +9,5 @@ export interface IQueryStuOptions {
   major?: string
   type?: string
   stustatus?: string
+  counselor?: string
 }
