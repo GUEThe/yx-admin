@@ -11,6 +11,7 @@ import chargemanagedRoutes from './modules/chargemanaged'
 import systemRoutes from './modules/system'
 import statsRoutes from './modules/stats'
 import glmcRoutes from './modules/glmc'
+import collegeRoutes from './modules/college'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -280,6 +281,7 @@ export const asyncRoutes: RouteConfig[] = [
   glmcRoutes,
   studentmanagedRoutes,
   systemRoutes,
+  collegeRoutes,
   // {
   //   path: '/icon',
   //   component: Layout,

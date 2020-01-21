@@ -1,6 +1,6 @@
 <template>
-  <el-dialog width="45%" title="图表" :visible="showDialog" destroy-on-close @close="$emit('update:showDialog',false)"
-    append-to-body>
+  <el-dialog width="45%" title="图表" :visible="showDialog" destroy-on-close append-to-body
+    @close="$emit('update:showDialog',false)">
     <el-button-group>
       <el-button type="primary" @click="createStatusEchart()">学籍状态</el-button>
       <el-button type="primary" @click="createSchoolStatusEchart()">在校状态</el-button>
@@ -30,6 +30,7 @@ import CounselorEchart from './ChartsComponent/CounselorEchart.vue'
     CounselorEchart
   }
 })
+//  todo 学籍信息统计
 export default class index extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() chartsData!: string[];
@@ -39,7 +40,6 @@ export default class index extends Vue {
   @Watch('showDialog')
   async showDialogChange(val: boolean, old: boolean) {
   }
-
 
   createStatusEchart() {
     this.showstatusEchart = true;

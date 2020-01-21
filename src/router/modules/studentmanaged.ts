@@ -9,7 +9,7 @@ const studentmanagedRoutes: RouteConfig = {
   meta: {
     title: 'studentmanaged',
     icon: 'peoples',
-    roles: ['admin', 'college']
+    roles: ['admin']
   },
   children: [
     {
@@ -39,15 +39,7 @@ const studentmanagedRoutes: RouteConfig = {
       name: 'Major',
       meta: { title: 'studentmanaged-major' }
     },
-    {
-      path: 'student',
-      component: () =>
-        import(
-          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/index.vue'
-        ),
-      name: 'Student',
-      meta: { title: 'students' }
-    },
+
     {
       path: 'list',
       component: () =>

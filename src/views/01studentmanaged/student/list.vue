@@ -19,20 +19,16 @@
         <br>
 
         <el-row>
-          <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getStatusValue" clearable>
+          <el-select v-model="stuStatusValue" placeholder="学籍状态" clearable @change="getStatusValue">
             <el-option v-for="item in stuStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
 
-          <el-select v-model="SchoolStatus" placeholder="在校状态" @change="getSchoolStatusValue" clearable>
+          <el-select v-model="SchoolStatus" placeholder="在校状态" clearable @change="getSchoolStatusValue">
             <el-option v-for="item in SchoolStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-
-          <el-select v-model="counselorValue" placeholder="选择辅导员" @change="getcounselorValue" clearable>
-            <el-option v-for="item in counselorList" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+          <el-input v-model="queryOptions.counselor" placeholder="辅导员" style="width:150px;"></el-input>
 
           <el-button @click="onShowCharts()">查看图表</el-button>
         </el-row>
@@ -107,7 +103,6 @@
         <el-button :loading="saving" type="primary" @click="handleUpdateCounselor">确 定</el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -143,23 +138,19 @@ import StuCharts from './index.vue'
 })
 export default class StuList extends Vue {
   stuStatusList: object = [
+    { value: '', label: '不限' },
     { value: '正常', label: '正常' },
     { value: '留级', label: '留级' },
     { value: '续读', label: '续读' },
-    { value: '退学', label: '退学' },
+    { value: '退学', label: '退学' }
   ];
   stuStatusValue: string = '';
   SchoolStatusList: object = [
     { value: '在校', label: '在校' },
-    { value: '离校', label: '离校' },
+    { value: '离校', label: '离校' }
   ];
   SchoolStatus: string = '';
-  counselorList: object = [
-    { value: '梁海', label: '梁海' },
-    { value: '韦松磊', label: '韦松磊' },
-    { value: '王子民', label: '王子民' },
-    { value: '杜华巍', label: '杜华巍' },
-  ];
+
   counselorValue: string = '';
   chartsData: number[] = [];
   @Prop() id!: number;
@@ -267,7 +258,6 @@ export default class StuList extends Vue {
     this.queryOptions.counselor = this.counselorValue;
     this.requestData();
   }
-
 }
 </script>
 

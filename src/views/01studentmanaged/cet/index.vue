@@ -2,10 +2,15 @@
   <div style="padding:5px" class="stureport-class">
     <el-container>
       <el-main>
-        <h3>学生成绩查询</h3>
+        <h3>四六级成绩查询</h3>
         <el-row type="flex">
+          <el-input v-model="listQuery.year" placeholder="年度" style="width:150px;"></el-input>
           <el-input v-model="listQuery.stid" placeholder="学号" style="width:150px;"></el-input>
           <el-input v-model="listQuery.name" placeholder="姓名" style="width:100px;"></el-input>
+          <el-select v-model="listQuery.type" placeholder="类型">
+            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
         </el-row>
         <br>
@@ -17,13 +22,15 @@
             </template>
           </el-table-column>
           <el-table-column label="学号" align="center" prop="stid"></el-table-column>
-
           <el-table-column label="姓名" align="center" prop="name"></el-table-column>
           <el-table-column label="学期" align="center" prop="term"></el-table-column>
-          <el-table-column label="课号" align="center" prop="courseno"></el-table-column>
-          <el-table-column label="课程名称" align="center" prop="cname"></el-table-column>
-          <el-table-column label="成绩" align="center" prop="score"></el-table-column>
-          <el-table-column label="考试类型" align="center" prop="ttype"></el-table-column>
+          <el-table-column label="考试类型" align="center" prop="type"></el-table-column>
+          <el-table-column label="总分" align="center" prop="score"></el-table-column>
+
+          <el-table-column label="听力" align="center" prop="listen"></el-table-column>
+          <el-table-column label="阅读" align="center" prop="reading"></el-table-column>
+          <el-table-column label="写作" align="center" prop="writing"></el-table-column>
+          <el-table-column label="综合" align="center" prop="others"></el-table-column>
         </el-table>
       </el-main>
     </el-container>
@@ -45,18 +52,26 @@ import { permission } from '@/directives/permission'
     permission
   }
 })
-export default class StuReport extends Vue {
+export default class cet extends Vue {
   listLoading: boolean = false;
-  listData: models.GDscore[] = [];
+  listData: models.CET[] = [];
 
   search = '';
   showDialog = false;
   total = 0;
   listQuery = {
     stid: '',
-    name: ''
-  }
+    name: '',
+    type: 4,
+    year: new Date().getFullYear()
 
+  }
+  typeList: object = [
+    { value: undefined, label: '不限' },
+    { value: 4, label: '四级' },
+    { value: 6, label: '六级' }
+  ];
+  stuStatusValue: string = '';
   get token() {
     return UserModule.token;
   }
@@ -65,12 +80,12 @@ export default class StuReport extends Vue {
   }
 
   async getStuAsync() {
-    if (this.listQuery.stid === '' && this.listQuery.name === '') {
+    if (this.listQuery.year === null && this.listQuery.stid === '' && this.listQuery.name === '') {
       this.$message.error('请输入学号或姓名')
       return
     }
     this.listLoading = true;
-    const { data, total } = await api.GetGuetStudentScore(this.listQuery);
+    const { data, total } = await api.GetCetList(this.listQuery);
 
     this.listData = data!;
     this.total = total!;

@@ -168,36 +168,7 @@ export default class StudentDialog extends Vue {
 
   private loading = false;
   private time = '';
-  private formData: models.Student = {
-    id: 0,
-    name: '',
-    gender: 0,
-    birthDay: 0,
-    birthPlace: '',
-    studentId: '',
-    examineeNo: '',
-    idCardNo: '',
-    collegeCode: '',
-    majorCode: '',
-    class: '',
-    year: 0,
-    type: '',
-    clothesSize: '',
-    shoesSize: '',
-    picture: '',
-    politicalStatus: '',
-    marriage: 0,
-    nativePlace: '',
-    nation: '',
-    phone: '',
-    qqNo: '',
-    mailingAddress: '',
-    parentName: '',
-    parentPhone: '',
-    isCome: 0,
-    time: 0
-
-  }
+  private formData: models.Student | Object = {};
 
   mounted() {
     //
@@ -211,60 +182,25 @@ export default class StudentDialog extends Vue {
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
       this.type === 3 ? this.dialogTitle = '查看学生信息' : this.dialogTitle = '编辑学生信息';
-      const { data } = await api.GetStudent({ studentId: this.id });
-      this.formData = Object.assign(this.formData, data!);
-
-      console.log('ggg')
+      const resp = await api.GetStudent({ studentId: this.id });
+      if (resp.code === 0) {
+        this.formData = resp.data as models.Student
+      }
     } else {
       this.dialogTitle = '增加学生';
-    }
-    if (!val) {
-      this.formData = {
-        id: 0,
-        name: '',
-        gender: 0,
-        birthDay: 0,
-        birthPlace: '',
-        studentId: '',
-        examineeNo: '',
-        idCardNo: '',
-        collegeCode: '',
-        majorCode: '',
-        class: '',
-        year: 0,
-        type: '',
-        clothesSize: '',
-        shoesSize: '',
-        picture: '',
-        politicalStatus: '',
-        marriage: 0,
-        nativePlace: '',
-        nation: '',
-        phone: '',
-        qqNo: '',
-        mailingAddress: '',
-        parentName: '',
-        parentPhone: '',
-        isCome: 0,
-        time: 0
-
-      }
     }
   }
 
   async onSubmitAsync() {
-    const { data } = this.type ? await api.PutFreshmanStudent({ value: this.formData }) : await api.PostStudent({ student: this.formData });
+    const { data } = this.type ? await api.PutFreshmanStudent({ value: this.formData as models.Student }) : await api.PostStudent({ student: this.formData as models.Student });
     if (data) {
       this.$message.success('操作成功！');
       this.$emit('refresh');
       this.$emit('update:showDialog', false);
     }
   }
-  timechange(e: any) {
-    this.formData.time = new Date(e).getTime();
-    console.log(e);
-  }
 }
+
 </script>
 
 <style scoped>
