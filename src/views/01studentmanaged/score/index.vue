@@ -4,14 +4,14 @@
       <el-main>
         <h3>学生成绩查询</h3>
         <el-row type="flex">
-<el-input v-model="listQuery.stid" placeholder="学号" style="width:150px;"></el-input>
+          <el-input v-model="listQuery.stid" placeholder="学号" style="width:150px;"></el-input>
           <el-input v-model="listQuery.name" placeholder="姓名" style="width:100px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
         </el-row>
         <br>
         <el-table v-loading="listLoading" :data="listData" element-loading-text="正在加载..." border sortable fit
           highlight-current-row :default-sort="{prop: 'courseno', order: 'descending'}">
-<el-table-column label="序号" width="55" align="center">
+          <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
               {{ scope.$index+1 }}
             </template>
@@ -24,10 +24,10 @@
           <el-table-column label="课程名称" align="center" prop="cname"></el-table-column>
           <el-table-column label="成绩" align="center" prop="score"></el-table-column>
           <el-table-column label="考试类型" align="center" prop="ttype"></el-table-column>
-</el-table>
-</el-main>
+        </el-table>
+      </el-main>
     </el-container>
-</div>
+  </div>
 </template>
 
 <script  lang="ts">
@@ -47,7 +47,7 @@ import { permission } from '@/directives/permission'
 })
 export default class StuReport extends Vue {
   listLoading: boolean = false;
-  listData: models.StudentAchievement[] = [];
+  listData: models.GDscore[] = [];
 
   search = '';
   showDialog = false;
@@ -65,7 +65,7 @@ export default class StuReport extends Vue {
 
   async getStuAsync() {
     this.listLoading = true;
-    const { data, total } = await api.GetStudentScore(this.listQuery);
+    const { data, total } = await api.GetGuetStudentScore(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;

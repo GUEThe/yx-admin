@@ -79,7 +79,7 @@ import Moment from 'moment';
 @Component({})
 export default class AuditPicture extends Vue {
   listLoading: boolean = false;
-  listData: models.Newstudent[] = [];
+  listData: models.Student[] = [];
   search = '';
   page = 1;
   total = 0;
@@ -108,7 +108,7 @@ export default class AuditPicture extends Vue {
   async getGetStudentStation(page: number = 1) {
     this.listLoading = true;
     console.log(this.listQuery);
-    const { data, total } = await api.GetNewstudentquery(this.listQuery);
+    const { data, total } = await api.GetFreshmanList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;

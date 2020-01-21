@@ -53,7 +53,7 @@ import StudentDialog from './components/StudentDialog.vue';
 })
 export default class StuReport extends Vue {
   listLoading: boolean = false;
-  listData: models.Newstudent[] = [];
+  listData: models.Student[] = [];
   search = '';
   editId = 0;
   editType = 0;
@@ -72,7 +72,7 @@ export default class StuReport extends Vue {
 
   async getStuAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetNewstudentquery({ page, pageSize: 20 });
+    const { data, total } = await api.GetFreshmanList({ page, pageSize: 20 });
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -95,7 +95,7 @@ export default class StuReport extends Vue {
         type: 'success',
         message: '删除成功!'
       });
-      this.listData = this.listData.filter((e: models.Newstudent) => e.id !== id);
+      this.listData = this.listData.filter((e: models.Student) => e.id !== id);
     }).catch(() => {
       //
     });
