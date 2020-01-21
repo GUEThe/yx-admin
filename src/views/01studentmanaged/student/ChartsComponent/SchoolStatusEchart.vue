@@ -1,6 +1,6 @@
 <template>
   <el-dialog width="39%" title="在校状态图表" :visible="showinnerDialog" destroy-on-close
-    @close="$emit('update:showinnerDialog',false)">
+    @close="$emit('update:showinnerDialog',false)" :modal-append-to-body="false">
     <div id="main2" style="width:500px;height:500px"></div>
   </el-dialog>
 </template>
