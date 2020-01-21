@@ -501,7 +501,6 @@ export function DeleteCampus(options: {
  * @param major string string 专业（可为空，为空代表全学院）
  * @param classes string string 班级（可为空，为空代表全学院）
  * @param school string string 学校（不为空）
- * @param term string string 学期编号（不为空）
  * @param type number integer CET类型（不为空，3,4,6,8）
  */
 export function CollegePassRate(options: {
@@ -510,7 +509,6 @@ export function CollegePassRate(options: {
   major?: string;
   classes?: string;
   school?: string;
-  term?: string;
   type?: number;
 }): Promise<m.PageResponse<m.CETRate[]>> {
   const opts: ApiRequestOptions = {
@@ -525,7 +523,6 @@ export function CollegePassRate(options: {
     major: options.major,
     classes: options.classes,
     school: options.school,
-    term: options.term,
     type: options.type
   };
 
@@ -550,8 +547,10 @@ export function CollegePassRate(options: {
  * @param IdCardNo string string 身份证号
  * @param reportNo string string 成绩单编号
  * @param school string string 学校
+ * @param college string string 学院
+ * @param major string string 专业
  */
-export function ListQuery(options: {
+export function GetCetList(options: {
   stid?: string;
   name?: string;
   term?: string;
@@ -560,11 +559,13 @@ export function ListQuery(options: {
   IdCardNo?: string;
   reportNo?: string;
   school?: string;
+  college?: string;
+  major?: string;
 }): Promise<m.PageResponse<m.CET[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/CET/ListQuery`,
+    url: `/api/CET/GetCetList`,
     method: "get",
-    reqName: "ListQuery"
+    reqName: "GetCetList"
   };
 
   opts.params = {
@@ -575,7 +576,9 @@ export function ListQuery(options: {
     type: options.type,
     IdCardNo: options.IdCardNo,
     reportNo: options.reportNo,
-    school: options.school
+    school: options.school,
+    college: options.college,
+    major: options.major
   };
 
   return apiSendAsync<m.PageResponse<m.CET[]>>(opts);
@@ -595,7 +598,6 @@ export function ListQuery(options: {
  * @param college string string 学院（不为空）
  * @param major string string 专业
  * @param school string string 学校（不为空）
- * @param term string string 学期编号（不为空）
  * @param type number integer CET类型（不为空，3,4,6,8）
  */
 export function PassRateGather(options: {
@@ -603,7 +605,6 @@ export function PassRateGather(options: {
   college?: string;
   major?: string;
   school?: string;
-  term?: string;
   type?: number;
 }): Promise<m.PageResponse<m.CETRate[]>> {
   const opts: ApiRequestOptions = {
@@ -617,7 +618,6 @@ export function PassRateGather(options: {
     college: options.college,
     major: options.major,
     school: options.school,
-    term: options.term,
     type: options.type
   };
 
@@ -644,6 +644,49 @@ export function DeleteCET(options: {
 
   opts.data = options.id;
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.CETRate[]&gt; extends m.RestfulData{
+      data?: m.CETRate[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * CET平均分统计
+ * @param grade number integer 年级
+ * @param college string string 学院（不为空）
+ * @param major string string 专业
+ * @param school string string 学校（不为空）
+ * @param term string string 学期
+ * @param type number integer CET类型（不为空，3,4,6,8）
+ */
+export function AverageScore(options: {
+  grade?: number;
+  college?: string;
+  major?: string;
+  school?: string;
+  term?: string;
+  type?: number;
+}): Promise<m.PageResponse<m.CETRate[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET/AverageScore`,
+    method: "get",
+    reqName: "AverageScore"
+  };
+
+  opts.params = {
+    grade: options.grade,
+    college: options.college,
+    major: options.major,
+    school: options.school,
+    term: options.term,
+    type: options.type
+  };
+
+  return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.College[]&gt; extends m.RestfulData{
@@ -1219,6 +1262,37 @@ export function UpdateGlmcScoreType(): Promise<m.DataResponse<m.RestfulData>> {
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.GYscore[]&gt; extends m.RestfulData{
+      data?: m.GYscore[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取桂医学生成绩列表
+ * @param stid string string 学号
+ * @param name string string 姓名
+ */
+export function GetGlmcStudentScore(options: {
+  stid?: string;
+  name?: string;
+}): Promise<m.PageResponse<m.GYscore[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Glmc/GetGlmcStudentScore`,
+    method: "get",
+    reqName: "GetGlmcStudentScore"
+  };
+
+  opts.params = {
+    stid: options.stid,
+    name: options.name
+  };
+
+  return apiSendAsync<m.PageResponse<m.GYscore[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.GreenChannel[]&gt; extends m.RestfulData{
@@ -2234,8 +2308,8 @@ export function DeletePayment(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.StudentAchievement[]&gt; extends m.RestfulData{
-      data?: m.StudentAchievement[];
+    export interface m.PageResponse&lt;m.GDscore[]&gt; extends m.RestfulData{
+      data?: m.GDscore[];
       total: number;
       page: number;
       pageSize: number;
@@ -2243,19 +2317,78 @@ export function DeletePayment(options: {
 */
 
 /**
- * 获取学生成绩列表
+ * 查询桂电课程成绩
  * @param stid string string 学号
+ * @param name string string 姓名
+ * @param grade string string 年级
+ * @param bj string string 班级
+ * @param term string string 学期
+ * @param courseno string string 课程编号(7位数字)
+ * @param cname string string 课程名称
+ * @param coursetype string string 课程类型
+ * @param isPass number integer 是否及格（1通过0挂科）
  */
-export function GetStudentScore(options: {
-  stid: string;
-}): Promise<m.PageResponse<m.StudentAchievement[]>> {
+export function GetGuetScore(options: {
+  stid?: string;
+  name?: string;
+  grade?: string;
+  bj?: string;
+  term?: string;
+  courseno?: string;
+  cname?: string;
+  coursetype?: string;
+  isPass?: number;
+}): Promise<m.PageResponse<m.GDscore[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Score/${options.stid}`,
+    url: `/api/Score/GetGuetScore`,
     method: "get",
-    reqName: "GetStudentScore"
+    reqName: "GetGuetScore"
   };
 
-  return apiSendAsync<m.PageResponse<m.StudentAchievement[]>>(opts);
+  opts.params = {
+    stid: options.stid,
+    name: options.name,
+    grade: options.grade,
+    bj: options.bj,
+    term: options.term,
+    courseno: options.courseno,
+    cname: options.cname,
+    coursetype: options.coursetype,
+    isPass: options.isPass
+  };
+
+  return apiSendAsync<m.PageResponse<m.GDscore[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.GDscore[]&gt; extends m.RestfulData{
+      data?: m.GDscore[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 获取桂电学生成绩列表
+ * @param stid string string 学号
+ * @param name string string 姓名
+ */
+export function GetGuetStudentScore(options: {
+  stid?: string;
+  name?: string;
+}): Promise<m.PageResponse<m.GDscore[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Score`,
+    method: "get",
+    reqName: "GetGuetStudentScore"
+  };
+
+  opts.params = {
+    stid: options.stid,
+    name: options.name
+  };
+
+  return apiSendAsync<m.PageResponse<m.GDscore[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -2451,7 +2584,7 @@ export function GetScoreFail(options: {
 
 /**
  * 获取在校学生信息列表
- * @param year number integer 年份
+ * @param grade number integer 年级
  * @param page number integer 当前页
  * @param bj string string 班级
  * @param pageSize number integer 页大小
@@ -2464,7 +2597,7 @@ export function GetScoreFail(options: {
  * @param counselor string string 辅导员
  */
 export function GetStudentList(options: {
-  year?: number;
+  grade?: number;
   page?: number;
   bj?: string;
   pageSize?: number;
@@ -2485,7 +2618,7 @@ export function GetStudentList(options: {
   options.pageSize = options.pageSize;
 
   opts.params = {
-    year: options.year,
+    grade: options.grade,
     page: options.page,
     bj: options.bj,
     pageSize: options.pageSize,
@@ -2740,8 +2873,8 @@ export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
   return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.Newstudent[]&gt; extends m.RestfulData{
-      data?: m.Newstudent[];
+    export interface m.PageResponse&lt;m.Student[]&gt; extends m.RestfulData{
+      data?: m.Student[];
       total: number;
       page: number;
       pageSize: number;
@@ -2760,7 +2893,7 @@ export function GetComeData(): Promise<m.PageResponse<m.Statistics[]>> {
  * @param year number integer 年份
  * @param nativeplace string string 生源地
  */
-export function GetNewstudentquery(options: {
+export function GetStudentquery(options: {
   page?: number;
   pageSize?: number;
   gender?: string;
@@ -2770,11 +2903,11 @@ export function GetNewstudentquery(options: {
   major?: string;
   year?: number;
   nativeplace?: string;
-}): Promise<m.PageResponse<m.Newstudent[]>> {
+}): Promise<m.PageResponse<m.Student[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewstudentquery`,
+    url: `/api/Student/GetStudentquery`,
     method: "get",
-    reqName: "GetNewstudentquery"
+    reqName: "GetStudentquery"
   };
 
   options.pageSize = options.pageSize;
@@ -2791,7 +2924,38 @@ export function GetNewstudentquery(options: {
     nativeplace: options.nativeplace
   };
 
-  return apiSendAsync<m.PageResponse<m.Newstudent[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Student[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.StuInfoStatus[]&gt; extends m.RestfulData{
+      data?: m.StuInfoStatus[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 学院统计在校生学籍信息
+ * @param grade number[]  年级
+ * @param major array array 专业
+ */
+export function CollegeCountByStatus(options: {
+  grade?: number[];
+  major?: array;
+}): Promise<m.PageResponse<m.StuInfoStatus[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/CollegeCountByStatus`,
+    method: "post",
+    reqName: "CollegeCountByStatus"
+  };
+
+  opts.params = {
+    major: options.major
+  };
+
+  opts.data = options.grade;
+  return apiSendAsync<m.PageResponse<m.StuInfoStatus[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
@@ -2803,9 +2967,30 @@ export function GetNewstudentquery(options: {
 */
 
 /**
- * 新生的省份生源男女分布统计
+ * 学院统计辅导员带班人数情况
+ */
+export function CountByCounselor(): Promise<m.PageResponse<m.Statistics[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Student/CountByCounselor`,
+    method: "post",
+    reqName: "CountByCounselor"
+  };
+
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 学院新生的省份生源男女分布统计
  * @param college string string 学院(为空默认全校)
- * @param type string string 学生类型（为空默认本科生）
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
 export function CountByProvince(options: {
@@ -2828,8 +3013,8 @@ export function CountByProvince(options: {
   return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.NewstudentNMWCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentNMWCount[];
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
       total: number;
       page: number;
       pageSize: number;
@@ -2837,20 +3022,20 @@ export function CountByProvince(options: {
 */
 
 /**
- * 获取新生生源男女人数
+ * 统计新生生源的男女人数
  * @param nativePlace string string 生源地（为空默认全国）
- * @param type string string 学生类型（为空默认本科生）
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
-export function GetNewstudentSYMWCount(options: {
+export function CountByProvinceSex(options: {
   nativePlace?: string;
   type?: string;
   year?: number;
-}): Promise<m.PageResponse<m.NewstudentNMWCount[]>> {
+}): Promise<m.PageResponse<m.Statistics[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewstudentSYMWCount`,
+    url: `/api/Student/CountByProvinceSex`,
     method: "get",
-    reqName: "GetNewstudentSYMWCount"
+    reqName: "CountByProvinceSex"
   };
 
   opts.params = {
@@ -2859,11 +3044,11 @@ export function GetNewstudentSYMWCount(options: {
     year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.NewstudentNMWCount[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.NewstudentMWCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentMWCount[];
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
       total: number;
       page: number;
       pageSize: number;
@@ -2871,52 +3056,18 @@ export function GetNewstudentSYMWCount(options: {
 */
 
 /**
- * 获取新生的学院男女人数
- * @param college string string 学院（为空默认全校）
- * @param type string string 学生类型（为空默认本科生）
+ * 统计新生类型的生源分布
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
-export function GetNewstudentCollegeMWCount(options: {
-  college?: string;
+export function CountByProvinceType(options: {
   type?: string;
   year?: number;
-}): Promise<m.PageResponse<m.NewstudentMWCount[]>> {
+}): Promise<m.PageResponse<m.Statistics[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewstudentCollegeMWCount`,
+    url: `/api/Student/CountByProvinceType`,
     method: "get",
-    reqName: "GetNewstudentCollegeMWCount"
-  };
-
-  opts.params = {
-    college: options.college,
-    type: options.type,
-    year: options.year
-  };
-
-  return apiSendAsync<m.PageResponse<m.NewstudentMWCount[]>>(opts);
-}
-/*
-    export interface m.PageResponse&lt;m.NewstudentNCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentNCount[];
-      total: number;
-      page: number;
-      pageSize: number;
-    }
-*/
-
-/**
- * 获取新生类型的生源分布
- * @param type string string 学生类型（为空默认本科生）
- * @param year number integer 年份（为空默认当年）
- */
-export function GetNewStudentTypeBirthplace(options: {
-  type?: string;
-  year?: number;
-}): Promise<m.PageResponse<m.NewstudentNCount[]>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewStudentTypeBirthplace`,
-    method: "get",
-    reqName: "GetNewStudentTypeBirthplace"
+    reqName: "CountByProvinceType"
   };
 
   opts.params = {
@@ -2924,11 +3075,11 @@ export function GetNewStudentTypeBirthplace(options: {
     year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.NewstudentNCount[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.NewstudentMWCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentMWCount[];
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
       total: number;
       page: number;
       pageSize: number;
@@ -2936,18 +3087,18 @@ export function GetNewStudentTypeBirthplace(options: {
 */
 
 /**
- * 获取新生类型的男女人数
- * @param type string string 学生类型（为空默认本科生）
+ * 统计新生类型的男女人数
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
-export function GetNewstudentTypeMWCount(options: {
+export function CountByTypeSex(options: {
   type?: string;
   year?: number;
-}): Promise<m.PageResponse<m.NewstudentMWCount[]>> {
+}): Promise<m.PageResponse<m.Statistics[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewstudentTypeMWCount`,
+    url: `/api/Student/CountByTypeSex`,
     method: "get",
-    reqName: "GetNewstudentTypeMWCount"
+    reqName: "CountByTypeSex"
   };
 
   opts.params = {
@@ -2955,11 +3106,11 @@ export function GetNewstudentTypeMWCount(options: {
     year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.NewstudentMWCount[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.NewstudentNCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentNCount[];
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
       total: number;
       page: number;
       pageSize: number;
@@ -2967,20 +3118,20 @@ export function GetNewstudentTypeMWCount(options: {
 */
 
 /**
- * 获取新生的专业生源分布统计
+ * 统计新生的专业生源分布
  * @param major string string 专业(不为空)
- * @param type string string 学生类型（为空默认本科生）
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
-export function GetNewStudentMajorBirthplace(options: {
+export function CountByMajorProvince(options: {
   major?: string;
   type?: string;
   year?: number;
-}): Promise<m.PageResponse<m.NewstudentNCount[]>> {
+}): Promise<m.PageResponse<m.Statistics[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewStudentMajorBirthplace`,
+    url: `/api/Student/CountByMajorProvince`,
     method: "get",
-    reqName: "GetNewStudentMajorBirthplace"
+    reqName: "CountByMajorProvince"
   };
 
   opts.params = {
@@ -2989,11 +3140,11 @@ export function GetNewStudentMajorBirthplace(options: {
     year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.NewstudentNCount[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.NewstudentMWCount[]&gt; extends m.RestfulData{
-      data?: m.NewstudentMWCount[];
+    export interface m.PageResponse&lt;m.Statistics[]&gt; extends m.RestfulData{
+      data?: m.Statistics[];
       total: number;
       page: number;
       pageSize: number;
@@ -3001,20 +3152,20 @@ export function GetNewStudentMajorBirthplace(options: {
 */
 
 /**
- * 获取新生的专业男女人数
+ * 统计新生的专业男女人数
  * @param major string string 专业（不为空）
- * @param type string string 学生类型（为空默认本科生）
+ * @param type string string 学生类型（为空默认本科）
  * @param year number integer 年份（为空默认当年）
  */
-export function GetNewstudentMajorMWCount(options: {
+export function GetStudentMajorMWCount(options: {
   major?: string;
   type?: string;
   year?: number;
-}): Promise<m.PageResponse<m.NewstudentMWCount[]>> {
+}): Promise<m.PageResponse<m.Statistics[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student/GetNewstudentMajorMWCount`,
+    url: `/api/Student/GetStudentMajorMWCount`,
     method: "get",
-    reqName: "GetNewstudentMajorMWCount"
+    reqName: "GetStudentMajorMWCount"
   };
 
   opts.params = {
@@ -3023,7 +3174,7 @@ export function GetNewstudentMajorMWCount(options: {
     year: options.year
   };
 
-  return apiSendAsync<m.PageResponse<m.NewstudentMWCount[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.Statistics[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{

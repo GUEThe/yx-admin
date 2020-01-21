@@ -332,12 +332,6 @@ export interface CETRate {
    */
   grade: number;
   /**
-   *
-   *
-   * @serverType string
-   */
-  term: string;
-  /**
    *  int32
    *
    * @serverType integer
@@ -354,13 +348,13 @@ export interface CETRate {
    *
    * @serverType integer
    */
-  ccount: number;
+  collegeStu: number;
   /**
    *  int32
    *
    * @serverType integer
    */
-  pcount: number;
+  passStu: number;
   /**
    *  double
    *
@@ -738,6 +732,143 @@ export interface scoreStatic {
    * @serverType number
    */
   credit: number;
+}
+/*
+ * @namespace models
+ */
+export interface GYscore {
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  termname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  sPname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  coursetype: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cj: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  scoretype: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  jys: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  ttype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  testtime: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cidRank: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cnoRank: number;
 }
 /*
  * @namespace models
@@ -1149,7 +1280,7 @@ export interface Payment {
 /*
  * @namespace models
  */
-export interface StudentAchievement {
+export interface GDscore {
   /**
    *  int64
    *
@@ -1186,12 +1317,6 @@ export interface StudentAchievement {
    * @serverType string
    */
   term: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  termname: string;
   /**
    *
    *
@@ -1251,13 +1376,19 @@ export interface StudentAchievement {
    *
    * @serverType integer
    */
-  cidRank: number;
+  spRank: number;
   /**
    *  int32
    *
    * @serverType integer
    */
   cnoRank: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  coursetype: string;
 }
 /*
  * @namespace models
@@ -1721,17 +1852,17 @@ export interface Student {
    */
   name: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  gender: number;
+  gender: string;
   /**
-   *  int64
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  birthDay: number;
+  birthDay: string;
   /**
    *
    *
@@ -1805,11 +1936,11 @@ export interface Student {
    */
   politicalStatus: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  marriage: number;
+  marriage: string;
   /**
    *
    *
@@ -1865,11 +1996,11 @@ export interface Student {
    */
   isCome: number;
   /**
-   *  int64
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  time: number;
+  time: string;
 }
 /*
  * @namespace models
@@ -1897,79 +2028,7 @@ export interface Statistics {
 /*
  * @namespace models
  */
-export interface Newstudent {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  gender: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  studentId: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  examineeNo: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  idCardNo: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  college: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  major: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  class: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  year: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  type: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  nativePlace: string;
+export interface StuInfoStatus {
   /**
    *  int32
    *
@@ -1981,130 +2040,13 @@ export interface Newstudent {
    *
    * @serverType string
    */
-  spno: string;
+  major: string;
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  nation: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  nplace: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  birthday: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  enrolldate: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  hostel: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  hostelphone: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  postcode: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  address: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  phoneno: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  familyheader: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  changetype: string;
-}
-/*
- * @namespace models
- */
-export interface NewstudentNMWCount {
-  /**
-   *
-   *
-   * @serverType string
-   */
-  nativeplace: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  manCount: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  womanCount: number;
-}
-/*
- * @namespace models
- */
-export interface NewstudentMWCount {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  manCount: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  womanCount: number;
-}
-/*
- * @namespace models
- */
-export interface NewstudentNCount {
-  /**
-   *
-   *
-   * @serverType string
-   */
-  nativeplace: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  count: number;
+  items: Statistics[];
 }
 /*
  * @namespace models

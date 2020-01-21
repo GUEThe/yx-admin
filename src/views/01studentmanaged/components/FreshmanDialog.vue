@@ -185,8 +185,8 @@ export default class StudentDialog extends Vue {
   private formData: models.Student = {
     id: 0,
     name: '',
-    gender: 0,
-    birthDay: 0,
+    gender: '',
+    birthDay: '',
     birthPlace: '',
     studentId: '',
     examineeNo: '',
@@ -200,7 +200,7 @@ export default class StudentDialog extends Vue {
     shoesSize: '',
     picture: '',
     politicalStatus: '',
-    marriage: 0,
+    marriage: '',
     nativePlace: '',
     nation: '',
     phone: '',
@@ -209,7 +209,7 @@ export default class StudentDialog extends Vue {
     parentName: '',
     parentPhone: '',
     isCome: 0,
-    time: 0
+    time: ''
 
   }
 
@@ -227,11 +227,11 @@ export default class StudentDialog extends Vue {
       this.type === 3 ? this.dialogTitle = '查看学生信息' : this.dialogTitle = '编辑学生信息';
       const { data } = await api.GetStudent({ studentId: this.id });
       this.formData = Object.assign(this.formData, data!);
-      if (this.formData.time) {
-        this.time = this.timestampToTime(this.formData.time);
-        console.log('tttt', this.time);
-      }
-      console.log('ggg')
+      // if (this.formData.time) {
+      //   this.time = this.timestampToTime(this.formData.time);
+      //   console.log('tttt', this.time);
+      // }
+      // console.log('ggg')
     } else {
       this.dialogTitle = '增加学生';
     }
@@ -239,8 +239,8 @@ export default class StudentDialog extends Vue {
       this.formData = {
         id: 0,
         name: '',
-        gender: 0,
-        birthDay: 0,
+        gender: '0',
+        birthDay: '',
         birthPlace: '',
         studentId: '',
         examineeNo: '',
@@ -254,7 +254,7 @@ export default class StudentDialog extends Vue {
         shoesSize: '',
         picture: '',
         politicalStatus: '',
-        marriage: 0,
+        marriage: '0',
         nativePlace: '',
         nation: '',
         phone: '',
@@ -263,7 +263,7 @@ export default class StudentDialog extends Vue {
         parentName: '',
         parentPhone: '',
         isCome: 0,
-        time: 0
+        time: '0'
 
       }
     }
@@ -278,7 +278,7 @@ export default class StudentDialog extends Vue {
     }
   }
   timechange(e: any) {
-    this.formData.time = new Date(e).getTime();
+    // this.formData.time = new Date(e).getTime();
     console.log(e);
   }
 
