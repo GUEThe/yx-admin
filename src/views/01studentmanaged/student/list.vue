@@ -5,7 +5,7 @@
         <h3>学生列表</h3>
         <el-row type="flex">
           <CollegeSelect v-permission="['admin']" :collegeId.sync="queryOptions.college" />
-          <MajorSelect :majorId.sync="queryOptions.major" />
+          <MajorSelect :name.sync="queryOptions.major" />
           <el-input v-model="queryOptions.year" placeholder="年级" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.name" placeholder="姓名" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.stid" placeholder="学号" style="width:100px;"></el-input>
@@ -19,12 +19,12 @@
         <br>
 
         <el-row>
-          <el-select v-model="stuStatusValue" placeholder="学籍状态" clearable @change="getStatusValue">
+          <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getStatusValue">
             <el-option v-for="item in stuStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
 
-          <el-select v-model="SchoolStatus" placeholder="在校状态" clearable @change="getSchoolStatusValue">
+          <el-select v-model="SchoolStatus" placeholder="在校状态" @change="getSchoolStatusValue">
             <el-option v-for="item in SchoolStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -138,11 +138,11 @@ import StuCharts from './index.vue'
 })
 export default class StuList extends Vue {
   stuStatusList: object = [
-    { value: '', label: '不限' },
     { value: '正常', label: '正常' },
     { value: '留级', label: '留级' },
     { value: '续读', label: '续读' },
-    { value: '退学', label: '退学' }
+    { value: '退学', label: '退学' },
+    { value: '', label: '不限' }
   ];
   stuStatusValue: string = '';
   SchoolStatusList: object = [
@@ -168,9 +168,9 @@ export default class StuList extends Vue {
     name: '',
     college: '',
     major: '',
-    type: '',
+    type: '在校',
     counselor: '',
-    stustatus: '',
+    stustatus: '正常',
     page: 1,
     pageSize: 20
   }

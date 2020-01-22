@@ -45,7 +45,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="专业">
-            <MajorSelect :majorId.sync="stuDetail.major" />
+            <MajorSelect :name.sync="stuDetail.major" />
           </el-form-item>
         </el-col>
         <el-col :span="8">

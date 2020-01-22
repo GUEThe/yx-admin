@@ -5,7 +5,7 @@
         <h3>学生报道管理</h3>
         <el-row type="flex">
           <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.collegeCode" />
-          <MajorSelect :majorId.sync="listQuery.majorCode" />
+          <MajorSelect :name.sync="listQuery.majorCode" />
           <el-input v-model="listQuery.studentId" placeholder="学号" style="width:200px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditStudent(0)">新增学生</el-button>

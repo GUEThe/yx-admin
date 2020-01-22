@@ -63,7 +63,7 @@ export default class cet extends Vue {
     stid: '',
     name: '',
     type: 4,
-    year: new Date().getFullYear()
+    year: new Date().getFullYear() - 1
 
   }
   typeList: object = [

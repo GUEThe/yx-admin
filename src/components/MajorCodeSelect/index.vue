@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="selectItem" placeholder="请选择专业" clearable @change="handleSelectChange">
-      <el-option v-for="item in majorList" :key="item.id" :label="item.name + item.code" :value="item.name">
+      <el-option v-for="item in majorList" :key="item.id" :label="item.name + item.code" :value="item.code">
       </el-option>
     </el-select>
   </div>
@@ -12,9 +12,9 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
 import * as api from '@/api'
 import * as models from '@/api/models'
 
-/** 专业列表 */
+/** 返回专业代码列表 */
 @Component({})
-export default class MajorSelect extends Vue {
+export default class MajorCodeSelect extends Vue {
   @Prop() name!: string
 
   majorList: models.Major[] = []
