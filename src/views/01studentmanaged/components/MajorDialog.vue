@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-dialog
-      :title="dialogTitle"
-      :visible="showDialog"
-      @close="$emit('update:showDialog', false)"
-    >
+    <el-dialog :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog', false)">
       <el-form :model="formData" label-width="100px" :disabled="loading">
         <el-form-item label="专业名称">
           <el-input v-model="formData.name"></el-input>
@@ -12,31 +8,24 @@
         <el-form-item label="专业代码">
           <el-input v-model="formData.code"></el-input>
         </el-form-item>
+        <el-form-item label="学制">
+          <el-input v-model="formData.years"></el-input>
+        </el-form-item>
         <el-form-item label="所属学院代码">
-          <CollegeSelect :collegeId.sync="formData.collegeCode" />
+          <CollegeCodeSelect :collegeId.sync="formData.collegeCode" />
         </el-form-item>
         <el-form-item label="所属学校">
-          <SchoolSelect :Id.sync="formData.type" />
+          <SchoolSelect :code.sync="formData.type" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button-group>
-          <el-button
-            type="button"
-            icon="el-icon-close"
-            @click="$emit('update:showDialog', false)"
-            >
-取消
-</el-button
-          >
-          <el-button
-            type="primary"
-            icon="el-icon-check"
-            @click="onSubmitAsync()"
-            >
-提交
-</el-button
-          >
+          <el-button type="button" icon="el-icon-close" @click="$emit('update:showDialog', false)">
+            取消
+          </el-button>
+          <el-button type="primary" icon="el-icon-check" @click="onSubmitAsync()">
+            提交
+          </el-button>
         </el-button-group>
       </div>
     </el-dialog>
@@ -47,11 +36,12 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator'
 import * as api from '@/api'
 import * as models from '@/api/models'
-import CollegeSelect from '@/components/CollegeSelect/index.vue'
+import CollegeCodeSelect from '@/components/CollegeCodeSelect/index.vue'
 import SchoolSelect from '@/components/SchoolSelect/index.vue'
 @Component({
   components: {
-    CollegeSelect
+    CollegeCodeSelect,
+    SchoolSelect
   }
 })
 export default class MajorDialog extends Vue {
@@ -71,7 +61,7 @@ export default class MajorDialog extends Vue {
     sptype: '',
     years: '',
     degree: '',
-    type: 'guet'
+    type: ''
   }
 
   mounted() {
@@ -97,7 +87,7 @@ export default class MajorDialog extends Vue {
         sptype: '',
         years: '',
         degree: '',
-        type: 'guet'
+        type: ''
       }
     }
   }

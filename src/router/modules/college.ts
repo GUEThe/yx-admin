@@ -43,6 +43,24 @@ const collegeRoutes: RouteConfig = {
       component: () => import('@/views/01studentmanaged/score/index.vue'),
       name: 'Score',
       meta: { title: 'guet_score' }
+    },
+    {
+      path: 'CourseScore',
+      component: () => import('@/views/01studentmanaged/score/courseList.vue'),
+      name: 'CourseScore',
+      meta: { title: 'courseScore' }
+    },
+    {
+      path: 'course',
+      component: () => import('@/views/01studentmanaged/course/index.vue'),
+      name: 'course',
+      meta: { title: 'course' }
+    },
+    {
+      path: 'import',
+      component: () => import('@/views/03system/importExcel/index.vue'),
+      name: 'import',
+      meta: { title: 'import' }
     }
   ]
 }

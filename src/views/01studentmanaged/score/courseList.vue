@@ -2,40 +2,47 @@
   <div style="padding:5px" class="stureport-class">
     <el-container>
       <el-main>
-        <h3>挂科学生成绩统计</h3>
+        <h3>课程成绩查询</h3>
         <el-row type="flex">
-          <el-input v-model="listQuery.grade" placeholder="年级" style="width:150px;"></el-input>
-          <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.college" />
-          <TermSelect :term.sync="listQuery.term" />
-          <!-- <MajorSelect :name.sync="listQuery.major" /> -->
+          <el-input v-model="listQuery.courseno" placeholder="课号" style="width:150px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getData()">查询</el-button>
         </el-row>
-
         <br>
-
+        <el-row v-if="data">
+          <el-col :span="4">
+            <div class="grid-content bg-purple">{{ data.term }}</div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple-light">{{ data.courseno }} {{ data.cname }}</div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">{{ data.courseType }}({{ data.credithour }}学分)</div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple-light">{{ data.courseid }}</div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">{{ data.courseType }}</div>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple-light">{{ data.teacherno }}{{ data.teachername }}</div>
+          </el-col>
+        </el-row>
+        <br>
         <el-table v-loading="listLoading" :data="listData" element-loading-text="正在加载..." border sortable fit
-          highlight-current-row>
+          :default-sort="{prop: 'stid'}">
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
               {{ scope.$index+1 }}
             </template>
           </el-table-column>
-          <el-table-column label="年级" align="center" prop="grade"></el-table-column>
-          <el-table-column label="学院" align="center" prop="college"></el-table-column>
-          <el-table-column label="专业" align="center" prop="major"></el-table-column>
           <el-table-column label="学号" align="center" prop="stid"></el-table-column>
           <el-table-column label="姓名" align="center" prop="name"></el-table-column>
-          <el-table-column label="挂科数量" align="center" prop="failCourseCount"></el-table-column>
-          <el-table-column label="课程明细" align="center" width="300">
-            <template slot-scope="scope">
-              <p v-for="item in scope.row.failCourse" :key="item.courseno"> {{ item.cname }}</p>
-              <!-- {{ scope.row.failCourse }} -->
-            </template>
-          </el-table-column>
+          <el-table-column label="分数" align="center" prop="score"></el-table-column>
         </el-table>
-</el-main>
+      </el-main>
     </el-container>
-</div>
+  </div>
 </template>
 
 <script  lang="ts">
@@ -45,13 +52,12 @@ import * as models from '@/api/models';
 import StudentDialog from '../components/StudentDialog.vue';
 import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
-import TermSelect from '@/components/TermSelect/index.vue';
 import { UserModule } from '@/store/modules/user'
 import { permission } from '@/directives/permission'
 
 @Component({
   components: {
-    TermSelect,
+    StudentDialog,
     CollegeSelect,
     MajorSelect
   },
@@ -59,35 +65,24 @@ import { permission } from '@/directives/permission'
     permission
   }
 })
-export default class StuReport extends Vue {
+export default class courseList extends Vue {
   listLoading: boolean = false;
-
-  listData: models.FailStatisc[] = [];
+  data: models.ScoreByCourse | null = null;
+  listData: models.StudentScore[] = [];
   search = '';
-  editId = 0;
-  editType = 0;
-  showDialog = false;
-  showUpoad = false;
-  page = 1;
-  total = 0;
   listQuery = {
-    major: '',
-    college: '',
-    term: '',
-    grade: ''
+    courseno: ''
   }
 
-  get token() {
-    return UserModule.token;
-  }
   mounted() {
 
   }
 
   async getData() {
     this.listLoading = true;
-    const { data } = await api.GetFailList(this.listQuery);
-    this.listData = data!;
+    const { data } = await api.GetScoreByCno(this.listQuery);
+    this.data = data!;
+    this.listData = this.data.stuScore;
     this.listLoading = false;
   }
 }

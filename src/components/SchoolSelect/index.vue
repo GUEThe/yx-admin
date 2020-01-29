@@ -1,17 +1,7 @@
 <template>
   <div>
-    <el-select
-      v-model="selectItem"
-      placeholder="请选择学校"
-      clearable
-      @change="handleSelectChange"
-    >
-      <el-option
-        v-for="item in dataList"
-        :key="item.id"
-        :label="item.name + item.value"
-        :value="item.value"
-      >
+    <el-select v-model="selectItem" placeholder="请选择学校" clearable @change="handleSelectChange">
+      <el-option v-for="item in dataList" :key="item.id" :label="item.name + item.value" :value="item.value">
       </el-option>
     </el-select>
   </div>
@@ -24,7 +14,7 @@ import * as models from '@/api/models'
 
 @Component({})
 export default class SchooolSelect extends Vue {
-  @Prop() Id!: number
+  @Prop() code!: string
 
   dataList: models.InfoCategory[] = []
   selectItem = ''
@@ -32,19 +22,18 @@ export default class SchooolSelect extends Vue {
     this.getListAsync()
   }
 
-  @Watch('Id')
-  onMajorIdChange(val: string) {
+  @Watch('code')
+  onChange(val: string) {
     this.selectItem = val
   }
   /** 获取下拉列表数据 */
   async getListAsync() {
     const { data } = await api.GetInfoCategoryByType({ type: '学校' })
-
     this.dataList = data!
   }
 
   handleSelectChange(e: any) {
-    this.$emit('update:Id', this.selectItem)
+    this.$emit('update:code', this.selectItem)
   }
 }
 </script>
