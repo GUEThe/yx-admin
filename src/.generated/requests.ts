@@ -496,37 +496,86 @@ export function DeleteCampus(options: {
 
 /**
  * 按学院\专业\班级统计CET通过率
- * @param grade number integer 年级（不为空）
+ * @param grade number integer 年级
  * @param college string string 学院（不为空）
- * @param major string string 专业（可为空，为空代表全学院）
- * @param classes string string 班级（可为空，为空代表全学院）
- * @param school string string 学校（不为空）
+ * @param name string string 统计类型名称（专业，班级）
+ * @param school string string 学校（不传默认guet）
  * @param type number integer CET类型（不为空，3,4,6,8）
  */
-export function CollegePassRate(options: {
+export function GetPassRate(options: {
   grade?: number
   college?: string
-  major?: string
-  classes?: string
+  name?: string
   school?: string
   type?: number
 }): Promise<m.PageResponse<m.CETRate[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/CET/CollegePassRate`,
+    url: `/api/CET/GetPassRate`,
     method: 'get',
-    reqName: 'CollegePassRate'
+    reqName: 'GetPassRate'
   }
 
   opts.params = {
     grade: options.grade,
     college: options.college,
-    major: options.major,
-    classes: options.classes,
+    name: options.name,
     school: options.school,
     type: options.type
   }
 
   return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts)
+}
+/*
+    export interface m.PageResponse&lt;m.StuCET[]&gt; extends m.RestfulData{
+      data?: m.StuCET[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 学生CET成绩查询（只返回最高分）
+ * @param stid string string 学号
+ * @param name string string 姓名
+ * @param bj string string 班级
+ * @param grade number integer 年级
+ * @param type number integer 考试类型
+ * @param major string string 专业
+ * @param college string string 学院
+ * @param school string string 学校
+ * @param isPass number integer 是否通过（1通过，0不通过）
+ */
+export function GetStudentCetScore(options: {
+  stid?: string
+  name?: string
+  bj?: string
+  grade?: number
+  type?: number
+  major?: string
+  college?: string
+  school?: string
+  isPass?: number
+}): Promise<m.PageResponse<m.StuCET[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/CET/GetStudentCetScore`,
+    method: 'get',
+    reqName: 'GetStudentCetScore'
+  }
+
+  opts.params = {
+    stid: options.stid,
+    name: options.name,
+    bj: options.bj,
+    grade: options.grade,
+    type: options.type,
+    major: options.major,
+    college: options.college,
+    school: options.school,
+    isPass: options.isPass
+  }
+
+  return apiSendAsync<m.PageResponse<m.StuCET[]>>(opts)
 }
 /*
     export interface m.PageResponse&lt;m.CET[]&gt; extends m.RestfulData{
@@ -538,7 +587,7 @@ export function CollegePassRate(options: {
 */
 
 /**
- * 列表查询
+ * CET成绩列表查询
  * @param stid string string 学号
  * @param name string string 姓名
  * @param term string string 学期
@@ -547,8 +596,6 @@ export function CollegePassRate(options: {
  * @param IdCardNo string string 身份证号
  * @param reportNo string string 成绩单编号
  * @param school string string 学校
- * @param college string string 学院
- * @param major string string 专业
  */
 export function GetCetList(options: {
   stid?: string
@@ -559,8 +606,6 @@ export function GetCetList(options: {
   IdCardNo?: string
   reportNo?: string
   school?: string
-  college?: string
-  major?: string
 }): Promise<m.PageResponse<m.CET[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/CET/GetCetList`,
@@ -576,52 +621,38 @@ export function GetCetList(options: {
     type: options.type,
     IdCardNo: options.IdCardNo,
     reportNo: options.reportNo,
-    school: options.school,
-    college: options.college,
-    major: options.major
+    school: options.school
   }
 
   return apiSendAsync<m.PageResponse<m.CET[]>>(opts)
 }
 /*
-    export interface m.PageResponse&lt;m.CETRate[]&gt; extends m.RestfulData{
-      data?: m.CETRate[];
-      total: number;
-      page: number;
-      pageSize: number;
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
     }
 */
 
 /**
- * 按年级\专业统计CET通过率汇总
- * @param grade number integer 年级
- * @param college string string 学院（不为空）
- * @param major string string 专业
- * @param school string string 学校（不为空）
- * @param type number integer CET类型（不为空，3,4,6,8）
+ * 修改CET记录
+ * @param id number integer
+ * @param model m.CET
  */
-export function PassRateGather(options: {
-  grade?: number
-  college?: string
-  major?: string
-  school?: string
-  type?: number
-}): Promise<m.PageResponse<m.CETRate[]>> {
+export function PutCET(options: {
+  id?: number
+  model?: m.CET
+}): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/CET/PassRateGather`,
-    method: 'get',
-    reqName: 'PassRateGather'
+    url: `/api/CET`,
+    method: 'put',
+    reqName: 'PutCET'
   }
 
   opts.params = {
-    grade: options.grade,
-    college: options.college,
-    major: options.major,
-    school: options.school,
-    type: options.type
+    id: options.id
   }
 
-  return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts)
+  opts.data = options.model
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts)
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -646,8 +677,8 @@ export function DeleteCET(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts)
 }
 /*
-    export interface m.PageResponse&lt;m.CETRate[]&gt; extends m.RestfulData{
-      data?: m.CETRate[];
+    export interface m.PageResponse&lt;m.CETAverage[]&gt; extends m.RestfulData{
+      data?: m.CETAverage[];
       total: number;
       page: number;
       pageSize: number;
@@ -657,36 +688,33 @@ export function DeleteCET(options: {
 /**
  * CET平均分统计
  * @param grade number integer 年级
- * @param college string string 学院（不为空）
- * @param major string string 专业
- * @param school string string 学校（不为空）
- * @param term string string 学期
- * @param type number integer CET类型（不为空，3,4,6,8）
+ * @param college string string 学院（不填则取当前登陆用户所在学院）
+ * @param name string string 统计类型名称（专业，班级）
+ * @param term string string 学期（2019上）
+ * @param type number integer CET类型（不为空：3,4,6,8）
  */
-export function AverageScore(options: {
+export function GetAverageScore(options: {
   grade?: number
   college?: string
-  major?: string
-  school?: string
+  name?: string
   term?: string
   type?: number
-}): Promise<m.PageResponse<m.CETRate[]>> {
+}): Promise<m.PageResponse<m.CETAverage[]>> {
   const opts: ApiRequestOptions = {
-    url: `/api/CET/AverageScore`,
+    url: `/api/CET/GetAverageScore`,
     method: 'get',
-    reqName: 'AverageScore'
+    reqName: 'GetAverageScore'
   }
 
   opts.params = {
     grade: options.grade,
     college: options.college,
-    major: options.major,
-    school: options.school,
+    name: options.name,
     term: options.term,
     type: options.type
   }
 
-  return apiSendAsync<m.PageResponse<m.CETRate[]>>(opts)
+  return apiSendAsync<m.PageResponse<m.CETAverage[]>>(opts)
 }
 /*
     export interface m.PageResponse&lt;m.College[]&gt; extends m.RestfulData{
@@ -817,7 +845,7 @@ export function DeleteCollege(options: {
  * @param courseid string string 课程编号
  * @param courseno string string 开课编号
  * @param cname string string 课程名称
- * @param teacherName string string 教师名称
+ * @param teachername string string 教师名称
  * @param teacherno string string 教师号
  * @param grade string string 年级
  * @param term string string 学期
@@ -832,7 +860,7 @@ export function GetCourseList(options: {
   courseid?: string
   courseno?: string
   cname?: string
-  teacherName?: string
+  teachername?: string
   teacherno?: string
   grade?: string
   term?: string
@@ -855,7 +883,7 @@ export function GetCourseList(options: {
     courseid: options.courseid,
     courseno: options.courseno,
     cname: options.cname,
-    teacherName: options.teacherName,
+    teachername: options.teachername,
     teacherno: options.teacherno,
     grade: options.grade,
     term: options.term,

@@ -27,6 +27,18 @@ const collegeRoutes: RouteConfig = {
       meta: { title: 'cet' }
     },
     {
+      path: 'cetAverage',
+      component: () => import('@/views/01studentmanaged/cet/average.vue'),
+      name: 'cetAverage',
+      meta: { title: 'cetAverage' }
+    },
+    {
+      path: 'cetStudent',
+      component: () => import('@/views/01studentmanaged/cet/stuList.vue'),
+      name: 'cetStudent',
+      meta: { title: 'cetStudent' }
+    },
+    {
       path: 'score',
       component: () => import('@/views/01studentmanaged/score/index.vue'),
       name: 'Score',

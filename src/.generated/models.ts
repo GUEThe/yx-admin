@@ -312,19 +312,7 @@ export interface CETRate {
    *
    * @serverType string
    */
-  college: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  classes: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  major: string;
+  name: string;
   /**
    *  int32
    *
@@ -338,29 +326,93 @@ export interface CETRate {
    */
   type: number;
   /**
+   *  int32
    *
-   *
-   * @serverType string
+   * @serverType integer
    */
-  school: string;
+  total: number;
   /**
    *  int32
    *
    * @serverType integer
    */
-  collegeStu: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  passStu: number;
+  pass: number;
   /**
    *  double
    *
    * @serverType number
    */
   rate: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  scoreCount: HighScoreCount[];
+}
+/*
+ * @namespace models
+ */
+export interface HighScoreCount {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  score: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  count: number;
+}
+/*
+ * @namespace models
+ */
+export interface StuCET {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  bj: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
 }
 /*
  * @namespace models
@@ -420,6 +472,71 @@ export interface CET {
    * @serverType string
    */
   school: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  listen: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  reading: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  writing: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  others: number;
+}
+/*
+ * @namespace models
+ */
+export interface CETAverage {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  isPass: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  stuCount: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
   /**
    *  double
    *
