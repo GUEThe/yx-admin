@@ -515,8 +515,8 @@ export interface CETAverage {
   isPass: string;
   /**
    *  int32
-   *
-   * @serverType integer
+   * 
+   * @serverType integer 
    */
   stuCount: number;
   /**
