@@ -6,7 +6,7 @@
         <el-row type="flex">
           <CollegeSelect v-permission="['admin']" :collegeId.sync="queryOptions.college" />
           <MajorSelect :name.sync="queryOptions.major" />
-          <el-input v-model="queryOptions.year" placeholder="年级" style="width:150px;"></el-input>
+          <el-input v-model="queryOptions.grade" placeholder="年级" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.name" placeholder="姓名" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.stid" placeholder="学号" style="width:100px;"></el-input>
 
@@ -19,13 +19,13 @@
         <br>
 
         <el-row>
-          <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getStatusValue">
+          <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getstuStatusValue">
             <el-option v-for="item in stuStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
 
-          <el-select v-model="SchoolStatus" placeholder="在校状态" @change="getSchoolStatusValue">
-            <el-option v-for="item in SchoolStatusList" :key="item.value" :label="item.label" :value="item.value">
+          <el-select v-model="typeValue" placeholder="在校状态" @change="getTypeValue">
+            <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
           <el-input v-model="queryOptions.counselor" placeholder="辅导员" style="width:150px;"></el-input>
@@ -145,11 +145,13 @@ export default class StuList extends Vue {
     { value: '', label: '不限' }
   ];
   stuStatusValue: string = '';
-  SchoolStatusList: object = [
+  // 在校状态
+  typeList: object = [
     { value: '在校', label: '在校' },
-    { value: '离校', label: '离校' }
+    { value: '离校', label: '离校' },
+    { value: '', label: '不限' }
   ];
-  SchoolStatus: string = '';
+  typeValue: string = '';
 
   counselorValue: string = '';
   chartsData: number[] = [];
@@ -161,8 +163,8 @@ export default class StuList extends Vue {
   showStuCharts: boolean = false;
   data: models.StuInfo[] = [];
   total: number = 0;
-  queryOptions: models.IQueryStuOptions = {
-    year: undefined,
+  queryOptions = {
+    grade: undefined,
     bj: '',
     stid: '',
     name: '',
@@ -170,7 +172,7 @@ export default class StuList extends Vue {
     major: '',
     type: '在校',
     counselor: '',
-    stustatus: '正常',
+    stustatus: '',
     page: 1,
     pageSize: 20
   }
@@ -244,19 +246,16 @@ export default class StuList extends Vue {
     this.saving = false
   }
 
-  async getStatusValue() {
+  async getstuStatusValue() {
     this.queryOptions.stustatus = this.stuStatusValue;
-    this.requestData();
   }
 
-  async getSchoolStatusValue() {
-    this.queryOptions.type = this.SchoolStatus;
-    this.requestData();
+  async getTypeValue() {
+    this.queryOptions.type = this.typeValue;
   }
 
   async getcounselorValue() {
     this.queryOptions.counselor = this.counselorValue;
-    this.requestData();
   }
 }
 </script>
