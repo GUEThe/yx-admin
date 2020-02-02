@@ -1,11 +1,11 @@
 <template>
-  <el-dialog width="700px" title="成绩分析统计" :visible="showDialog" destroy-on-close :modal-append-to-body="false"
-    @close="$emit('update:showDialog',false)">
-    <div id="main" style="width:500px;height:500px;margin-left:80px"></div>
-    <el-row type="flex" justify="center">
-      <el-button type="button" @click="$emit('update:showDialog',false)">取消</el-button>
-    </el-row>
-  </el-dialog>
+  <div>
+    <el-container>
+      <el-main>
+        <div id="main"></div>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script  lang="ts">
@@ -21,7 +21,7 @@ export default class gradeAnalysisDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() Courseno!: string;
   listQuery = {
-    courseno: this.Courseno
+    courseno: ''
   }
   scoreanalysis = {
     excellent: 0,
@@ -30,14 +30,30 @@ export default class gradeAnalysisDialog extends Vue {
     pass: 0,
     failed: 0
   };
-  @Watch('showDialog')
-  async showDialogChange(val: boolean, old: boolean) {
-    if (val) {
-      this.createChart()
+
+  mounted() {
+    if (this.showDialog) {
+      this.createChart();
     }
   }
 
+  @Watch('Courseno')
+  change(val: string, old: string) {
+    if (val != old) {
+      this.scoreanalysis = {
+        excellent: 0,
+        good: 0,
+        middle: 0,
+        pass: 0,
+        failed: 0
+      };
+      this.createChart();
+    }
+  }
+
+
   async createChart() {
+    console.log("子组件", this.Courseno);
     this.listQuery.courseno = this.Courseno;
     let grade = ['优', '良', '中', '及格', '不及格'];
     const { data } = await api.GetScoreByCno(this.listQuery);
@@ -134,7 +150,7 @@ export default class gradeAnalysisDialog extends Vue {
         label: {
           normal: {
             position: 'inner',
-            formatter: '{c}人',
+            formatter: '{b}:{c}人',
             textStyle: {
               color: '#777777',
               fontWeight: 'bold',
@@ -151,4 +167,10 @@ export default class gradeAnalysisDialog extends Vue {
 </script>
 
 <style scoped>
+#main {
+  width: 400px;
+  height: 400px;
+  margin-left: 80px;
+  /* border: 1px solid black; */
+}
 </style>

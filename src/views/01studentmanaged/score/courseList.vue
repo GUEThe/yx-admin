@@ -6,7 +6,6 @@
         <el-row type="flex">
           <el-input v-model="listQuery.courseno" placeholder="课号" style="width:150px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getData()">查询</el-button>
-          <el-button type="info" icon="el-icon-show" size="mini" @click="showGradeAnalysis()">成绩统计</el-button>
         </el-row>
         <br>
         <el-row v-if="data">
@@ -30,11 +29,21 @@
           </el-col>
         </el-row>
         <br>
-        <el-table v-loading="listLoading" :data="listData" element-loading-text="正在加载..." border sortable fit
+        <el-table v-loading="listLoading" :data="listDataLeft" element-loading-text="正在加载..." border sortable fit
           :default-sort="{prop: 'stid'}">
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
-              {{ scope.$index+1 }}
+              {{ scope.$index*2+1 }}
+            </template>
+          </el-table-column>
+          <el-table-column label="学号" align="center" prop="stid"></el-table-column>
+          <el-table-column label="姓名" align="center" prop="name"></el-table-column>
+          <el-table-column label="分数" align="center" prop="score"></el-table-column>
+        </el-table>
+        <el-table :data="listDataRight" border sortable fit :default-sort="{prop: 'stid'}">
+          <el-table-column label="序号" width="55" align="center">
+            <template slot-scope="scope">
+              {{ (scope.$index+1)*2 }}
             </template>
           </el-table-column>
           <el-table-column label="学号" align="center" prop="stid"></el-table-column>
@@ -42,10 +51,10 @@
           <el-table-column label="分数" align="center" prop="score"></el-table-column>
         </el-table>
       </el-main>
-
-      <gradeAnalysisDialog :showDialog.sync="showgradeanalysis" :Courseno.sync="listQuery.courseno">
-      </gradeAnalysisDialog>
     </el-container>
+    <gradeAnalysisDialog :showDialog.sync="showgradeanalysis" :Courseno.sync="listQuery.courseno"
+      v-if="showgradeanalysis" v-loading="listLoading" element-loading-text="正在加载...">
+    </gradeAnalysisDialog>
   </div>
 </template>
 
@@ -74,7 +83,8 @@ export default class courseList extends Vue {
   listLoading: boolean = false;
   showgradeanalysis: boolean = false;
   data: models.ScoreByCourse | null = null;
-  listData: models.StudentScore[] = [];
+  listDataLeft: models.StudentScore[] = [];
+  listDataRight: models.StudentScore[] = [];
   search = '';
   listQuery = {
     courseno: ''
@@ -85,10 +95,19 @@ export default class courseList extends Vue {
   }
 
   async getData() {
+    this.listDataLeft = [];
+    this.listDataRight = [];
+    this.showgradeanalysis = true;
     this.listLoading = true;
     const { data } = await api.GetScoreByCno(this.listQuery);
     this.data = data!;
-    this.listData = this.data.stuScore;
+    for (let i = 0; i < this.data.stuScore.length; i++) {
+      if (i % 2 != 0) {
+        this.listDataLeft.push(this.data.stuScore[i])
+      } else {
+        this.listDataRight.push(this.data.stuScore[i])
+      }
+    }
     this.listLoading = false;
   }
 
@@ -98,8 +117,13 @@ export default class courseList extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 .stureport-class .el-input {
   width: 200px;
+}
+
+.el-table {
+  width: 50%;
+  float: left;
 }
 </style>

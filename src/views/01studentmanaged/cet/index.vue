@@ -34,6 +34,12 @@
         </el-table>
       </el-main>
     </el-container>
+    <el-container>
+      <el-main>
+        <CETchart :showDialog.sync="showcetchart" v-if="showcetchart" v-loading="listLoading"
+          element-loading-text="正在加载..." :StuInfo.sync="queryOptions"></CETchart>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -43,28 +49,28 @@ import * as api from '@/api';
 import * as models from '@/api/models';
 import { UserModule } from '@/store/modules/user'
 import { permission } from '@/directives/permission'
-
+import CETchart from './components/charts.vue'
 @Component({
   components: {
-
+    CETchart
   },
   directives: {
     permission
   }
 })
 export default class cet extends Vue {
+  num: number = 0;
+  showcetchart: boolean = false;
   listLoading: boolean = false;
   listData: models.CET[] = [];
-
   search = '';
   showDialog = false;
   total = 0;
   queryOptions = {
     stid: '',
-    name: '',
+    name: '刘见凤',
     type: 4,
-    year: new Date().getFullYear() - 1
-
+    year: undefined
   }
   typeList: object = [
     { value: undefined, label: '不限' },
@@ -75,18 +81,17 @@ export default class cet extends Vue {
   get token() {
     return UserModule.token;
   }
-  mounted() {
-
-  }
+  mounted() { }
 
   async handleFilter() {
+    console.log('父组件', this.num);
+    this.showcetchart = true;
     if (this.queryOptions.year === null && this.queryOptions.stid === '' && this.queryOptions.name === '') {
       this.$message.error('请输入学号或姓名')
       return
     }
     this.listLoading = true;
     const { data, total } = await api.GetCetList(this.queryOptions);
-
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
