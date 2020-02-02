@@ -6,6 +6,7 @@
         <el-row type="flex">
           <el-input v-model="listQuery.courseno" placeholder="课号" style="width:150px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getData()">查询</el-button>
+          <el-button type="info" icon="el-icon-show" size="mini" @click="showGradeAnalysis()">成绩统计</el-button>
         </el-row>
         <br>
         <el-row v-if="data">
@@ -41,6 +42,9 @@
           <el-table-column label="分数" align="center" prop="score"></el-table-column>
         </el-table>
       </el-main>
+
+      <gradeAnalysisDialog :showDialog.sync="showgradeanalysis" :Courseno.sync="listQuery.courseno">
+      </gradeAnalysisDialog>
     </el-container>
   </div>
 </template>
@@ -54,12 +58,13 @@ import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
 import { UserModule } from '@/store/modules/user'
 import { permission } from '@/directives/permission'
-
+import gradeAnalysisDialog from './components/gradeAnalysis.vue';
 @Component({
   components: {
     StudentDialog,
     CollegeSelect,
-    MajorSelect
+    MajorSelect,
+    gradeAnalysisDialog
   },
   directives: {
     permission
@@ -67,6 +72,7 @@ import { permission } from '@/directives/permission'
 })
 export default class courseList extends Vue {
   listLoading: boolean = false;
+  showgradeanalysis: boolean = false;
   data: models.ScoreByCourse | null = null;
   listData: models.StudentScore[] = [];
   search = '';
@@ -84,6 +90,10 @@ export default class courseList extends Vue {
     this.data = data!;
     this.listData = this.data.stuScore;
     this.listLoading = false;
+  }
+
+  showGradeAnalysis() {
+    this.showgradeanalysis = true;
   }
 }
 </script>

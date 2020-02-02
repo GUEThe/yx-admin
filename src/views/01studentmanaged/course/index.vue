@@ -143,7 +143,7 @@ export default class StuReport extends Vue {
 
   getValue(Object: any) {
     this.courseDetail = Object;
-    if (this.courseDetail == 1) {
+    if (this.courseDetail === 1) {
       this.showcourseDetail = false;
       this.requestData();
     }

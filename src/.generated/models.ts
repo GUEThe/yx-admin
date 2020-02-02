@@ -698,6 +698,45 @@ export interface Course {
    */
   courseType: string;
 }
+
+export interface courseType {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  value: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  enable: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  isDefault: number;
+}
 /*
  * @namespace models
  */

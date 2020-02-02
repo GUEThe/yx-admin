@@ -17,7 +17,7 @@ import * as models from '@/api/models'
 export default class coursetypeSelect extends Vue {
   @Prop() name!: string
 
-  coursetypeList: models.Course[] = []
+  coursetypeList: models.courseType[] = [];
   selectItem = ''
   mounted() {
     this.getcoursetypeAsync()
@@ -30,8 +30,7 @@ export default class coursetypeSelect extends Vue {
   /** 获取所有专业 */
   async getcoursetypeAsync() {
     const { data } = await api.GetCourseType();
-    this.coursetypeList = data!
-    console.log('coursetypelist', this.coursetypeList);
+    this.coursetypeList = data!;
   }
 
   handleSelectChange(e: any) {
