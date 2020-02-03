@@ -4,7 +4,9 @@
       <el-main>
         <h3>四六级成绩查询</h3>
         <el-row type="flex">
-          <el-input v-model="queryOptions.year" placeholder="年度" style="width:150px;"></el-input>
+          <!-- <el-input v-model="queryOptions.year" placeholder="年度" style="width:150px;"></el-input> -->
+          <el-date-picker v-model="year" type="year" placeholder="选择年" value-format="yyyy">
+          </el-date-picker>
           <el-input v-model="queryOptions.stid" placeholder="学号" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.name" placeholder="姓名" style="width:100px;"></el-input>
           <el-select v-model="queryOptions.type" placeholder="类型">
@@ -36,8 +38,8 @@
     </el-container>
     <el-container>
       <el-main>
-        <CETchart :showDialog.sync="showcetchart" v-if="showcetchart" v-loading="listLoading"
-          element-loading-text="正在加载..." :StuInfo.sync="queryOptions"></CETchart>
+        <CETchart v-if="showcetchart" v-loading="listLoading" element-loading-text="正在加载..." :chartData="chartData">
+        </CETchart>
       </el-main>
     </el-container>
   </div>
@@ -59,10 +61,11 @@ import CETchart from './components/charts.vue'
   }
 })
 export default class cet extends Vue {
-  num: number = 0;
+  year: string = '2019';
   showcetchart: boolean = false;
   listLoading: boolean = false;
   listData: models.CET[] = [];
+  chartData: any = [];
   search = '';
   showDialog = false;
   total = 0;
@@ -70,7 +73,7 @@ export default class cet extends Vue {
     stid: '',
     name: '刘见凤',
     type: 4,
-    year: undefined
+    year: 2019
   }
   typeList: object = [
     { value: undefined, label: '不限' },
@@ -78,13 +81,13 @@ export default class cet extends Vue {
     { value: 6, label: '六级' }
   ];
   stuStatusValue: string = '';
+
   get token() {
     return UserModule.token;
   }
-  mounted() { }
 
   async handleFilter() {
-    console.log('父组件', this.num);
+    this.queryOptions.year = Number(this.year);
     this.showcetchart = true;
     if (this.queryOptions.year === null && this.queryOptions.stid === '' && this.queryOptions.name === '') {
       this.$message.error('请输入学号或姓名')
@@ -95,6 +98,7 @@ export default class cet extends Vue {
     this.listData = data!;
     this.total = total!;
     this.listLoading = false;
+    this.chartData = this.listData;
   }
 }
 </script>

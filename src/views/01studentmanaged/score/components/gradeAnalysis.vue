@@ -39,7 +39,7 @@ export default class gradeAnalysisDialog extends Vue {
 
   @Watch('Courseno')
   change(val: string, old: string) {
-    if (val != old) {
+    if (val !== old) {
       this.scoreanalysis = {
         excellent: 0,
         good: 0,
@@ -51,9 +51,7 @@ export default class gradeAnalysisDialog extends Vue {
     }
   }
 
-
   async createChart() {
-    console.log("子组件", this.Courseno);
     this.listQuery.courseno = this.Courseno;
     let grade = ['优', '良', '中', '及格', '不及格'];
     const { data } = await api.GetScoreByCno(this.listQuery);
@@ -105,7 +103,7 @@ export default class gradeAnalysisDialog extends Vue {
       tooltip: {
         show: true,
         trigger: 'item',
-        formatter: "{b}: {c} ({d}%)"
+        formatter: '{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'horizontal',
@@ -171,6 +169,5 @@ export default class gradeAnalysisDialog extends Vue {
   width: 400px;
   height: 400px;
   margin-left: 80px;
-  /* border: 1px solid black; */
 }
 </style>
