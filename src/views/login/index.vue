@@ -123,15 +123,16 @@ export default class Login extends Vue {
     } else if (this.loginForm.password === '') {
       (this.$refs.password as Input).focus()
     }
-    GetCollegeList().then(resp => {
-      localStorage.setItem('college', JSON.stringify(resp.data!));
-    });
-    GetMajorList({ page: 1, pageSize: 100 }).then(resp => {
-      localStorage.setItem('major', JSON.stringify(resp.data!));
-    });
-    GetCampusList({ page: 1, pageSize: 100 }).then(resp => {
-      localStorage.setItem('campus', JSON.stringify(resp.data!));
-    });
+
+    // GetCollegeList().then(resp => {
+    //   localStorage.setItem('college', JSON.stringify(resp.data!));
+    // });
+    // GetMajorList({ page: 1, pageSize: 100 }).then(resp => {
+    //   localStorage.setItem('major', JSON.stringify(resp.data!));
+    // });
+    // GetCampusList({ page: 1, pageSize: 100 }).then(resp => {
+    //   localStorage.setItem('campus', JSON.stringify(resp.data!));
+    // });
   }
 
   private showPwd() {
