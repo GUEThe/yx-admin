@@ -45,14 +45,14 @@ apiAxios.interceptors.response.use(
       // alert('请重新登录');
       router.push({ name: 'login' })
     }
-    // if (data.code !== 0) {
-    //   Message({
-    //     message: msg,
-    //     type: 'error',
-    //     duration: 5 * 1000
-    //   })
-    //   throw new Error(msg)
-    // }
+    if (data.code !== 0) {
+      Message({
+        message: msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      // throw new Error(msg)
+    }
 
     return response
   },
