@@ -16,7 +16,7 @@
           <el-button type="info" icon="el-icon-search" size="mini" @click="handleFilter()">搜索</el-button>
         </el-row>
         <br>
-        <el-table v-loading="listLoading" :data="listData" element-loading-text="正在加载..." border sortable fit
+        <el-table v-loading="loading" :data="data" element-loading-text="正在加载..." border sortable fit
           highlight-current-row :default-sort="{prop: 'courseno', order: 'descending'}">
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
@@ -28,7 +28,6 @@
           <el-table-column label="学期" align="center" prop="term"></el-table-column>
           <el-table-column label="考试类型" align="center" prop="type"></el-table-column>
           <el-table-column label="总分" align="center" prop="score"></el-table-column>
-
           <el-table-column label="听力" align="center" prop="listen"></el-table-column>
           <el-table-column label="阅读" align="center" prop="reading"></el-table-column>
           <el-table-column label="写作" align="center" prop="writing"></el-table-column>
@@ -38,7 +37,7 @@
     </el-container>
     <el-container>
       <el-main>
-        <CETchart v-if="showcetchart" v-loading="listLoading" element-loading-text="正在加载..." :chartData="chartData">
+        <CETchart v-if="isShowChart" :chartData="chartData">
         </CETchart>
       </el-main>
     </el-container>
@@ -61,19 +60,16 @@ import CETchart from './components/charts.vue'
   }
 })
 export default class cet extends Vue {
-  year: string = '2019';
-  showcetchart: boolean = false;
-  listLoading: boolean = false;
-  listData: models.CET[] = [];
+  isShowChart: boolean = false;
+  loading: boolean = false;
+  data: models.CET[] = [];
   chartData: any = [];
-  search = '';
-  showDialog = false;
   total = 0;
   queryOptions = {
     stid: '',
-    name: '刘见凤',
+    name: '',
     type: 4,
-    year: 2019
+    year: undefined
   }
   typeList: object = [
     { value: undefined, label: '不限' },
@@ -87,18 +83,20 @@ export default class cet extends Vue {
   }
 
   async handleFilter() {
-    this.queryOptions.year = Number(this.year);
-    this.showcetchart = true;
     if (this.queryOptions.year === null && this.queryOptions.stid === '' && this.queryOptions.name === '') {
-      this.$message.error('请输入学号或姓名')
+      this.$message.error('请输入学号或姓名或年份作为查询条件')
       return
     }
-    this.listLoading = true;
+
+    this.loading = true;
     const { data, total } = await api.GetCetList(this.queryOptions);
-    this.listData = data!;
+    this.data = data!;
     this.total = total!;
-    this.listLoading = false;
-    this.chartData = this.listData;
+    this.loading = false;
+    if (this.queryOptions.stid !== '' || this.queryOptions.name !== '') {
+      this.isShowChart = true;
+      this.chartData = this.data;
+    }
   }
 }
 </script>
