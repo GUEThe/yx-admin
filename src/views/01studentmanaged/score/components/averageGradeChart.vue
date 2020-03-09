@@ -39,14 +39,14 @@ export default class averageGradeChart extends Vue {
     return Array.from(new Set(termlist))
   }
 
-  GetAverageGrade(term: any) {
+  GetAverageGrade(course: any) {
     let termlist = this.GetTermList()
     let list = []
     let sum = 0
     let num = 0
     for (let i of termlist) {
       for (let j of this.gradedata) {
-        if (j.term === i && j.courseid.includes(term)) {
+        if (j.term === i && j.courseid.includes(course)) {
           sum += j.score
           num++
         }
@@ -58,19 +58,38 @@ export default class averageGradeChart extends Vue {
     return list
   }
 
+  getCreditScore() {
+    let termlist = this.GetTermList()
+    let list = []
+    let sum = 0
+    let credit = 0
+    for (let i of termlist) {
+      for (let j of this.gradedata) {
+        if (j.term === i &&
+          (j.courseid.includes('BJ') ||
+            j.courseid.includes('BG') ||
+            j.courseid.includes('BS') ||
+            j.courseid.includes('BT') ||
+            j.courseid.includes('XZ') ||
+            j.courseid.includes('RZ'))) {
+          console.log(j)
+          sum += j.score * j.credithour
+          credit += j.credithour
+        }
+      }
+      list.push((sum / credit).toFixed(2))
+    }
+    return list
+  }
+
   async createChart() {
     let termlist = this.GetTermList()
-    let BJlist = this.GetAverageGrade('BJ')
-    let BGlist = this.GetAverageGrade('BG')
-    let BSlist = this.GetAverageGrade('BS')
-    let BTlist = this.GetAverageGrade('BT')
-    let XZlist = this.GetAverageGrade('XZ')
     const echart = echarts as any;
     const obj = document.getElementById('main3')
     const myChart = echart.init(obj)
-    const fontColor = '#30eee9';
+    const fontColor = '#000000';
     const option = {
-      backgroundColor: '#11183c',
+      backgroundColor: '#FFFFFF',
       grid: {
         left: '5%',
         right: '10%',
@@ -86,13 +105,13 @@ export default class averageGradeChart extends Vue {
         show: true,
         x: 'center',
         y: '35',
-        icon: 'stack',
-        itemWidth: 10,
-        itemHeight: 10,
+        icon: 'circle',
+        itemWidth: 15,
+        itemHeight: 15,
         textStyle: {
           color: '#1bb4f6'
         },
-        data: ['BJ基础必修', 'BG公共必修', 'BS实践必修', 'BT专业基础必修', 'XZ限选']
+        data: ['BJ基础必修', 'BG公共必修', 'BS实践必修', 'BT专业基础必修', 'XZ限选', 'RZ任选', '学分绩']
       },
       xAxis: [
         {
@@ -104,7 +123,7 @@ export default class averageGradeChart extends Vue {
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#397cbc'
+              // color: '#397cbc'
             }
           },
           axisTick: {
@@ -121,19 +140,11 @@ export default class averageGradeChart extends Vue {
       ],
       yAxis: [{
         type: 'value',
-        name: '平均分',
+        name: '平均分/学分绩',
         min: 0,
         max: 100,
         axisLabel: {
-          formatter: '{value}',
-          textStyle: {
-            color: '#2ad1d2'
-          }
-        },
-        axisLine: {
-          lineStyle: {
-            color: '#27b4c2'
-          }
+          formatter: '{value}'
         },
         axisTick: {
           show: false
@@ -149,26 +160,17 @@ export default class averageGradeChart extends Vue {
         name: 'BJ基础必修',
         type: 'line',
         symbol: 'circle',
-        symbolSize: 8,
+        symbolSize: 4,
         itemStyle: {
           normal: {
             color: '#0092f6',
             lineStyle: {
               color: '#0092f6',
-              width: 4
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                offset: 0,
-                color: 'rgba(7,44,90,0.3)'
-              }, {
-                offset: 1,
-                color: 'rgba(0,146,246,0.9)'
-              }])
+              width: 2
             }
           }
         },
-        data: BJlist
+        data: this.GetAverageGrade('BJ')
       }, {
         name: 'BG公共必修',
         type: 'line',
@@ -179,20 +181,11 @@ export default class averageGradeChart extends Vue {
             color: '#00d4c7',
             lineStyle: {
               color: '#00d4c7',
-              width: 4
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                offset: 0,
-                color: 'rgba(7,44,90,0.3)'
-              }, {
-                offset: 1,
-                color: 'rgba(0,212,199,0.9)'
-              }])
+              width: 2
             }
           }
         },
-        data: BGlist
+        data: this.GetAverageGrade('BG')
       }, {
         name: 'BS实践必修',
         type: 'line',
@@ -203,20 +196,11 @@ export default class averageGradeChart extends Vue {
             color: '#aecb56',
             lineStyle: {
               color: '#aecb56',
-              width: 4
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                offset: 0,
-                color: 'rgba(7,44,90,0.3)'
-              }, {
-                offset: 1,
-                color: 'rgba(114,144,89,0.9)'
-              }])
+              width: 2
             }
           }
         },
-        data: BSlist
+        data: this.GetAverageGrade('BS')
       }, {
         name: 'BT专业基础必修',
         type: 'line',
@@ -227,20 +211,11 @@ export default class averageGradeChart extends Vue {
             color: '#FF00FF',
             lineStyle: {
               color: '#FF00FF',
-              width: 4
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                offset: 0,
-                color: 'rgba(7,44,90,0.3)'
-              }, {
-                offset: 1,
-                color: 'rgba(114,144,89,0.9)'
-              }])
+              width: 2
             }
           }
         },
-        data: BTlist
+        data: this.GetAverageGrade('BT')
       }, {
         name: 'XZ限选',
         type: 'line',
@@ -251,20 +226,41 @@ export default class averageGradeChart extends Vue {
             color: '#FFE4E1',
             lineStyle: {
               color: '#FFE4E1',
-              width: 4
-            },
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                offset: 0,
-                color: 'rgba(7,44,90,0.3)'
-              }, {
-                offset: 1,
-                color: 'rgba(114,144,89,0.9)'
-              }])
+              width: 2
             }
           }
         },
-        data: XZlist
+        data: this.GetAverageGrade('XZ')
+      }, {
+        name: 'RZ任选',
+        type: 'line',
+        symbol: 'circle',
+        symbolSize: 8,
+        itemStyle: {
+          normal: {
+            color: '#A0522D',
+            lineStyle: {
+              color: '#A0522D',
+              width: 2
+            }
+          }
+        },
+        data: this.GetAverageGrade('RZ')
+      }, {
+        name: '学分绩',
+        type: 'line',
+        symbol: 'circle',
+        symbolSize: 8,
+        itemStyle: {
+          normal: {
+            color: '#FF0000',
+            lineStyle: {
+              color: '#FF0000',
+              width: 2
+            }
+          }
+        },
+        data: this.getCreditScore()
       }]
     }
     myChart.setOption(option);

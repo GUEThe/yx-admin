@@ -10,9 +10,11 @@
         </el-row>
         <br>
 
-        <StuGradeAnalysis v-if="ShowAnalysis" :stugradelist="gradelist" style="float:left"></StuGradeAnalysis>
+        <StuGradeAnalysis v-if="ShowAnalysis" :stugradelist="gradelist" style="float:left;">
+        </StuGradeAnalysis>
+        <GradeDetail v-if="ShowAnalysis" :stugradelist="gradelist"></GradeDetail>
         <GradeDendrogram v-if="ShowAnalysis" :stugradelist="gradelist"></GradeDendrogram>
-
+        <AverageGradeChart v-if="ShowAnalysis" :stugradelist="gradelist"></AverageGradeChart>
         <el-row v-if="ShowAnalysis">
           <h4>成绩筛选</h4>
           <el-select v-model="termselect" placeholder="请选择学期" clearable @change="FilterTerm">
@@ -42,8 +44,6 @@
           <el-table-column label="成绩" align="center" prop="score"></el-table-column>
           <el-table-column label="考试类型" align="center" prop="ttype"></el-table-column>
         </el-table>
-
-        <AverageGradeChart v-if="ShowAnalysis" :stugradelist="gradelist"></AverageGradeChart>
       </el-main>
     </el-container>
   </div>
@@ -58,11 +58,13 @@ import { permission } from '@/directives/permission'
 import StuGradeAnalysis from './components/gradeAnalysis.vue'
 import GradeDendrogram from './components/GradeDendrogram.vue'
 import AverageGradeChart from './components/averageGradeChart.vue'
+import GradeDetail from './components/GradeDetail.vue'
 @Component({
   components: {
     StuGradeAnalysis,
     GradeDendrogram,
-    AverageGradeChart
+    AverageGradeChart,
+    GradeDetail
   },
   directives: {
     permission
@@ -86,7 +88,8 @@ export default class StuReport extends Vue {
     { name: 'BG公共必修', value: 'BG' },
     { name: 'BS实践必修', value: 'BS' },
     { name: 'BT专业基础必修', value: 'BT' },
-    { name: 'XZ限选', value: 'XZ' }
+    { name: 'XZ限选', value: 'XZ' },
+    { name: 'RZ任选', value: 'RZ' }
   ]
   gradeList: any = ['优秀', '良好', '中等', '及格', '不及格']
   selectlist: any = []
@@ -106,6 +109,17 @@ export default class StuReport extends Vue {
     this.GetTermList()
   }
 
+  removeCourse() {
+    for (let i = 0; i < this.listData.length; i++) {
+      for (let j = i + 1; j < this.listData.length; j++) {
+        if (this.listData[i].cname === this.listData[j].cname && this.listData[i].score < this.listData[j].score) {
+          console.log(this.listData[i], this.listData[j])
+          this.listData.splice(i, 1);
+          j--;
+        }
+      }
+    }
+  }
   async getStuAsync() {
     this.a = 1
     if (this.listQuery.stid === '' && this.listQuery.name === '') {
@@ -124,6 +138,7 @@ export default class StuReport extends Vue {
     this.total = total!;
     this.listLoading = false;
     this.GetTermList()
+    this.removeCourse()
   }
 
   GetTermList() {

@@ -131,10 +131,11 @@ export default class GradeDendrogram extends Vue {
     let MiddleList = this.GetMiddleList()
     let PassList = this.GetPassList()
     let FailList = this.GetFailList()
-    let title = this.gradedata[0].name + '同学每学期成绩分布'
+    let title = '每学期成绩统计'
     const echart = echarts as any;
     const obj = document.getElementById('main2')
     const myChart = echart.init(obj)
+
     const option = {
       title: [
         {
@@ -144,7 +145,7 @@ export default class GradeDendrogram extends Vue {
             color: '#8A2BE2'
           }
         }],
-      backgroundColor: '#00265f',
+      backgroundColor: '#FFFFFF',
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -156,10 +157,10 @@ export default class GradeDendrogram extends Vue {
         align: 'right',
         right: 10,
         textStyle: {
-          color: '#fff'
+          color: '#000000'
         },
-        itemWidth: 10,
-        itemHeight: 10,
+        itemWidth: 20,
+        itemHeight: 20,
         itemGap: 35
       },
       grid: {
@@ -200,14 +201,8 @@ export default class GradeDendrogram extends Vue {
         axisLine: {
           show: false,
           lineStyle: {
-            color: '#00c7ff',
-            width: 1,
+            width: 2,
             type: 'solid'
-          }
-        },
-        splitLine: {
-          lineStyle: {
-            color: '#063374'
           }
         }
       }],
@@ -215,10 +210,11 @@ export default class GradeDendrogram extends Vue {
         name: '优秀',
         type: 'bar',
         data: excellentList,
-        barWidth: 10,
+        barWidth: 15,
         barGap: 1,
         itemStyle: {
           normal: {
+            barBorderRadius: [10, 10, 0, 0],
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: '#008cff'
@@ -233,10 +229,11 @@ export default class GradeDendrogram extends Vue {
         name: '良好',
         type: 'bar',
         data: GoodList,
-        barWidth: 10,
+        barWidth: 15,
         barGap: 1,
         itemStyle: {
           normal: {
+            barBorderRadius: [10, 10, 0, 0],
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: '#00da9c'
@@ -251,10 +248,11 @@ export default class GradeDendrogram extends Vue {
         name: '中等',
         type: 'bar',
         data: MiddleList,
-        barWidth: 10,
+        barWidth: 15,
         barGap: 1,
         itemStyle: {
           normal: {
+            barBorderRadius: [10, 10, 0, 0],
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: '#c4e300'
@@ -269,10 +267,11 @@ export default class GradeDendrogram extends Vue {
         name: '及格',
         type: 'bar',
         data: PassList,
-        barWidth: 10,
+        barWidth: 15,
         barGap: 1,
         itemStyle: {
           normal: {
+            barBorderRadius: [10, 10, 0, 0],
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: '#8A2BE2'
@@ -287,10 +286,11 @@ export default class GradeDendrogram extends Vue {
         name: '不及格',
         type: 'bar',
         data: FailList,
-        barWidth: 10,
+        barWidth: 15,
         barGap: 1,
         itemStyle: {
           normal: {
+            barBorderRadius: [10, 10, 0, 0],
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
               offset: 0,
               color: '#F5DEB3'
@@ -310,8 +310,7 @@ export default class GradeDendrogram extends Vue {
 
 <style scoped>
 #main2 {
-  width: 730px;
+  width: 100%;
   height: 400px;
-  margin-left: 50px;
 }
 </style>
