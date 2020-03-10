@@ -62,11 +62,11 @@ export default class UserDialog extends Vue {
   @Watch('showDialog')
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
-      this.dialogTitle = '编辑费用信息';
+      this.dialogTitle = '编辑用户信息';
       const { data } = await api.GetUser({ id: this.id as number });
       this.formData = Object.assign(this.formData, data!);
     } else {
-      this.dialogTitle = '增加费用信息';
+      this.dialogTitle = '增加用户信息';
     }
     if (!val) {
       this.formData = {

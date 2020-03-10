@@ -8,7 +8,8 @@
           <el-option :value="1" label="审核通过"></el-option>
           <el-option :value="2" label="审核不通过"></el-option>
         </el-select>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table v-loading="listLoading"
+          :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
@@ -40,8 +41,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
-            align="center" />
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20"
+            :total="total" align="center" />
         </div>
         <br>
       </el-main>
@@ -97,7 +98,7 @@ export default class AuditPicture extends Vue {
 
   async getStudentAsync(page: number = 1) {
     this.listLoading = true;
-    const { data, total } = await api.GetStudentImgList(this.listQuery);
+    const { data, total } = await api.GetFreshmanList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -105,8 +106,8 @@ export default class AuditPicture extends Vue {
   }
 
   async onSubmitAsync(row: models.Student, audit: number) {
-    row.status = audit;
-    const { data } = await api.PutStudent({ value: row })
+    // row.status = audit;
+    const { data } = await api.PutFreshmanStudent({ value: row })
     if (data) {
       this.$message.success('操作成功！');
     }

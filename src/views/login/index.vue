@@ -13,22 +13,23 @@
         <span class="svg-container">
           <svg-icon name="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text"
-          auto-complete="on" />
+        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username"
+          type="text" auto-complete="on" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon name="password" />
         </span>
-        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" :placeholder="$t('login.password')"
-          name="password" auto-complete="on" @keyup.enter.native="handleLogin" />
+        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType"
+          :placeholder="$t('login.password')" name="password" auto-complete="on" @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;" @click.native.prevent="handleLogin">
+      <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;"
+        @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
 
@@ -122,15 +123,16 @@ export default class Login extends Vue {
     } else if (this.loginForm.password === '') {
       (this.$refs.password as Input).focus()
     }
-    GetCollegeList({ page: 1, pageSize: 100 }).then(resp => {
-      localStorage.setItem('college', JSON.stringify(resp.data!));
-    });
-    GetMajorList({ page: 1, pageSize: 100 }).then(resp => {
-      localStorage.setItem('major', JSON.stringify(resp.data!));
-    });
-    GetCampusList({ page: 1, pageSize: 100 }).then(resp => {
-      localStorage.setItem('campus', JSON.stringify(resp.data!));
-    });
+
+    // GetCollegeList().then(resp => {
+    //   localStorage.setItem('college', JSON.stringify(resp.data!));
+    // });
+    // GetMajorList({ page: 1, pageSize: 100 }).then(resp => {
+    //   localStorage.setItem('major', JSON.stringify(resp.data!));
+    // });
+    // GetCampusList({ page: 1, pageSize: 100 }).then(resp => {
+    //   localStorage.setItem('campus', JSON.stringify(resp.data!));
+    // });
   }
 
   private showPwd() {

@@ -10,6 +10,8 @@ import studentmanagedRoutes from './modules/studentmanaged'
 import chargemanagedRoutes from './modules/chargemanaged'
 import systemRoutes from './modules/system'
 import statsRoutes from './modules/stats'
+import glmcRoutes from './modules/glmc'
+import collegeRoutes from './modules/college'
 // import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
 // import nestedRouter from './modules/nested'
@@ -186,6 +188,7 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
+
   statsRoutes,
   {
     path: '/stureport',
@@ -193,7 +196,8 @@ export const asyncRoutes: RouteConfig[] = [
     meta: {
       alwaysShow: true,
       title: 'studentManage',
-      icon: 'people'
+      icon: 'people',
+      roles: ['admin']
     },
     children: [
       {
@@ -213,42 +217,71 @@ export const asyncRoutes: RouteConfig[] = [
           ),
         name: 'pictureaudit',
         meta: { title: 'studentmanaged-pictureaudit', roles: ['admin'] }
-      }
-    ]
-  },
-  {
-    path: '/leave',
-    component: Layout,
-    meta: { roles: ['admin', 'funder'] },
-    children: [
+      },
+
       {
-        path: '',
+        path: '/leave',
+        meta: { title: 'leave', roles: ['admin', 'funder'] },
         component: () =>
           import(/* webpackChunkName: "leave" */ '@/views/05leave/index.vue'),
-        name: 'Leave',
-        meta: { title: 'leave', icon: 'shopping' }
-      }
-    ]
-  },
-  {
-    path: '/greenchannel',
-    component: Layout,
-    meta: { roles: ['admin', 'funder'] },
-    children: [
+        name: 'Leave'
+      },
       {
-        path: '',
+        path: '/greenchannel',
+        meta: {
+          title: 'studentmanaged-greenchannel',
+          roles: ['admin', 'funder']
+        },
+
         component: () =>
           import(
             /* webpackChunkName: "greenchannel" */ '@/views/02chargemanaged/greenchannel/index.vue'
           ),
-        name: 'Greenchannel',
-        meta: { title: 'studentmanaged-greenchannel', icon: 'shopping' }
+        name: 'Greenchannel'
+      },
+      {
+        path: 'come',
+        component: () =>
+          import(
+            /* webpackChunkName: "come" */ '@/views/04stats/come/index.vue'
+          ),
+        name: 'Come',
+        meta: { title: 'stats-come' }
+      },
+      {
+        path: 'cloth',
+        component: () =>
+          import(
+            /* webpackChunkName: "cloth" */ '@/views/04stats/cloth/index.vue'
+          ),
+        name: 'Cloth',
+        meta: { title: 'stats-cloth' }
+      },
+      {
+        path: 'shoe',
+        component: () =>
+          import(
+            /* webpackChunkName: "shoe" */ '@/views/04stats/shoe/index.vue'
+          ),
+        name: 'Shoe',
+        meta: { title: 'stats-shoe' }
+      },
+      {
+        path: 'station',
+        component: () =>
+          import(
+            /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/station/index.vue'
+          ),
+        name: 'station',
+        meta: { title: 'studentmanaged-station' }
       }
     ]
   },
   chargemanagedRoutes,
+  glmcRoutes,
   studentmanagedRoutes,
   systemRoutes,
+  collegeRoutes,
   // {
   //   path: '/icon',
   //   component: Layout,
@@ -420,18 +453,12 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/i18n',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "i18n" */ '@/views/international/index.vue'),
-  //       name: 'I18n',
-  //       meta: { title: 'i18n', icon: 'international' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/chart',
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/06chart/index.vue'),
+    meta: { hidden: true }
+  },
   // {
   //   path: 'external-link',
   //   component: Layout,

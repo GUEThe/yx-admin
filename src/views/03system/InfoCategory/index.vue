@@ -4,25 +4,26 @@
       <el-main>
         <h3>信息类别管理</h3>
         <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditInfoCategory(0)">新增信息类别</el-button>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table v-loading="listLoading"
+          :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
-              {{ scope.$index }}
+              {{ scope.$index+1 }}
             </template>
           </el-table-column>
           <el-table-column label="名称" align="center" prop="name"></el-table-column>
           <el-table-column label="值" align="center" prop="value"></el-table-column>
           <el-table-column label="类型" align="center" prop="type"></el-table-column>
-          <el-table-column label="是否启动" align="center" prop="enable">
+          <el-table-column label="是否启用" align="center" prop="enable">
             <template slot-scope="scope">
-              {{ scope.row.enable?'是':'否' }}
+              {{ scope.row.enable===1?'是':'否' }}
             </template>
           </el-table-column>
-          <el-table-column label="是否是默认值" align="center" prop="default">
+          <el-table-column label="是否是默认值" align="center" prop="isDefault">
             <template slot-scope="scope">
-              {{ scope.row.default?'是':'否' }}
+              {{ scope.row.isDefault===1?'是':'否' }}
             </template>
           </el-table-column>
           <el-table-column align="center" width="400">
@@ -39,8 +40,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
-            align="center" />
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20"
+            :total="total" align="center" />
         </div>
         <br>
       </el-main>

@@ -6,7 +6,11 @@ const studentmanagedRoutes: RouteConfig = {
   component: Layout,
   redirect: '/studentmanaged/campus',
   name: 'Studentmanaged',
-  meta: { title: 'studentmanaged', icon: 'peoples', roles: ['admin'] },
+  meta: {
+    title: 'studentmanaged',
+    icon: 'peoples',
+    roles: ['admin']
+  },
   children: [
     {
       path: 'campus',
@@ -34,6 +38,34 @@ const studentmanagedRoutes: RouteConfig = {
         ),
       name: 'Major',
       meta: { title: 'studentmanaged-major' }
+    },
+
+    {
+      path: 'list',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/student/list.vue'
+        ),
+      name: 'stuList',
+      meta: { title: 'stuList' }
+    },
+    {
+      path: 'course',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/course/index.vue'
+        ),
+      name: 'Course',
+      meta: { title: 'courses' }
+    },
+    {
+      path: 'score',
+      component: () =>
+        import(
+          /* webpackChunkName: "dynamicTable" */ '@/views/01studentmanaged/score/index.vue'
+        ),
+      name: 'Score',
+      meta: { title: 'score' }
     }
   ]
 }

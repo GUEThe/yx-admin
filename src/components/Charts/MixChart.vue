@@ -1,9 +1,5 @@
 <template>
-  <div
-    :id="id"
-    :class="className"
-    :style="{height: height, width: width}"
-  />
+  <div :id="id" :class="className" :style="{height: height, width: width}" />
 </template>
 
 <script lang="ts">
@@ -33,15 +29,14 @@ export default class MixChart extends mixins(ResizeMixin) {
 
   private initChart() {
     this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
-
-    const xData = (function() {
+    const xData = (function () {
       const data = []
       for (let i = 1; i < 13; i++) {
         data.push(i + 'month')
       }
       return data
     }())
-    this.chart.setOption({
+    let option: any = {
       backgroundColor: '#344b58',
       title: {
         text: 'statistics',
@@ -120,9 +115,7 @@ export default class MixChart extends mixins(ResizeMixin) {
       }],
       dataZoom: [{
         show: true,
-        xAxisIndex: [
-          0
-        ],
+        xAxisIndex: [0],
         bottom: 30,
         start: 10,
         end: 80,
@@ -130,7 +123,6 @@ export default class MixChart extends mixins(ResizeMixin) {
         handleSize: '110%',
         handleStyle: {
           color: '#d3dee5'
-
         },
         textStyle: {
           color: '#fff'
@@ -163,23 +155,8 @@ export default class MixChart extends mixins(ResizeMixin) {
             }
           }
         },
-        data: [
-          709,
-          1917,
-          2455,
-          2610,
-          1719,
-          1433,
-          1544,
-          3285,
-          5208,
-          3372,
-          2484,
-          4078
-        ]
-      },
-
-      {
+        data: [709, 1917, 2455, 2610, 1719, 1433, 1544, 3285, 5208, 3372, 2484, 4078]
+      }, {
         name: 'male',
         type: 'bar',
         stack: 'total',
@@ -196,20 +173,7 @@ export default class MixChart extends mixins(ResizeMixin) {
             }
           }
         },
-        data: [
-          327,
-          1776,
-          507,
-          1200,
-          800,
-          482,
-          204,
-          1390,
-          1001,
-          951,
-          381,
-          220
-        ]
+        data: [327, 1776, 507, 1200, 800, 482, 204, 1390, 1001, 951, 381, 220]
       }, {
         name: 'average',
         type: 'line',
@@ -229,23 +193,10 @@ export default class MixChart extends mixins(ResizeMixin) {
             }
           }
         },
-        data: [
-          1036,
-          3693,
-          2962,
-          3810,
-          2519,
-          1915,
-          1748,
-          4675,
-          6209,
-          4323,
-          2865,
-          4298
-        ]
-      }
-      ]
-    })
+        data: [1036, 3693, 2962, 3810, 2519, 1915, 1748, 4675, 6209, 4323, 2865, 4298]
+      }]
+    }
+    this.chart.setOption(option)
   }
 }
 </script>
