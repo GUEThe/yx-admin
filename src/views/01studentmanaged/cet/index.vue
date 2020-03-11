@@ -5,7 +5,7 @@
         <h3>四六级成绩查询</h3>
         <el-row type="flex">
           <!-- <el-input v-model="queryOptions.year" placeholder="年度" style="width:150px;"></el-input> -->
-          <el-date-picker v-model="year" type="year" placeholder="选择年" value-format="yyyy">
+          <el-date-picker v-model="queryOptions.year" type="year" placeholder="选择年" value-format="yyyy">
           </el-date-picker>
           <el-input v-model="queryOptions.stid" placeholder="学号" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.name" placeholder="姓名" style="width:100px;"></el-input>
@@ -87,10 +87,11 @@ export default class cet extends Vue {
       this.$message.error('请输入学号或姓名或年份作为查询条件')
       return
     }
-
     this.loading = true;
     const { data, total } = await api.GetCetList(this.queryOptions);
     this.data = data!;
+    console.log(data);
+
     this.total = total!;
     this.loading = false;
     if (this.queryOptions.stid !== '' || this.queryOptions.name !== '') {

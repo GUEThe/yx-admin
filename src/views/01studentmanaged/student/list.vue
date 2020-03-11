@@ -15,6 +15,7 @@
 
           <el-button :disabled="selectId.length===0" type="info" @click="counselorVisible = true">设置辅导员</el-button>
           <el-button :disabled="selectId.length===0" type="info">更改学籍</el-button>
+          <el-button type="primary" class="el-icon-download" @click="exportExcel">导出学生数据</el-button>
         </el-row>
         <br>
 
@@ -34,8 +35,8 @@
         </el-row>
         <br>
 
-        <el-table v-loading="loading" :data="data" element-loading-text="正在加载..." border fit highlight-current-row
-          @selection-change="handleSelectionChange">
+        <el-table id="exportexcel" ref="multipleTable" v-loading="loading" :data="data" element-loading-text="正在加载..."
+          border fit highlight-current-row @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
@@ -94,7 +95,7 @@
     <stu-charts :showDialog.sync="showStuCharts" :chartsData="chartsData"></stu-charts>
     <el-dialog title="批量设置辅导员" width="300px" :visible.sync="counselorVisible">
       <el-form>
-        <el-form-item label="辅导员" :label-width="formLabelWidth">
+        <el-form-item label="辅导员">
           <el-input v-model="counselor" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -121,6 +122,10 @@ import StuDetail from './stuDetail.vue'
 import StuStatus from './stuStatus.vue'
 import StuMark from './stuMark.vue'
 import StuCharts from './index.vue'
+// import FileSaver from 'file-saver'
+// import XLSX from 'xlsx'
+import exportJson2Excel from '@/utils/excel'
+import { formatJson } from '@/utils'
 /** 学生信息管理 */
 @Component({
   components: {
@@ -181,7 +186,7 @@ export default class StuList extends Vue {
   counselor: string = ''
   counselorVisible = false
   saving = false
-
+  filename = '学生列表'
   mounted() {
     this.init()
   }
@@ -192,6 +197,7 @@ export default class StuList extends Vue {
 
   handleFilter() {
     this.queryOptions.page = 1;
+    this.queryOptions.pageSize = 20
     this.requestData()
   }
 
@@ -256,6 +262,31 @@ export default class StuList extends Vue {
 
   async getcounselorValue() {
     this.queryOptions.counselor = this.counselorValue;
+  }
+
+  async exportExcel() {
+    this.queryOptions.pageSize = this.total
+    const resp = await api.GetStudentList(this.queryOptions)
+    let list = resp.data
+    console.log(list);
+
+    const tHeader = [
+      '序号', '姓名', '性别', '学号', '考生号',
+      '身份证号', '学院名称', '专业名称', '班级', '入学年份',
+      '类型（本科，专科）', '生源所在省份', '年级', '专业代码', '民族',
+      '生日', '注册时间', '宿舍', '宿舍电话', '邮编',
+      '家庭地址', '手机', '家长', '学生状态（在校，离校，休学）', '辅导员姓名',
+      '家长电话', '家庭地址', 'QQ', 'Email', '学籍状态（正常，留级，续读，退学,毕业）']
+    const filterVal = [
+      'id', 'name', 'gender', 'studentId', 'examineeNo',
+      'idCardNo', 'college', 'major', 'class', 'year',
+      'type', 'nativePlace', 'grade', 'spno', 'nation',
+      'birthday', 'enrolldate', 'hostel', 'hostelphone', 'postcode',
+      'address', 'phoneno', 'familyheader', 'changetype', 'counselor',
+      'parentphone', 'familyaddress', 'qq', 'email', 'stustatus']
+    // let list = this.data
+    const data = formatJson(filterVal, list)
+    exportJson2Excel(tHeader, data, this.filename !== '' ? this.filename : undefined, undefined, undefined, true, 'xlsx')
   }
 }
 </script>

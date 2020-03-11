@@ -160,6 +160,7 @@ export default class StuReport extends Vue {
 
   uploadSuccess(resp: models.RestfulData) {
     if (resp.code === 0) {
+      console.log(resp)
       this.$message({
         type: 'success',
         message: resp.message
