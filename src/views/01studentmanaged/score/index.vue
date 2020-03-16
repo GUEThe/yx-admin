@@ -113,7 +113,6 @@ export default class StuReport extends Vue {
     for (let i = 0; i < this.listData.length; i++) {
       for (let j = i + 1; j < this.listData.length; j++) {
         if (this.listData[i].cname === this.listData[j].cname && this.listData[i].score < this.listData[j].score) {
-          console.log(this.listData[i], this.listData[j])
           this.listData.splice(i, 1);
           j--;
         }

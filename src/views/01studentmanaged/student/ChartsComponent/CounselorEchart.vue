@@ -1,7 +1,7 @@
 <template>
-  <el-dialog width="39%" title="辅导员图表" :visible="showinnerDialog" destroy-on-close
-    @close="$emit('update:showinnerDialog',false)" :modal-append-to-body="false">
-    <div id="main3" style="width:500px;height:500px"></div>
+  <el-dialog width="39%" title="辅导员图表" :visible="showinnerDialog" destroy-on-close :modal-append-to-body="false"
+    :close-on-click-modal="false" @close="$emit('update:showinnerDialog',false)">
+    <div id="main3" style="width:100%;height:500px"></div>
   </el-dialog>
 </template>
 
@@ -17,6 +17,8 @@ import echarts from 'echarts';
 })
 export default class CounselorEchart extends Vue {
   @Prop() showinnerDialog!: boolean;
+  @Prop() chartsData!: any
+  @Prop() counselor!: string
   queryOptions: models.IQueryStuOptions = {
     year: undefined,
     bj: '',
@@ -28,9 +30,10 @@ export default class CounselorEchart extends Vue {
     counselor: '',
     stustatus: '',
     page: 1,
-    pageSize: 20,
+    pageSize: 20
   }
   CounselorList: number[] = [];
+  colorList: any = []
   @Watch('showinnerDialog')
   async showinnerDialogChange(val: boolean, old: boolean) {
     if (val) {
@@ -38,30 +41,35 @@ export default class CounselorEchart extends Vue {
     }
   }
 
+  createColor(colornum: number) {
+    let colorList: any = []
+    for (let i = 0; i < colornum; i++) {
+      let r = Math.floor(Math.random() * 255);
+      let g = Math.floor(Math.random() * 255);
+      let b = Math.floor(Math.random() * 255);
+      let color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+      colorList.push(color)
+    }
+    return colorList;
+  }
+
+  mounted() {
+    this.colorList = this.createColor(this.counselor.length)
+  }
   async createChart() {
-    let counselor = ['韦松磊', '梁海', '王子民', '杜华巍'];
+    let counselor: any = this.counselor;
+    // let colorList = this.createColor(counselor.length)
     for (let i in counselor) {
       this.queryOptions.counselor = counselor[i]
       const resp = await api.GetStudentList(this.queryOptions)
-      this.CounselorList.push(resp.total);
+      let counselorObj: any = { 'value': resp.total, 'name': counselor[i] }
+      this.CounselorList.push(counselorObj);
     }
+
     if (this.CounselorList.length > counselor.length) {
       this.CounselorList.splice(counselor.length, this.CounselorList.length - counselor.length);
     }
-    console.log(this.CounselorList)
-    var data = [{
-      value: this.CounselorList[0],
-      name: '韦松磊'
-    }, {
-      value: this.CounselorList[1],
-      name: '梁海'
-    }, {
-      value: this.CounselorList[2],
-      name: '王子民'
-    }, {
-      value: this.CounselorList[3],
-      name: '杜华巍'
-    }];
+    var data = this.CounselorList;
     const echart = echarts as any;
     var obj = document.getElementById('main3')
     var myChart = echart.init(obj);
@@ -79,7 +87,7 @@ export default class CounselorEchart extends Vue {
       tooltip: {
         show: true,
         trigger: 'item',
-        formatter: "{b}: {c} ({d}%)"
+        formatter: '{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'horizontal',
@@ -90,7 +98,7 @@ export default class CounselorEchart extends Vue {
         type: 'pie',
         selectedMode: 'single',
         radius: ['25%', '58%'],
-        color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A'],
+        color: this.colorList,
 
         label: {
           normal: {
@@ -135,11 +143,7 @@ export default class CounselorEchart extends Vue {
         data: data
       }]
     };
-    // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
   }
 }
 </script>
-
-<style scoped>
-</style>

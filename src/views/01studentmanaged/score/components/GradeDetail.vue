@@ -152,9 +152,6 @@ export default class GradeDetail extends Vue {
     const echart = echarts as any;
     const obj = document.getElementById('detailbox')
     const myChart = echart.init(obj)
-    myChart.on('click', (params: any) => {
-      console.log(params)
-    })
     const option = {
       grid: {
         show: false,

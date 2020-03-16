@@ -72,7 +72,6 @@ export default class averageGradeChart extends Vue {
             j.courseid.includes('BT') ||
             j.courseid.includes('XZ') ||
             j.courseid.includes('RZ'))) {
-          console.log(j)
           sum += j.score * j.credithour
           credit += j.credithour
         }

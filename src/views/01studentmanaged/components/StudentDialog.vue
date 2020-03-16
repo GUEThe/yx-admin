@@ -182,7 +182,7 @@ export default class StudentDialog extends Vue {
   async onshowDialogChangeAsync(val: boolean, old: boolean) {
     if (this.type) {
       this.type === 3 ? this.dialogTitle = '查看学生信息' : this.dialogTitle = '编辑学生信息';
-      const resp = await api.GetStudent({ studentId: this.id });
+      const resp = await api.GetFreshmanStu({ studentId: this.id });
       if (resp.code === 0) {
         this.formData = resp.data as models.Student
       }

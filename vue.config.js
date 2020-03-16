@@ -5,7 +5,7 @@ const port = 9527 // dev port
 module.exports = {
   publicPath:
     process.env.NODE_ENV === 'production'
-      ? '/vue-typescript-admin-template/'
+      ? '/'
       : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,

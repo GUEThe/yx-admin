@@ -515,8 +515,8 @@ export interface CETAverage {
   isPass: string;
   /**
    *  int32
-   * 
-   * @serverType integer 
+   *
+   * @serverType integer
    */
   stuCount: number;
   /**
@@ -697,45 +697,6 @@ export interface Course {
    * @serverType string
    */
   courseType: string;
-}
-
-export interface courseType {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  value: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  type: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  enable: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  isDefault: number;
 }
 /*
  * @namespace models
@@ -2184,13 +2145,30 @@ export interface Statistics {
 /*
  * @namespace models
  */
-export interface StuInfoStatus {
+export interface XjOption {
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType array
    */
-  grade: number;
+  grades: number[];
+  /**
+   *
+   *
+   * @serverType array
+   */
+  majors: string[];
+}
+/*
+ * @namespace models
+ */
+export interface StuStatus {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
   /**
    *
    *
@@ -2198,11 +2176,47 @@ export interface StuInfoStatus {
    */
   major: string;
   /**
+   *  int32
    *
-   *
-   * @serverType array
+   * @serverType integer
    */
-  items: Statistics[];
+  atSchool: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  leaveSchool: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  normal: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  stayDown: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  continued: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  quit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  suspension: number;
 }
 /*
  * @namespace models

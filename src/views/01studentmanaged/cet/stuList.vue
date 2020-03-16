@@ -39,6 +39,11 @@
         </el-table>
       </el-main>
     </el-container>
+    <div style="text-align:center">
+      <el-pagination background layout="total,sizes,prev, pager, next" :current-page="page"
+        :page-sizes="[20, 50, 100, 200]" :page-size="pageSize" :total="total" align="center"
+        @size-change="handleSizeChange" @current-change="handleCurrentPageChange" />
+    </div>
   </div>
 </template>
 
@@ -63,6 +68,8 @@ export default class stuList extends Vue {
   loading: boolean = false;
   data: models.StuCET[] = [];
   total = 0;
+  page: number = 1;
+  pageSize: number = 20;
   queryOptions = {
     grade: new Date().getFullYear() - 1,
     bj: '',
@@ -95,9 +102,19 @@ export default class stuList extends Vue {
     const resp = await api.GetStudentCetScore(this.queryOptions)
     if (resp.code === 0) {
       this.data = resp.data!
-      this.total = resp.total
+      this.total = this.data.length;
     }
     this.loading = false;
+    this.data = this.data.slice((this.page - 1) * this.pageSize, this.page * this.pageSize)
+  }
+
+  handleSizeChange(val: number) {
+    this.pageSize = val
+    this.page = 1
+  }
+
+  handleCurrentPageChange(val: number) {
+    this.page = val;
   }
 }
 </script>

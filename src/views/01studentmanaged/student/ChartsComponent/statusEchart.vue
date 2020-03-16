@@ -1,7 +1,7 @@
 <template>
   <el-dialog width="39%" title="学籍状态图表" :visible="showinnerDialog" destroy-on-close :modal-append-to-body="false"
     @close="$emit('update:showinnerDialog',false)">
-    <div id="main" style="width:500px;height:500px"></div>
+    <div id="main" style="width:100%;height:500px"></div>
   </el-dialog>
 </template>
 
@@ -18,20 +18,9 @@ import echarts from 'echarts';
 export default class statusEchart extends Vue {
   @Prop() showinnerDialog!: boolean;
   @Prop() StuStatusData!: Array<number>
+  @Prop() queryOptions!: any
   StatusList: number[] = []
-  queryOptions: models.IQueryStuOptions = {
-    year: undefined,
-    bj: '',
-    stid: '',
-    name: '',
-    college: '',
-    major: '',
-    type: '',
-    counselor: '',
-    stustatus: '',
-    page: 1,
-    pageSize: 20
-  }
+
   @Watch('showinnerDialog')
   async showinnerDialogChange(val: boolean, old: boolean) {
     if (val) {
@@ -41,16 +30,15 @@ export default class statusEchart extends Vue {
 
   async createChart() {
     let status = ['正常', '留级', '续读', '退学']
+
     for (let i in status) {
       this.queryOptions.stustatus = status[i]
       const resp = await api.GetStudentList(this.queryOptions)
       this.StatusList.push(resp.total);
     }
-    console.log('statusList', this.StatusList)
     if (this.StatusList.length > 4) {
       this.StatusList.splice(4, this.StatusList.length - 4);
     }
-    console.log('statusList', this.StatusList)
     const echart = echarts as any;
     var obj = document.getElementById('main')
     var myChart = echart.init(obj);
@@ -87,22 +75,17 @@ export default class statusEchart extends Vue {
         }
       },
       xAxis: {
-        data: [
-          '正常',
-          '留级',
-          '续读',
-          '退学'
-        ],
+        data: status,
         axisLine: {
-          show: true // 隐藏X轴轴线
+          show: true
         },
         axisTick: {
-          show: true // 隐藏X轴刻度
+          show: true
         },
         axisLabel: {
           show: true,
           textStyle: {
-            color: '#ebf8ac' // X轴文字颜色
+            color: '#ebf8ac'
           }
         }
       },
@@ -176,8 +159,6 @@ export default class statusEchart extends Vue {
         }
       ]
     };
-
-    // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
   }
 }

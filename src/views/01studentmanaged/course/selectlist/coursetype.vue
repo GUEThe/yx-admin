@@ -17,7 +17,7 @@ import * as models from '@/api/models'
 export default class coursetypeSelect extends Vue {
   @Prop() name!: string
 
-  coursetypeList: models.courseType[] = [];
+  coursetypeList: any = [];
   selectItem = ''
   mounted() {
     this.getcoursetypeAsync()

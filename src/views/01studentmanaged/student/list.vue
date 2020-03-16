@@ -9,28 +9,31 @@
           <el-input v-model="queryOptions.grade" placeholder="年级" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.name" placeholder="姓名" style="width:150px;"></el-input>
           <el-input v-model="queryOptions.stid" placeholder="学号" style="width:100px;"></el-input>
-
           <el-button type="info" icon="el-icon-search" size="mini" @click="handleFilter()">搜索</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="mini" @click="addStu()">新增</el-button>
+          <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="addStu()">新增</el-button> -->
+          <el-button :disabled="selectId.length===0" type="info" @click="counselorDialogVisable = true">
+            批量修改辅导员
+          </el-button>
 
-          <el-button :disabled="selectId.length===0" type="info" @click="counselorVisible = true">设置辅导员</el-button>
-          <el-button :disabled="selectId.length===0" type="info">更改学籍</el-button>
+          <el-button :disabled="selectId.length===0" type="info" @click="stustatusDialogVisable = true">
+            批量修改学籍
+          </el-button>
+
           <el-button type="primary" class="el-icon-download" @click="exportExcel">导出学生数据</el-button>
         </el-row>
         <br>
-
         <el-row>
           <el-select v-model="stuStatusValue" placeholder="学籍状态" @change="getstuStatusValue">
             <el-option v-for="item in stuStatusList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-
           <el-select v-model="typeValue" placeholder="在校状态" @change="getTypeValue">
             <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-          <el-input v-model="queryOptions.counselor" placeholder="辅导员" style="width:150px;"></el-input>
-
+          <el-select v-model="queryOptions.counselor" placeholder="辅导员" :multiple-limit="10" clearable>
+            <el-option v-for="item in counselorSelect" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
           <el-button @click="onShowCharts()">查看图表</el-button>
         </el-row>
         <br>
@@ -55,8 +58,8 @@
               {{ scope.row.college }}
             </template>
           </el-table-column>
-
-          <el-table-column label="辅导员" width="120" align="center" prop="counselor"></el-table-column>
+          <el-table-column label="辅导员" width="120" align="center" prop="counselor">
+          </el-table-column>
           <el-table-column label="专业" align="center">
             <template slot-scope="scope">
               {{ scope.row.major }}
@@ -88,20 +91,41 @@
         <br>
       </el-main>
     </el-container>
-    <stu-detail :stuId="stuInfo.id" :showDialog.sync="showStuDetail" />
+    <stu-detail :stuId="stuInfo.studentId" :showDialog.sync="showStuDetail" :counselor="counselorSelect" />
     <stu-status :stuInfo="stuInfo" :showDialog.sync="showStuStatus" />
     <stu-mark :stuInfo="stuInfo" :showDialog.sync="showStuMark">
     </stu-mark>
-    <stu-charts :showDialog.sync="showStuCharts" :chartsData="chartsData"></stu-charts>
-    <el-dialog title="批量设置辅导员" width="300px" :visible.sync="counselorVisible">
+    <stu-charts :showDialog.sync="showStuCharts" :chartsData="chartsData" :counselor="counselorSelect"
+      :queryOptions="queryOptions">
+    </stu-charts>
+
+    <el-dialog title="批量设置辅导员" width="300px" :visible.sync="counselorDialogVisable">
       <el-form>
         <el-form-item label="辅导员">
-          <el-input v-model="counselor" autocomplete="off"></el-input>
+          <el-select v-model="counselor" autocomplete="off">
+            <el-option v-for="item in counselorSelect" :key="item" :value="item" :label="item">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="counselorVisible = false">取 消</el-button>
+        <el-button @click="counselorDialogVisable = false">取 消</el-button>
         <el-button :loading="saving" type="primary" @click="handleUpdateCounselor">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="批量修改学籍" width="300px" :visible.sync="stustatusDialogVisable">
+      <el-form>
+        <el-form-item label="学籍">
+          <el-select v-model="stustatus" autocomplete="off">
+            <el-option v-for="item in stuStatusList" :key="item.label" :value="item.value" :label="item.label">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="stustatusDialogVisable = false">取 消</el-button>
+        <el-button :loading="saving" type="primary" @click="handleUpdateStuStatus">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -122,8 +146,6 @@ import StuDetail from './stuDetail.vue'
 import StuStatus from './stuStatus.vue'
 import StuMark from './stuMark.vue'
 import StuCharts from './index.vue'
-// import FileSaver from 'file-saver'
-// import XLSX from 'xlsx'
 import exportJson2Excel from '@/utils/excel'
 import { formatJson } from '@/utils'
 /** 学生信息管理 */
@@ -157,9 +179,9 @@ export default class StuList extends Vue {
     { value: '', label: '不限' }
   ];
   typeValue: string = '';
-
   counselorValue: string = '';
-  chartsData: number[] = [];
+  counselorSelect: any = ['梁海老师', '杜华巍老师', '王宇英老师', '李老师', '林湘老师'];
+  chartsData: any = [];
   @Prop() id!: number;
   stuInfo: models.StuInfo | Object = {};
   showStuMark: boolean = false;
@@ -175,7 +197,7 @@ export default class StuList extends Vue {
     name: '',
     college: '',
     major: '',
-    type: '在校',
+    type: '',
     counselor: '',
     stustatus: '',
     page: 1,
@@ -184,11 +206,27 @@ export default class StuList extends Vue {
   loading: boolean = false
   selectId: string[] = []
   counselor: string = ''
-  counselorVisible = false
+  stustatus: string = ''
+  counselorDialogVisable = false
+  stustatusDialogVisable = false
   saving = false
   filename = '学生列表'
   mounted() {
     this.init()
+  }
+
+  @Watch('showStuDetail')
+  rechangeByStuDetail(val: boolean, old: boolean) {
+    if (!val) {
+      this.init()
+    }
+  }
+
+  @Watch('showStuStatus')
+  rechangeByStuStatus(val: boolean, old: boolean) {
+    if (!val) {
+      this.init()
+    }
   }
 
   async init() {
@@ -208,6 +246,8 @@ export default class StuList extends Vue {
       this.data = resp.data!
       this.total = resp.total
     }
+    console.log(this.data[0]);
+
     this.loading = false
   }
 
@@ -216,7 +256,7 @@ export default class StuList extends Vue {
     this.showStuDetail = true
   }
 
-  onShowCharts() {
+  async onShowCharts() {
     this.showStuCharts = true;
   }
 
@@ -246,7 +286,18 @@ export default class StuList extends Vue {
     const resp = await api.UpdateCounselor({ groupstid: this.selectId, counselor: this.counselor })
     if (resp.code === 0) {
       this.$message.success('更改成功')
-      this.counselorVisible = false
+      this.counselorDialogVisable = false
+      this.requestData()
+    }
+    this.saving = false
+  }
+
+  async handleUpdateStuStatus() {
+    this.saving = true
+    const resp = await api.UpdateStustatus({ groupstid: this.selectId, stustatus: this.stustatus })
+    if (resp.code === 0) {
+      this.$message.success('更改成功')
+      this.stustatusDialogVisable = false
       this.requestData()
     }
     this.saving = false
@@ -265,11 +316,10 @@ export default class StuList extends Vue {
   }
 
   async exportExcel() {
-    this.queryOptions.pageSize = this.total
-    const resp = await api.GetStudentList(this.queryOptions)
+    let query = JSON.parse(JSON.stringify(this.queryOptions))
+    query.pageSize = this.total
+    const resp = await api.GetStudentList(query)
     let list = resp.data
-    console.log(list);
-
     const tHeader = [
       '序号', '姓名', '性别', '学号', '考生号',
       '身份证号', '学院名称', '专业名称', '班级', '入学年份',
@@ -284,7 +334,6 @@ export default class StuList extends Vue {
       'birthday', 'enrolldate', 'hostel', 'hostelphone', 'postcode',
       'address', 'phoneno', 'familyheader', 'changetype', 'counselor',
       'parentphone', 'familyaddress', 'qq', 'email', 'stustatus']
-    // let list = this.data
     const data = formatJson(filterVal, list)
     exportJson2Excel(tHeader, data, this.filename !== '' ? this.filename : undefined, undefined, undefined, true, 'xlsx')
   }

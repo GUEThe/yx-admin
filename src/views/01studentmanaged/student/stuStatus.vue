@@ -69,6 +69,7 @@ export default class StuStatus extends Vue {
       this.$message.success('修改成功');
     }
     this.saving = false
+    this.showDialog = false
   }
 }
 </script>

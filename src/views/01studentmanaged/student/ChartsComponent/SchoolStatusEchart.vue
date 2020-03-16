@@ -1,7 +1,7 @@
 <template>
-  <el-dialog width="39%" title="在校状态图表" :visible="showinnerDialog" destroy-on-close
-    @close="$emit('update:showinnerDialog',false)" :modal-append-to-body="false">
-    <div id="main2" style="width:500px;height:500px"></div>
+  <el-dialog width="39%" title="在校状态图表" :visible="showinnerDialog" destroy-on-close :modal-append-to-body="false"
+    @close="$emit('update:showinnerDialog',false)">
+    <div id="main2" style="width:100%;height:500px"></div>
   </el-dialog>
 </template>
 
@@ -29,7 +29,7 @@ export default class SchoolStatusEchart extends Vue {
     counselor: '',
     stustatus: '',
     page: 1,
-    pageSize: 20,
+    pageSize: 20
   }
   SchoolStatusList: number[] = [];
   @Watch('showinnerDialog')
@@ -73,7 +73,7 @@ export default class SchoolStatusEchart extends Vue {
       tooltip: {
         show: true,
         trigger: 'item',
-        formatter: "{b}: {c} ({d}%)"
+        formatter: '{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'horizontal',
@@ -129,12 +129,7 @@ export default class SchoolStatusEchart extends Vue {
         data: data
       }]
     };
-
-    // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option);
   }
 }
 </script>
-
-<style scoped>
-</style>

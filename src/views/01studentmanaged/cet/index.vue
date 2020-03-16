@@ -13,11 +13,14 @@
             <el-option v-for="item in typeList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-          <el-button type="info" icon="el-icon-search" size="mini" @click="handleFilter()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleFilter()">搜索</el-button>
+          <el-button :disabled="selectId.length===0" type="warning" size="mini" @click="remove">批量删除</el-button>
         </el-row>
         <br>
         <el-table v-loading="loading" :data="data" element-loading-text="正在加载..." border sortable fit
-          highlight-current-row :default-sort="{prop: 'courseno', order: 'descending'}">
+          highlight-current-row :default-sort="{prop: 'courseno', order: 'descending'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
             <template slot-scope="scope">
               {{ scope.$index+1 }}
@@ -35,6 +38,11 @@
         </el-table>
       </el-main>
     </el-container>
+    <div style="text-align:center">
+      <el-pagination background layout="total,sizes,prev, pager, next" :current-page="page"
+        :page-sizes="[20, 50, 100, 200]" :page-size="pageSize" :total="total" align="center"
+        @size-change="handleSizeChange" @current-change="handleCurrentPageChange" />
+    </div>
     <el-container>
       <el-main>
         <CETchart v-if="isShowChart" :chartData="chartData">
@@ -65,6 +73,8 @@ export default class cet extends Vue {
   data: models.CET[] = [];
   chartData: any = [];
   total = 0;
+  page: number = 1;
+  pageSize: number = 20;
   queryOptions = {
     stid: '',
     name: '',
@@ -77,11 +87,14 @@ export default class cet extends Vue {
     { value: 6, label: '六级' }
   ];
   stuStatusValue: string = '';
-
+  selectId: number[] = [];
   get token() {
     return UserModule.token;
   }
 
+  mounted() {
+    this.handleFilter()
+  }
   async handleFilter() {
     if (this.queryOptions.year === null && this.queryOptions.stid === '' && this.queryOptions.name === '') {
       this.$message.error('请输入学号或姓名或年份作为查询条件')
@@ -90,14 +103,39 @@ export default class cet extends Vue {
     this.loading = true;
     const { data, total } = await api.GetCetList(this.queryOptions);
     this.data = data!;
-    console.log(data);
-
-    this.total = total!;
+    this.total = this.data.length;
     this.loading = false;
     if (this.queryOptions.stid !== '' || this.queryOptions.name !== '') {
       this.isShowChart = true;
       this.chartData = this.data;
     }
+    this.data = this.data.slice((this.page - 1) * this.pageSize, this.page * this.pageSize)
+  }
+
+  handleSizeChange(val: number) {
+    this.pageSize = val
+    this.page = 1
+  }
+
+  handleCurrentPageChange(val: number) {
+    this.page = val;
+  }
+
+  handleSelectionChange(selectList: models.CET[]) {
+    this.selectId = selectList.map((item) => {
+      return item.id
+    })
+    console.log(this.selectId);
+  }
+
+  async remove() {
+    this.$confirm('确定删除成绩？', '提示', {
+      type: 'warning'
+    }).then(async () => {
+      const res = api.DeleteCET({ id: this.selectId })
+      this.$message.success('删除成功')
+      this.handleFilter()
+    })
   }
 }
 </script>
