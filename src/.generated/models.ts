@@ -75,7 +75,7 @@ export interface UserInfo {
 /*
  * @namespace models
  */
-export interface Bed {
+export interface Awards {
   /**
    *  int32
    *
@@ -83,53 +83,23 @@ export interface Bed {
    */
   id: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  campus: number;
+  studentId: string;
   /**
    *
    *
    * @serverType string
    */
-  area: string;
+  studentName: string;
   /**
    *
    *
    * @serverType string
    */
-  building: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  room: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  type: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  cost: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  gender: number;
+  college: string;
   /**
    *  int32
    *
@@ -137,34 +107,112 @@ export interface Bed {
    */
   year: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  status: number;
-}
-/*
- * @namespace models
- */
-export interface StudentBedView {
+  mayor: string;
   /**
    *
    *
    * @serverType string
    */
-  studentId: string;
+  projectName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  projectType: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  projectClass: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  rank: string;
   /**
    *  int32
    *
    * @serverType integer
    */
-  bedId: number;
+  paiming: number;
   /**
-   *  int64
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  pickTime: number;
+  partner: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacher: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacherCollege: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  organizer: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mark: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  status: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  school: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  awardTime: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handleTime: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handler: string;
+}
+/*
+ * @namespace models
+ */
+export interface Bed {
   /**
    *  int32
    *
@@ -258,6 +306,271 @@ export interface Campus {
 /*
  * @namespace models
  */
+export interface CETRate {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  total: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  pass: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  rate: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  scoreCount: HighScoreCount[];
+}
+/*
+ * @namespace models
+ */
+export interface HighScoreCount {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  score: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  count: number;
+}
+/*
+ * @namespace models
+ */
+export interface StuCET {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  bj: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+}
+/*
+ * @namespace models
+ */
+export interface CET {
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  idCardNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  reportNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  school: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  listen: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  reading: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  writing: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  others: number;
+}
+/*
+ * @namespace models
+ */
+export interface CETAverage {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  isPass: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  stuCount: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  listen: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  reading: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  writing: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  others: number;
+}
+/*
+ * @namespace models
+ */
 export interface College {
   /**
    *  int32
@@ -283,6 +596,107 @@ export interface College {
    * @serverType integer
    */
   campus: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
+}
+/*
+ * @namespace models
+ */
+export interface Course {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacherno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teachername: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  spno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  spname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  credithour: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  examtype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegeno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegename: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseType: string;
 }
 /*
  * @namespace models
@@ -316,6 +730,266 @@ export interface Fee {
 /*
  * @namespace models
  */
+export interface FailStatisc {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  failCourseCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  failCredit: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  failCourse: FailCourse[];
+}
+/*
+ * @namespace models
+ */
+export interface FailCourse {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+}
+/*
+ * @namespace models
+ */
+export interface scoreStatic {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  bj: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  average: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credit: number;
+}
+/*
+ * @namespace models
+ */
+export interface GYscore {
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  termname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  sPname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  coursetype: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cj: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  scoretype: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  jys: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  ttype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  testtime: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cidRank: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cnoRank: number;
+}
+/*
+ * @namespace models
+ */
 export interface GreenChannel {
   /**
    *  int32
@@ -324,11 +998,11 @@ export interface GreenChannel {
    */
   id: number;
   /**
+   *  int32
    *
-   *
-   * @serverType string
+   * @serverType integer
    */
-  studentId: string;
+  studentId: number;
   /**
    *
    *
@@ -453,7 +1127,7 @@ export interface InfoCategory {
    *
    * @serverType integer
    */
-  default: number;
+  isDefault: number;
 }
 /*
  * @namespace models
@@ -548,6 +1222,36 @@ export interface Major {
    * @serverType string
    */
   collegeCode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  engName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  sptype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  years: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  degree: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
 }
 /*
  * @namespace models
@@ -589,6 +1293,47 @@ export interface News {
    * @serverType integer
    */
   year: number;
+}
+/*
+ * @namespace models
+ */
+export interface OperateLog {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  xh: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  time: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mark: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  handler: string;
 }
 /*
  * @namespace models
@@ -652,6 +1397,564 @@ export interface Payment {
 /*
  * @namespace models
  */
+export interface GDscore {
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  test: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  ttype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  testtime: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  spRank: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  cnoRank: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  coursetype: string;
+}
+/*
+ * @namespace models
+ */
+export interface RetakeStatisc {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  grade: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  passCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  passCredit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  notPassCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  notPassCredit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  noRetakeCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  noRetakeCredit: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  passCourse: FailCourse[];
+  /**
+   *
+   *
+   * @serverType array
+   */
+  notPassCourse: FailCourse[];
+  /**
+   *
+   *
+   * @serverType array
+   */
+  noRetakeCourse: FailCourse[];
+}
+/*
+ * @namespace models
+ */
+export interface ScoreByCourse {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  term: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  termname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  cname: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseno: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  credithour: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  ttype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  testtime: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teacherno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  teachername: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegeno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  collegename: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  courseType: string;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  stuScore: StudentScore[];
+}
+/*
+ * @namespace models
+ */
+export interface StudentScore {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  score: number;
+}
+/*
+ * @namespace models
+ */
+export interface ScoreFail {
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stid: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  failCount: number;
+  /**
+   *  double
+   *
+   * @serverType number
+   */
+  failCredit: number;
+  /**
+   *
+   *
+   * @serverType array
+   */
+  failCourse: FailCourse[];
+}
+/*
+ * @namespace models
+ */
+export interface StuInfo {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  gender: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  studentId: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  examineeNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  idCardNo: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  college: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  major: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  class: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  year: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  type: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  nativePlace: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  grade: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  spno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  nation: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  birthday: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  enrolldate: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  hostel: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  hostelphone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  postcode: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  address: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phoneno: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  familyheader: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  changetype: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  counselor: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  parentphone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  familyaddress: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  qq: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  email: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  stustatus: string;
+}
+/*
+ * @namespace models
+ */
 export interface Student {
   /**
    *  int32
@@ -666,17 +1969,17 @@ export interface Student {
    */
   name: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  gender: number;
+  gender: string;
   /**
-   *  int64
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  birthDay: number;
+  birthDay: string;
   /**
    *
    *
@@ -750,11 +2053,11 @@ export interface Student {
    */
   politicalStatus: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  marriage: number;
+  marriage: string;
   /**
    *
    *
@@ -810,17 +2113,11 @@ export interface Student {
    */
   isCome: number;
   /**
-   *  int32
    *
-   * @serverType integer
-   */
-  status: number;
-  /**
-   *  int64
    *
-   * @serverType integer
+   * @serverType string
    */
-  time: number;
+  time: string;
 }
 /*
  * @namespace models
@@ -848,132 +2145,78 @@ export interface Statistics {
 /*
  * @namespace models
  */
-export interface StudentStationView {
+export interface XjOption {
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  collegeCode: string;
+  grades: number[];
   /**
    *
    *
-   * @serverType string
+   * @serverType array
    */
-  majorCode: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  name: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  gender: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  studentId: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  station: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  peopleNum: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  baggageNum: number;
-  /**
-   *  int64
-   *
-   * @serverType integer
-   */
-  arriveTime: number;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  isNeed: number;
-  /**
-   *  int64
-   *
-   * @serverType integer
-   */
-  year: number;
+  majors: string[];
 }
 /*
  * @namespace models
  */
-export interface StudentStation {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
+export interface StuStatus {
   /**
    *
    *
    * @serverType string
    */
-  studentId: string;
+  grade: string;
   /**
    *
    *
    * @serverType string
    */
-  station: string;
+  major: string;
   /**
    *  int32
    *
    * @serverType integer
    */
-  peopleNum: number;
+  atSchool: number;
   /**
    *  int32
    *
    * @serverType integer
    */
-  baggageNum: number;
-  /**
-   *  int64
-   *
-   * @serverType integer
-   */
-  arriveTime: number;
+  leaveSchool: number;
   /**
    *  int32
    *
    * @serverType integer
    */
-  isNeed: number;
+  normal: number;
   /**
-   *  int64
+   *  int32
    *
    * @serverType integer
    */
-  year: number;
+  stayDown: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  continued: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  quit: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  suspension: number;
 }
 /*
  * @namespace models

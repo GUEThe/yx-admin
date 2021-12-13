@@ -4,7 +4,7 @@
       <el-main>
         <h3>服装统计</h3>
         <el-select v-model="listQuery.type" placeholder="统计类别" clearable @change="getGetStudentStation()">
-<el-option label="衣服统计" value="clothesSize"></el-option>
+          <el-option label="衣服统计" value="clothesSize"></el-option>
           <el-option label="鞋子统计" value="shoesSize"></el-option>
           <el-option value="桂林西站"></el-option>
           <el-option value="两江机场"></el-option>
@@ -13,14 +13,15 @@
           <el-option :value="0" label="否"></el-option>
           <el-option :value="1" label="是"></el-option>
         </el-select>
-        &nbsp; 抵达时间段:<el-date-picker v-model="timeList" type="datetimerange" range-separator="至" start-placeholder="开始日期"
-          end-placeholder="结束日期" @change="timeChange">
+        &nbsp; 抵达时间段:<el-date-picker v-model="timeList" type="datetimerange" range-separator="至"
+          start-placeholder="开始日期" end-placeholder="结束日期" @change="timeChange">
         </el-date-picker>
         <el-button-group>
           <el-button type="primary" size="mini" icon="el-icon-search" @click="getGetStudentStation()">搜索</el-button>
           <el-button type="success" size="mini" icon="el-icon-download" @click="handleDownload">导出excel</el-button>
         </el-button-group>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table v-loading="listLoading"
+          :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column align="center" label="序号" type="index" :index="index" show-overflow-tooltip width="50" />
@@ -57,8 +58,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
-            align="center" />
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20"
+            :total="total" align="center" />
         </div>
         <br>
       </el-main>
@@ -107,7 +108,7 @@ export default class AuditPicture extends Vue {
   async getGetStudentStation(page: number = 1) {
     this.listLoading = true;
     console.log(this.listQuery);
-    const { data, total } = await api.GetStudentColList(this.listQuery);
+    const { data, total } = await api.GetFreshmanList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -165,28 +166,28 @@ export default class AuditPicture extends Vue {
   }
 
   handleDownload() {
-    this.listQuery.pageSize = 10000;
-    api.GetStudentStationList(this.listQuery).then((res: models.PageResponse<models.StudentStationView[]>) => {
-      const { data: listData } = res;
-      const tHeader = ['学院code', '专业code', '姓名', '性别', '学号', '到站', '人数', '行李数', '到达时间', '是否需要接待'];
-      const filterVal = ['collegeCode', 'majorCode', 'name', 'gender', 'studentId', 'station', 'peopleNum', 'baggageNum', 'arriveTime', 'isNeed'];
-      const list = listData!.map((e: models.StudentStationView) => {
-        return {
-          collegeCode: this.filterCollege(e.collegeCode),
-          majorCode: this.filterMajor(e.majorCode),
-          name: e.name,
-          gender: e.gender ? '男' : '女',
-          studentId: e.studentId,
-          station: e.station,
-          peopleNum: e.peopleNum,
-          baggageNum: e.baggageNum,
-          arriveTime: Moment(e.arriveTime).format('YYYY-MM-DD HH:mm'),
-          isNeed: e.isNeed ? '是' : '否'
-        }
-      });
-      const data = formatJson(filterVal, list);
-      exportJson2Excel(tHeader, data, '新生到站统计表', undefined, undefined, true, 'xlsx');
-    });
+    // this.listQuery.pageSize = 10000;
+    // api.GetStudentStationList(this.listQuery).then((res: models.PageResponse<models.StudentStationView[]>) => {
+    //   const { data: listData } = res;
+    //   const tHeader = ['学院code', '专业code', '姓名', '性别', '学号', '到站', '人数', '行李数', '到达时间', '是否需要接待'];
+    //   const filterVal = ['collegeCode', 'majorCode', 'name', 'gender', 'studentId', 'station', 'peopleNum', 'baggageNum', 'arriveTime', 'isNeed'];
+    //   const list = listData!.map((e: models.StudentStationView) => {
+    //     return {
+    //       collegeCode: this.filterCollege(e.collegeCode),
+    //       majorCode: this.filterMajor(e.majorCode),
+    //       name: e.name,
+    //       gender: e.gender ? '男' : '女',
+    //       studentId: e.studentId,
+    //       station: e.station,
+    //       peopleNum: e.peopleNum,
+    //       baggageNum: e.baggageNum,
+    //       arriveTime: Moment(e.arriveTime).format('YYYY-MM-DD HH:mm'),
+    //       isNeed: e.isNeed ? '是' : '否'
+    //     }
+    //   });
+    //   const data = formatJson(filterVal, list);
+    //   exportJson2Excel(tHeader, data, '新生到站统计表', undefined, undefined, true, 'xlsx');
+    // });
   }
 
   index(val: number) {

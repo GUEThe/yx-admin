@@ -1,6 +1,19 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="navToChart()">
+        <div class="card-panel-icon-wrapper icon-people">
+          <svg-icon name="table" class="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            实时统计
+          </div>
+          <count-to :start-val="0" :end-val="5809" :duration="2600" class="card-panel-num" />
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon name="peoples" class="card-panel-icon" />
@@ -67,6 +80,13 @@ import CountTo from 'vue-count-to'
 export default class PanelGroup extends Vue {
   private handleSetLineChartData(type: string) {
     this.$emit('handleSetLineChartData', type)
+  }
+
+  private navToChart() {
+    let routeData = this.$router.resolve({
+      path: '/chart'
+    });
+    window.open(routeData.href, '_blank');
   }
 }
 </script>

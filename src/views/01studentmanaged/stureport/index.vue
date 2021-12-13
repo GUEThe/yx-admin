@@ -5,14 +5,15 @@
         <h3>学生报道管理</h3>
         <el-row type="flex">
           <CollegeSelect v-permission="['admin']" :collegeId.sync="listQuery.collegeCode" />
-          <MajorSelect :majorId.sync="listQuery.majorCode" />
+          <MajorSelect :name.sync="listQuery.majorCode" />
           <el-input v-model="listQuery.studentId" placeholder="学号" style="width:200px;"></el-input>
           <el-button type="info" icon="el-icon-search" size="mini" @click="getStuAsync()">搜索</el-button>
           <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditStudent(0)">新增学生</el-button>
           <el-button type="success" icon="el-icon-plus" size="mini" @click="showUpoad=true">导入录取新生</el-button>
         </el-row>
         <br>
-        <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        <el-table v-loading="listLoading"
+          :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           element-loading-text="正在加载..." border fit highlight-current-row>
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="序号" width="55" align="center">
@@ -52,8 +53,8 @@
         </el-table>
         <br>
         <div style="text-align:center">
-          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
-            align="center" />
+          <el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="20"
+            :total="total" align="center" />
         </div>
         <br>
       </el-main>
@@ -67,7 +68,7 @@
         </el-upload>
       </el-row>
     </el-dialog>
-    <StudentDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getStuAsync()" />
+    <FreshmanDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getStuAsync()" />
   </div>
 </template>
 
@@ -75,7 +76,7 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import StudentDialog from '../components/StudentDialog.vue';
+import FreshmanDialog from '../components/FreshmanDialog.vue';
 import CollegeSelect from '@/components/CollegeSelect/index.vue';
 import MajorSelect from '@/components/MajorSelect/index.vue';
 import { UserModule } from '@/store/modules/user'
@@ -84,7 +85,7 @@ import { permission } from '@/directives/permission'
 /** 学生报道管理 */
 @Component({
   components: {
-    StudentDialog,
+    FreshmanDialog,
     CollegeSelect,
     MajorSelect
   },
@@ -128,7 +129,7 @@ export default class StuReport extends Vue {
     this.listLoading = true;
     this.listQuery.page = page;
 
-    const { data, total } = await api.GetStudentList(this.listQuery);
+    const { data, total } = await api.GetFreshmanList(this.listQuery);
     console.log(data);
     this.listData = data!;
     this.total = total!;
@@ -159,6 +160,7 @@ export default class StuReport extends Vue {
 
   uploadSuccess(resp: models.RestfulData) {
     if (resp.code === 0) {
+      console.log(resp)
       this.$message({
         type: 'success',
         message: resp.message

@@ -61,12 +61,12 @@ export const param2Obj = (url: string) => {
   }
   return JSON.parse(
     '{"' +
-    decodeURIComponent(search)
-      .replace(/"/g, '\\"')
-      .replace(/&/g, '","')
-      .replace(/=/g, '":"')
-      .replace(/\+/g, ' ') +
-    '"}'
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"')
+        .replace(/\+/g, ' ') +
+      '"}'
   )
 }
 
@@ -106,10 +106,55 @@ export const toggleClass = (ele: HTMLElement, className: string) => {
 }
 // Format and filter json data using filterKeys array
 export const formatJson = (filterKeys: any, jsonData: any) =>
-  jsonData.map((data: any) => filterKeys.map((key: string) => {
-    if (key === 'timestamp') {
-      return parseTime(data[key])
-    } else {
-      return data[key]
+  jsonData.map((data: any) =>
+    filterKeys.map((key: string) => {
+      if (key === 'timestamp') {
+        return parseTime(data[key])
+      } else {
+        return data[key]
+      }
+    })
+  )
+
+export function deepClone(obj: any) {
+  const objClone: any = Array.isArray(obj) ? [] : {}
+  if (obj && typeof obj === 'object') {
+    for (const key in obj) {
+      // 判断是否为自身属性
+      if (obj.hasOwnProperty(key)) {
+        // 判断ojb子元素是否为对象，如果是，递归复制
+        if (obj[key] && typeof obj[key] === 'object') {
+          objClone[key] = deepClone(obj[key])
+        } else {
+          // 如果不是，简单复制
+          objClone[key] = obj[key]
+        }
+      }
     }
-  }))
+  }
+  return objClone
+}
+
+export function genGradeData(gradeList: any): any {
+  const gradeData: any = {}
+  gradeList.forEach((item: any) => {
+    const key: string = `term${item.term}`
+    if (!gradeData[key]) {
+      gradeData[key] = { termName: item.term, gradeList: [] }
+    }
+    gradeData[key].gradeList.push(deepClone(item))
+  })
+  return gradeData
+}
+
+export function getTypeConut(list: [], type: string): any {
+  let count = 0
+  let score = 0
+  list.forEach((item: any) => {
+    if (item.courseid.includes(type)) {
+      count++
+      score += item.score
+    }
+  })
+  return (score / count).toFixed(2)
+}

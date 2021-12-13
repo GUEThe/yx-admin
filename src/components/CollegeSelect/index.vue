@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="selectItem" placeholder="请选择学院" clearable @change="handleSelectChange">
-      <el-option v-for="item in collegeList" :key="item.id" :label="item.name" :value="item.code">
+      <el-option v-for="item in collegeList" :key="item.id" :label="item.name+item.code" :value="item.name">
       </el-option>
     </el-select>
   </div>
@@ -29,8 +29,8 @@ export default class CollegeSelect extends Vue {
   }
   /** 获取所有校区 */
   async getCollegeAsync() {
-    const { data } = await api.GetCollegeList({});
-    console.log('dadada', data!);
+    const { data } = await api.GetCollegeList();
+    console.log('学院选择输出数据：', data!);
     this.collegeList = data!;
   }
 

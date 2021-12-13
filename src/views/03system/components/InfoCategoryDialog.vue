@@ -18,7 +18,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="是否是默认值">
-          <el-radio-group v-model="formData.default">
+          <el-radio-group v-model="formData.isDefault">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
           </el-radio-group>
@@ -54,7 +54,7 @@ export default class InfoCategoryDialog extends Vue {
     value: '',
     type: '',
     enable: 0,
-    default: 0
+    isDefault: 0
   }
 
   mounted() {
@@ -77,7 +77,7 @@ export default class InfoCategoryDialog extends Vue {
         value: '',
         type: '',
         enable: 0,
-        default: 0
+        isDefault: 0
       }
     }
   }
